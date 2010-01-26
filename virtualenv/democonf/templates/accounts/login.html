@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block body-inner %}
+
+	<form method="POST">
+		<input type="hidden" name="next" value="{{ next }}" />
+		{% for field in form %}
+			{% if field.is_hidden %}
+				{{field}}
+			{% else %}
+				<div class="field-wrapper">
+					<div class="label">{{field.label_tag}}</div>
+					<div class="field">{{field}}</div>
+				</div>
+			{% endif %}
+		{% endfor %}
+		{% spaceless %}
+			<input class="button-style" type="submit" value="Login" /> or 
+			<a href="{% url index %}">
+			Cancel and go back</a>
+		{% endspaceless %}		
+	</form>
+
+	{% if form.errors %}
+		<div class="form-errors">Your username and password didn't match. Please try again.</div>
+	{% endif %}
+
+{% endblock body-inner %}

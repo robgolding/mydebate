@@ -1,0 +1,72 @@
+{% extends 'conference/base.html' %}
+
+{% block js-inner %}
+	
+	{{block.super}}
+	
+	function login() {
+		var username = $("input[name='username']");
+		var password = $("input[name='password']");
+		
+		$.post('/accounts/login/',
+			{ username: username.val(), password: password.val() },
+			function(data) {
+				alert(data.result);
+			},
+			"json"
+		);
+		
+		return false;
+	}
+	
+	$(document).ready(function() {
+		$("#login-form").submit(function() {
+			return login();
+		});
+		
+		$("#login-form").dialog({
+			bgiframe: true,
+			autoOpen: false,
+			width: 470,
+			draggable: false,
+			modal: true,
+			resizable: false,
+			buttons: {
+				"Login": function() { login(); },
+				"Cancel": function() { $("#login-form").dialog('close'); }
+			}
+		});
+		
+		$("#login-button").click(function(){
+			$("#login-form").dialog('open');
+			return false;
+		});
+	});
+	
+{% endblock js-inner %}
+
+{% block body-inner %}
+	
+	<div id="status">
+		{% if user.is_authenticated %}
+			Logged in as {{user}}. <a href="{% url accounts_logout %}">Logout</a>.
+		{% else %}
+			Welcome to Democonf. <a href="{% url accounts_login %}" id="login-button">Login here</a>.
+		{% endif %}
+	</div>
+	
+	<h1>Conference Rooms</h1>
+	<ul>
+	{% for room in object_list %}
+		<li><a href="{{room.get_absolute_url}}">{{room}}</a></li>
+	{% endfor %}
+	</ul>
+	
+	<div id="login-form">
+		<form>
+			Username: <input type="text" name="username" /><br />
+			Password: <input type="password" name="password" />
+		</form>
+	</div>
+	
+{% endblock body-inner %}
