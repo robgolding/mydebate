@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.contrib import auth
 
 def login(request, *args, **kwargs):
-	if request.is_ajax:
+	if request.is_ajax():
 		if request.method == 'POST':
 			username = request.POST.get('username', '')
 			password = request.POST.get('password', '')
