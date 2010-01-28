@@ -78,11 +78,22 @@
 		return false;
 	}
 	
+	function resizeFrame() 
+	{
+		var h = $(document).height();
+		var w = $(document).width();
+		//$("#vote_div").css('height', h);
+		//$("#vote_div").css('width',w*0.9);
+	}
+	
 	$(document).ready(function() {
 		$('#loading').hide();
 		$("#input").focus();
 		refreshData();
 		setInterval("refreshData(true)", 2000);
+		
+		jQuery.event.add(window, "load", resizeFrame);
+		jQuery.event.add(window, "resize", resizeFrame);
 		
 		$("#message-input-form").submit(function() {
 			return send_message("message1");
@@ -91,26 +102,6 @@
 		$("#message-input-form-popup").submit(function() {
 			send_message("message2");
 			$("#new-message").dialog('close');
-			return false;
-		});
-		
-		$("#new-message").dialog({
-			bgiframe: true,
-			autoOpen: false,
-			width: 470,
-			closeOnEscape: false,
-			draggable: false,
-			open: function(event, ui) { $(".ui-dialog-titlebar-close").hide(); },
-			modal: true,
-			resizable: false,
-			buttons: {
-				"Send message": function() { send_message("message2") },
-				Cancel: function() { $("#new-message").dialog('close'); }
-			}
-		});
-		
-		$("#new-message-button").click(function(){
-			$("#new-message").dialog('open');
 			return false;
 		});
 		
@@ -126,6 +117,31 @@
 				"Yes, I'm sure": function() { window.location = window.location.pathname+"leave/" },
 				"No, take me back": function() { $("#leave-conference").dialog('close'); }
 			}
+		});
+		
+		$("#leave-conference-button").click(function(){
+			$("#leave-conference").dialog('open');
+			return false;
+		});
+		
+		$("#vote_div").dialog({
+			bgiframe: true,
+			autoOpen: false,
+			width: $(window).width()*0.9,
+			height: $(window).height()*0.9,
+			closeOnEscape: false,
+			draggable: false,
+			modal: true,
+			resizable: false,
+			open: function(event, ui) { $(".ui-dialog-titlebar-close").hide(); $('body').css('overflow','hidden');},
+			buttons: {
+				"Back to conference": function() { $("#vote_div").dialog('close'); }
+			}
+		});
+		
+		$("#vote-button").click(function(){
+			$("#vote_div").dialog('open');
+			return false;
 		});
 		
 		$("#leave-conference-button").click(function(){
@@ -157,18 +173,17 @@
 	
 	<div id="num_members"></div>
 	
-	<div id="new-message" title="New message">
-		<form id="message-input-form-popup" method="POST" action="{% url conference_room room.id %}">
-			<input type="text" id="input" name="message2" size="50" />
-		</form>
-	</div>
-	
 	<div id="leave-conference" title="Leave conference">
 		<p><span class="ui-icon ui-icon-alert" style="float:left; margin:3px 7px 0px 0;"></span>Are you sure you wish to leave this conference?</p>
 	</div>
 	
 	<div id="form_div">
-		<a id="new-message-button" href="#">New message</a>
 		<a id="leave-conference-button" href="{% url conference_room_leave room.id %}">Leave Conference</a>
+		<a id="vote-button" href="#">Vote Test</a>
 	</div>
+	
+	<div id="vote_div">
+		This is where we'll vote!
+	</div>
+	
 {% endblock body-inner %}

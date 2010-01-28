@@ -35,7 +35,6 @@ def room(request, room_id):
 			message_list = []
 			
 			for message in get_messages(request, room, True):
-				print 3
 				message_list.append({'pk': message.pk, 'author': message.author.username, 'content': message.content})
 			object_lists['messages'] = message_list
 			
