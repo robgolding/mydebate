@@ -1,4 +1,5 @@
 from django.http import HttpResponse, HttpResponseRedirect
+from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
 from django.contrib.auth.decorators import login_required
 
@@ -38,10 +39,10 @@ def room(request, room_id):
 				message_list.append({'pk': message.pk, 'author': message.author.username, 'content': message.content})
 			object_lists['messages'] = message_list
 			
-			return render_to_response("conference/serializer.html", {'object_lists': object_lists}, mimetype="application/json")
+			return render_to_response("conference/serializer.html", {'object_lists': object_lists}, mimetype="application/json", context_instance=RequestContext(request))
 		else:
 			data = {'room': room}
-			return render_to_response("conference/room.html", data)
+			return render_to_response("conference/room.html", data, context_instance=RequestContext(request))
 	
 	unread = request.GET.get('unread', None) == ''
 	
@@ -63,13 +64,13 @@ def room(request, room_id):
 		
 		objects['num_members'] = len(member_list)
 		
-		return render_to_response("conference/serializer.html", {'object_lists': object_lists, 'objects': objects}, mimetype="application/json")
+		return render_to_response("conference/serializer.html", {'object_lists': object_lists, 'objects': objects}, mimetype="application/json", context_instance=RequestContext(request))
 	
 	data = {'room': room}
-	return render_to_response("conference/room.html", data)
+	return render_to_response("conference/room.html", data, context_instance=RequestContext(request))
 
 @login_required
 def leave(request, room_id):
 	room = get_object_or_404(Room, pk=room_id)
 	room.current_members.remove(request.user)
-	return HttpResponseRedirect(reverse('conference_list'))
+	return HttpResponseRedirect(reverse('conference_room_list'))

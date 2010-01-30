@@ -93,6 +93,7 @@ INSTALLED_APPS = (
     'democonf.core',
     'democonf.accounts',
     'democonf.conference',
+    'democonf.svn_revision',
 )
 
 try:

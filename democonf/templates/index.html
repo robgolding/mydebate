@@ -1,3 +1,22 @@
-<h1>Democonf Prototype 1</h1>
+{% extends 'base.html' %}
 
-<a href="{% url conference_list %}">Click here</a> to see the list of chatrooms available.
+{% block page-title-inner %}
+<h1>Home</h1>
+{% endblock page-title-inner %}
+
+{% block content-left-inner %}
+
+	<div class="last sec">
+		<p>Welcome to DemoConf. This application is designed to be a simple, easy to use democratic conferencing tool.</p>
+	</div>
+	
+	{% if user.is_authenticated %}
+		<div>
+			
+		</div>
+	{% else %}
+		
+	{% endif %}
+	
+
+{% endblock content-left-inner %}

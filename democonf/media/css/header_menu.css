@@ -1,0 +1,30 @@
+div.sub-header {
+	background: white;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	font-size:16px;
+	color:#999;
+	border-bottom:1px solid #ccc;
+	width: 100%;
+}
+
+div.menu
+{
+	float: left;
+	padding-left: 8px
+}
+div#authinfo
+{
+	float: right;
+	padding-right: 8px;
+	background: url("/media/icons/24-security-lock.png") no-repeat;
+	background-position: 0 -3;
+	padding: 0 10px 0 30px;
+}
+
+#header {
+	width:100%;
+	background: #336699;
+	overflow:hidden;
+}
+

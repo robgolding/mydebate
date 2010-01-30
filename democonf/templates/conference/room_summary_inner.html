@@ -1,0 +1,29 @@
+{% load gravatar_tags %}
+
+<div class="issue-summary-inner clearfix">
+	<div class="left">
+		<a href="{{object.get_absolute_url}}" title="{{object.id}}">{{object}}</a>
+	</div>
+	<div class="right">
+		<div style="float: right; position: relative; top: 15px;" class="clearfix">
+			
+		</div>
+		
+		<h3><a href="{{object.get_absolute_url}}" title="{{object.description|truncatewords:20}}">
+			{{object.title}}
+		</a></h3>
+		
+		{% if object.get_tags %}
+			<div class="tags">
+				{% for tag in object.get_tags %}
+					<a class="room-tag" title="See rooms tagged '{{tag}}'" href="{% url conference_rooms_by_tag tag %}{% ifnotequal filter default_filter %}?f={{filter}}{% endifnotequal %}">{{tag}}</a>
+				{% endfor %}
+			</div>
+		{% endif %}
+		
+	</div>
+	
+	<div class="raised">
+		Opened by <a href="{{object.opened_by.get_absolute_url}}">{{object.opened_by}}</a> {{object.opened_at|timesince}} ago.
+	</div>
+</div>

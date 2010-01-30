@@ -17,9 +17,9 @@ urlpatterns = patterns('',
     # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     # Uncomment the next line to enable the admin:
-    (r'^admin/', include(admin.site.urls)),
+    url(r'^admin/(.*)', admin.site.root, name="admin"),
     
-    url(r'^$', lambda _: HttpResponseRedirect(reverse('conference_list')), name="index"),
+    url(r'^$', 'django.views.generic.simple.direct_to_template', {'template': 'index.html'}, name="index"),
     
     (r'^conference/', include('democonf.conference.urls')),
     

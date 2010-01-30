@@ -1,0 +1,214 @@
+body{ font: 85%/1.3 TrebuchetMS,Arial,sans-serif; text-align: left; background: #fff; padding-bottom:20px }
+
+a { color: #0066B3; background: inherit; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+h1 { font: bold 2.1em Arial, Arial, Sans-Serif; color: #036DA7 }
+h2 { font: normal 1.5em Arial, Sans-Serif; font-style: italic; padding: 0; margin: 0; margin-bottom: 1em; }
+h2.indented { text-indent: 20px; }
+h3 { font: normal 1.1em Arial, Arial, Sans-Serif; padding: 0; margin: 0; }
+
+h6 { font-weight: normal; font-size: 1em; margin-bottom: 0; margin-top: 10px; }
+
+#footer { border: 1px solid #ccc; clear: both; height: 20px; padding: 5px 10px; }
+#footer .left { float: left; }
+#footer .right { float: right; }
+
+div.form { margin: 10px; padding: 20px; background: #FFF; -moz-border-radius:5px; -webkit-border-radius:5px; }
+div.form div.field-wrapper { margin-bottom: 15px; }
+div.form div.field-wrapper div.label { clear: left; }
+div.form div.field-wrapper div.field { clear: left; }
+div.form div.field-wrapper div.field select { width: 10em; font-size: 1.2em; }
+
+div.form div.field-wrapper div.errors, div.form-errors { color: #cc3300; }
+div.form div.field-wrapper div.errors { float: left; margin: 0 0 10px 0; }
+div.form-errors { margin: 10px 0 0 0; }
+
+a.issue-tag { background: #f2f2f2; color:#6a6a6a; padding: 2px 8px; border: 1px solid #bbb; line-height: 2.2; white-space: nowrap; margin: 2px 2px 2px 0; }
+a.issue-tag:hover { text-decoration: none; color: #327899; border-color: #327899; }
+
+div.pagination { float: right; margin-bottom: 5px; margin-top: 15px; }
+div.pagination a, div.pagination span { font-size: 1.5em; color:#6a6a6a; padding: 5px 5px; border: 1px solid #bbb; line-height: 2.2; white-space: nowrap; margin: 2px 2px 2px 0; }
+div.pagination a:hover { text-decoration: none; color: #327899; border-color: #327899; }
+div.pagination span { background: #999; color: #FFF; }
+
+xa.button-style { font-size: 1.2em; background: #CCEEFF; padding: 5px 8px; border: 0px solid #3366CC; }
+xa.button-style:hover { text-decoration: none; background: #CCDDFF; }
+
+a.button-style, input.button-style { font-size: 1.2em; color:#333; background: #f2f2f2; padding: 5px 8px; border: 2px solid #999; }
+a.button-style:hover, input.button-style:hover { text-decoration: none; color: #327899; border-color: #327899; }
+
+input.button-style { padding-top: 3px; padding-bottom: 3px; }
+input.button-style:hover { cursor: pointer; }
+
+div#header { width: 100%; background: #BBD9EE; }
+div#header-body { width:936px; padding: 0 5%; margin: 0 auto; }
+div#menu { margin: 0 auto; text-align:left; clear: right; }
+div#header h1 { display: none; }
+
+div#header div.logo-div{ width:30%; height: 65px; text-align:right; padding: 20px 0 0 0; color: #fff; }
+
+div#auth-banner { float: right; background: #eee; padding: 5px 20px; margin-right: 20px; -moz-border-radius-bottomleft:6px; -moz-border-radius-bottomright:6px; -webkit-border-radius:6px; }
+
+ul#nav,ul#nav li { list-style-type:none; margin:0; padding:0 }
+ul#nav { float:right; font-size: 100%; }
+ul#nav li { float:left; margin-left: 3px; text-align: center}
+ul#nav a { float:left; width: 95px; padding: 2px 0; background: #E7F1F8; text-decoration:none; color: #666; border-top: 1px solid #fff; border-left: 1px solid #fff; border-right: 1px solid #fff; }
+ul#nav a:hover { background: #fff; color: #000}
+ul#nav li.activelink a,ul#nav li.activelink a:hover { background: #FFF; color: #003 }
+
+body#home ul#nav li.home a,
+body#home ul#nav li.home a:hover,
+body#rooms ul#nav li.rooms a,
+body#rooms ul#nav li.rooms a:hover,
+body#users ul#nav li.users a,
+body#users ul#nav li.users a:hover,
+body#search ul#nav li.search a,
+body#search ul#nav li.search a:hover,
+body#admin ul#nav li.admin a,
+body#admin ul#nav li.admin a:hover,
+body#help ul#nav li.help a,
+body#help ul#nav li.help a:hover {
+	background: #FFF; color: #003
+}
+
+
+.clearfix:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
+
+#breadcrumbs { line-height: 2em; margin: 5px 0 0 10px; color: #8f8f8f; }
+#breadcrumbs a { color: #5d8aaf; }
+#breadcrumbs a:hover { color: #3370a3; }
+.button-bar { padding: 7px 0 15px; }
+
+#content { font: 95%/1.3 TrebuchetMS,Arial,sans-serif; width: 936px; margin: auto; background: #fff; min-width: 750px; padding: 0 5%; }
+
+#left, #center-large, #right .box { }
+
+#center-large { float: left; width: 100%; padding: 1em; margin-bottom: 1.2em; background: #eee; text-align: justify; }
+
+#left { font: 0.9em "Lucida Grande", Verdana, Arial, sans-serif; float: left; width: 696px; min-height: 20px; padding: 0 0.5em; margin-bottom: 1.2em; background: #eee; border: 1px solid #aaa; }
+
+#right { float: right; width: 200px; }
+
+#right .box { padding: 1em; margin: 0 0 1em 0; background : #FFF6BF; border: 1px solid #b6b981; }
+
+#right .box-small { min-height: 0px; }
+
+div.key { margin-bottom: 20px; }
+div.key div.id { height: 20px !important; clear: left; width: 120px; padding-right: 10px; margin-bottom: 5px; line-height: 1.4em; }
+
+div.issue-summary-inner { clear: left; position: relative; width: 675px; -moz-border-radius:6px; -webkit-border-radius:6px; }
+div.issue-summary-inner div.more-info { padding-top: 7px; overflow: visible; height: auto; clear: left; float: left; display: block; }
+div.issue-summary-inner div.more-info p { font-size: 0.9em; color: #666; }
+div.issue-summary-inner div.more-info.hidden { height: 0; overflow: hidden; }
+div.issue-summary-inner:hover { background: #F5F5F5; }
+div.issue-summary:hover div.raised { color: #555; }
+div.issue-summary-inner:hover div.raised a { color: #333; border-bottom-color: #8f8f8f; }
+div.issue-summary-inner:hover div.raised a:hover { color: #2a2a2a; border-bottom-color: #5c5c5c; }
+div.issue-summary-inner div.expander { position: absolute; left: 32.5px; bottom: 0px; width: 20px; height: 20px; border: 1px solid #999; background-image: url("/media/coral/icons/more-info.png"); background-repeat: no-repeat; }
+div.issue-summary-inner div.id { margin-bottom: 23px; }
+
+div.issue-summary { padding: 5px 0; margin: 0 10px; border-bottom: 1px dashed #888; }
+div.issue-summary.last {  }
+
+div.left { float: left; height: 100%; padding: 10px 10px 0 10px; }
+div.issue-detail-header div.left { padding-left: 0; }
+div.right { float: left; }
+
+div.issue-summary-inner div.right { width: 580px; }
+div.issue-summary-inner div.right h3 { font-size: 1.4em; padding-top: 10px; margin-bottom: 20px; }
+
+div.id { color: black; font-weight: bold; font-family: Verdana, Helvetica, Arial, sans-serif; float: left; width: 65px; height: 65px; background: #FFF6BF; border: 2px solid #a28b00; overflow: hidden; text-align: right; }
+div.id span { letter-spacing: -0.1em; }
+
+div.issue-summary-inner div.left div.id span.length-1 { font-size: 5em; line-height: 1.2em; }
+div.issue-summary-inner div.left div.id span.length-2 { font-size: 4em; line-height: 1.4em; }
+div.issue-summary-inner div.left div.id span.length-3 { font-size: 3em; line-height: 2em; }
+div.issue-summary-inner div.left div.id span.length-4 { font-size: 2.2em; line-height: 2.7em; }
+div.issue-summary-inner div.left div.id span.length-5 { font-size: 1.8em; line-height: 3.2em; }
+
+div.id.priority-level-1 { background-color: #f81312; border-color: #7c0909; color: #7c0909; } /* Red */
+div.id.priority-level-2 { background-color: #fa630a; border-color: #7d3204; color: #7d3204; } /* Orange */
+div.id.priority-level-3 { background-color: #5a9a00; border-color: #3c6600; color: #3c6600; } /* Green */
+div.id.priority-level-4 { background-color: #CCFFFF; border-color: #666688; color: #666688; } /* Yellow */
+div.id.priority-level-5 { background-color: #ffffff; border-color: #7f7f7f; color: #7f7f7f; } /* Grey */
+
+div.issue-summary-inner div.tags { float: left; min-height: 25px;}
+div.issue-summary:hover div.tags {  }
+
+div.issue-summary-inner div.raised { font: 0.85em "Lucida Grande", Verdana, Arial, sans-serif; color: #555; position: absolute; bottom: 0; right: 0; }
+div.issue-summary-inner div.raised a { color: #333; font-size: 1em; border-bottom: 1px dotted #8F8F8F; }
+div.issue-summary-inner div.raised a:hover { color: #b7b7b7; text-decoration: none; border-bottom-style: solid; }
+
+div.issue-summary-inner div.hover-fix { height: 100%; width: 250px; position: absolute; left: -245px; }
+
+div.issue-list { margin-bottom: 10px; }
+div.issue-list.paginated { margin-bottom: 0px; }
+
+div.issue-list-footer { text-align: right; padding: 10px; padding-top: 20px; }
+
+div.issue-detail-header { padding: 10px 10px 20px; margin: 0 10px; border-bottom: 1px solid #CCC; }
+div.issue-detail-header:after { content: "."; visibility: hidden; display: block; height: 0; clear: both; }
+
+div.issue-detail-header div.left div.id { width: 90px; height: 90px; padding: 0; }
+
+div.issue-detail-header div.left div.id span.length-1 { font-size: 7em; line-height: 1.1em; }
+div.issue-detail-header div.left div.id span.length-2 { font-size: 5em; line-height: 1.5em; }
+div.issue-detail-header div.left div.id span.length-3 { font-size: 4em; line-height: 1.9em; }
+div.issue-detail-header div.left div.id span.length-4 { font-size: 3em; line-height: 2.5em; }
+div.issue-detail-header div.left div.id span.length-5 { font-size: 2.4em; line-height: 3.2em; }
+
+div.issue-detail-header div.right { margin-top: 5px; }
+div.issue-detail-header div.actions { clear: right; float: right; padding-top: 10px; width: 50px; text-align: center; }
+div.issue-detail-header div.actions a.previous-issue { float: left; }
+div.issue-detail-header div.actions a.next-issue { float: right; }
+
+div.issue-detail-header h1 { margin: 10px 0 25px 0; }
+
+div.issue-detail-header ul { margin: 0; padding: 0; margin-left: 20px; }
+div.issue-detail-header ul li { list-style-image: url("../raquo.png"); line-height: 2em; font-size: 1.1em; }
+div.issue-detail-header ul li.small { list-style: none; padding-left: 2em; font-size: 0.9em; }
+
+div.issue-detail-header div.under { width: 100%; clear: right; }
+
+div.issue-detail-header div.add-note { clear: left; float: right; background: url('../icons/24-tag-add.png'); background-repeat: no-repeat; padding-top: 5px; padding-left: 26px; height: 19px; }
+
+div.issue-detail-middle { padding: 10px 10px 20px; margin: 0 10px; border-bottom: 1px solid #CCC; }
+div.issue-detail-middle p { margin-bottom: 40px; }
+
+div.issue-detail-history { padding: 10px 10px 20px; margin: 0 10px; border-bottom: 1px solid #CCC; }
+div.issue-detail-history div.change { width: 95%; margin: auto; margin-bottom: 20px; background: #FFF; padding: 10px; -moz-border-radius:5px; -webkit-border-radius:5px; }
+div.issue-detail-history div.change h3 { font-size: 80%; text-indent: 2em; }
+div.issue-detail-history div.change ul li { margin-left: 20px; }
+
+div.issue-detail-footer { padding: 10px 10px 20px; margin: 0 10px; }
+div.issue-detail-footer #back-button { float: left; }
+div.issue-detail-footer #edit-button { float: right; }
+
+div.user-detail-footer { padding: 10px 10px 20px; margin: 0 10px; }
+div.user-detail-footer #back-button { float: left; }
+div.user-detail-footer #edit-button { float: right; }
+
+
+
+div.issue-form {  }
+
+div#content-header { width: 696px; padding: 0 0 0 6px; }
+
+div#content-header div#page-title { float: left; margin: 20px 0 10px 0; padding-left: 20px; }
+div#content-header div#page-title.long { }
+div#content-header div#page-title h1 { font: italic 2em Arial; color: #4b4b4b; margin: 0; padding: 0; }
+div#content-header div#page-title h1 span { color: #f82721;  }
+
+div#content-header div#sub-menu { float: right; margin: 30px 0 0 0; }
+div#content-header div#sub-menu ul { margin: 0; }
+div#content-header div#sub-menu ul li { display: inline; float: left; padding: 0 10px; color: #f9571c; border-right: 1px solid #bbb; }
+div#content-header div#sub-menu ul li a { color: #818181; }
+div#content-header div#sub-menu ul li a:hover { text-decoration: none; color: #4f4f4f; }
+div#content-header div#sub-menu ul li.last { border: none; }
+
+div.sec-title { position: relative; float: right; color: #bbb; font: italic 1em "Lucida Grande", Verdana, Arial, sans-serif; }
+
+div.sec { padding: 10px 10px 20px; margin: 0 10px; border-bottom: 1px solid #CCC; }
+div.sec.last { border: none; }
+div.bio { padding-bottom: 30px; }

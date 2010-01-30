@@ -5,7 +5,9 @@ from django.contrib.auth.models import User
 
 class Room(models.Model):
 	name = models.CharField(max_length=255)
-	current_members = models.ManyToManyField(User, editable=False)
+	current_members = models.ManyToManyField(User, related_name="member_of", editable=False)
+	opened_by = models.ForeignKey(User, related_name="opened_rooms")
+	opened_at = models.DateTimeField(auto_now_add=True)
 	
 	def get_and_mark(self, user):
 		messages = self.messages.exclude(read_by=user)
@@ -16,8 +18,9 @@ class Room(models.Model):
 	def get_unread(self, user):
 		return self.messages.exclude(read_by=user)
 	
+	@models.permalink
 	def get_absolute_url(self):
-		return reverse("conference_room", args=[self.id])
+		return ('conference_room', [self.id])
 	
 	def __unicode__(self):
 		return self.name

@@ -1,5 +1,7 @@
 {% extends 'conference/base.html' %}
 
+{% load media_tags %}
+
 {% block title-inner %}{{room.name}} | {{block.super}}{% endblock title-inner %}
 
 {% block js-inner %}
@@ -153,37 +155,55 @@
 	});
 
 {% endblock js-inner %}
-		
-{% block body-inner %}
 
-	<h3>{{room}}</h3>
+{% block css %}
+{{block.super}}
+<link rel="stylesheet" type="text/css" media="screen, projection" href="{% media css/conference_room.css %}" />
+{% endblock css %}
+
+{% block title %}
+	{{room.name}} | {{block.super}}
+{% endblock title %}
+
+{% block page-title-inner %}
+	<h1>{{room.name}}</h1>
+{% endblock page-title-inner %}
+
+{% block page-id %}rooms{% endblock page-id %}
+
+{% block content-left-inner %}
 	
-	<div id="messages-wrapper">
-		<div id="messages"></div>
-	</div>
-	<div id="members"></div>
-	
-	<div id="form_div">
-		<form id="message-input-form" method="POST" action="{% url conference_room room.id %}">
-			<input type="text" id="input" name="message1" size="40" />
-			<input type="submit" id="submit" value="Submit" />
-		</form>
-		<div id="loading"></div>
-	</div>
-	
-	<div id="num_members"></div>
-	
-	<div id="leave-conference" title="Leave conference">
-		<p><span class="ui-icon ui-icon-alert" style="float:left; margin:3px 7px 0px 0;"></span>Are you sure you wish to leave this conference?</p>
-	</div>
-	
-	<div id="form_div">
-		<a id="leave-conference-button" href="{% url conference_room_leave room.id %}">Leave Conference</a>
-		<a id="vote-button" href="#">Vote Test</a>
+	<div id="room-wrapper">
+		<div id="messages-wrapper">
+			<div id="messages"></div>
+		</div>
+		<div id="members"></div>
 	</div>
 	
-	<div id="vote_div">
-		This is where we'll vote!
+	<div id="room-footer" class="clearfix">
+		<div id="room_form">
+			<form id="message-input-form" method="POST" action="{% url conference_room room.id %}">
+				<input type="text" id="input" name="message1" size="40" />
+				<input type="submit" id="submit" value="Submit" />
+			</form>
+			<div id="loading"></div>
+		</div>
+		<div id="num_members"></div>
+		
+		<div id="room-links">
+			<div id="leave-conference" title="Leave conference">
+				<p><span class="ui-icon ui-icon-alert" style="float:left; margin:3px 7px 0px 0;"></span>Are you sure you wish to leave this conference?</p>
+			</div>
+	
+			<ul id="room_links">
+				<li><a id="leave-conference-button" href="{% url conference_room_leave room.id %}">Leave Conference</a></li>
+				<li><a id="vote-button" href="#">Vote Test</a></li>
+			</li>
+	
+			<div id="vote_div">
+				This is where we'll vote!
+			</div>
+		</div>
 	</div>
 	
-{% endblock body-inner %}
+{% endblock content-left-inner %}

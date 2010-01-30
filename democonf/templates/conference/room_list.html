@@ -1,0 +1,74 @@
+{% extends 'conference/base.html' %}
+
+{% block js-inner %}
+	
+	{{block.super}}
+	
+	function login() {
+		var username = $("input[name='username']");
+		var password = $("input[name='password']");
+		
+		$.post('/accounts/login/',
+			{ username: username.val(), password: password.val() },
+			function(data) {
+				alert(data.result);
+			},
+			"json"
+		);
+		
+		return false;
+	}
+	
+	$(document).ready(function() {
+		$("#login-form").submit(function() {
+			return login();
+		});
+		
+		$("#login-form").dialog({
+			bgiframe: true,
+			autoOpen: false,
+			width: 470,
+			draggable: false,
+			modal: true,
+			resizable: false,
+			buttons: {
+				"Login": function() { login(); },
+				"Cancel": function() { $("#login-form").dialog('close'); }
+			}
+		});
+		
+		$("#login-button").click(function(){
+			$("#login-form").dialog('open');
+			return false;
+		});
+	});
+	
+{% endblock js-inner %}
+
+{% block title %}
+	Conference Rooms | {{block.super}}
+{% endblock title %}
+
+{% block page-title-inner %}
+	<h1>Conference Rooms</h1>
+{% endblock page-title-inner %}
+
+{% block page-id %}rooms{% endblock page-id %}
+
+{% block content-left-inner %}
+	
+	{% if not object_list %}
+		<div class="last sec">
+			No issues match your filter.
+		</div>
+	{% else %}
+
+		<div class="issue-list {% if is_paginated %}paginated{% endif %}">
+		{% for object in object_list %}
+			{% include 'conference/room_summary.html' %}
+		{% endfor %}
+		</div>
+
+	{% endif %}
+	
+{% endblock content-left-inner %}
