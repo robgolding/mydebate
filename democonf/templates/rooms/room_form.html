@@ -1,0 +1,68 @@
+{% extends 'rooms/base.html' %}
+{% load media_tags %}
+
+{% block title %}
+	{% if object %}
+		Edit Conference Room
+	{% else %}
+		New Conference Room
+	{% endif %}
+	| {{block.super}}
+{% endblock title %}
+
+{% block js-inner %}
+	{{block.super}}
+	
+	$(document).ready(function(){
+		$("#id_tags").autocomplete("#", {max:6,multiple:true,multipleSeparator:" "});
+	});
+	
+{% endblock js-inner %}
+
+{% block page-title-inner %}
+
+	<h1>
+		{% if object %}
+			Edit Conference Room
+		{% else %}
+			New Conference Room
+		{% endif %}
+	</h1>
+
+{% endblock page-title-inner %}
+
+{% block content-left-inner %}
+	<div class="last sec">
+		{% if object %}
+			<h6>Updating the room:</h6> <p><strong>{{object.name}}</strong></p>
+		{% else %}
+			<p>Create a new <strong>conference room</strong>.</p>
+		{% endif %}
+		
+		<div class="form issue-form">
+			<form method="POST">
+				{% for field in form %}
+					{% if field.is_hidden %}
+						{{field}} {{field.errors}}
+					{% else %}
+						<div class="field-wrapper" id="{{field.name}}">
+							<div class="label">{{field.label_tag}}</div>
+							<div class="field">{{field}}</div>
+							<div class="errors">{{field.errors}}</div>
+						</div>
+					{% endif %}
+				{% endfor %}
+				{% spaceless %}
+					<input class="button-style" type="submit" value="Submit" /> or 
+					{% if object %}
+						<a href="{% url rooms_conference_room object.id %}">
+					{% else %}
+						<a href="{% url rooms_room_list %}">
+					{% endif %}
+					Cancel and go back</a>
+				{% endspaceless %}
+			</form>
+		</div>
+	</div>
+		
+{% endblock content-left-inner %}

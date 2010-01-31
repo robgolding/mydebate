@@ -84,6 +84,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 	'django.core.context_processors.request',
 )
 
+AUTH_PROFILE_MODULE = 'users.Profile'
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -92,7 +94,8 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'democonf.core',
     'democonf.accounts',
-    'democonf.conference',
+    'democonf.rooms',
+    'democonf.users',
     'democonf.svn_revision',
 )
 

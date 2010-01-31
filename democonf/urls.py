@@ -21,9 +21,12 @@ urlpatterns = patterns('',
     
     url(r'^$', 'django.views.generic.simple.direct_to_template', {'template': 'index.html'}, name="index"),
     
-    (r'^conference/', include('democonf.conference.urls')),
+    (r'^rooms/', include('democonf.rooms.urls')),
     
     (r'^accounts/', include('democonf.accounts.urls')),
+    
+    (r'^users/', include('democonf.users.urls')),
+    
 )
 
 if hasattr(settings, 'WORKING_COPY') and settings.WORKING_COPY:

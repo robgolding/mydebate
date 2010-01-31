@@ -1,0 +1,36 @@
+{% extends 'users/base.html' %}
+{% load tracker %}
+{% load gravatar_tags %}
+
+{% block title %}
+	Edit Profile | {{block.super}}
+{% endblock title %}
+
+{% block page-title-inner %}
+	<h1>Edit Profile</h1>
+{% endblock page-title-inner %}
+
+{% block content-left-inner %}
+	<div class="last sec">
+		<p>Enter your profile details below.</p>
+		
+		<div class="form issue-form">
+			<form method="POST">
+				{% for field in form %}
+					{% if field.is_hidden %}
+						{{field}} {{field.errors}}
+					{% else %}
+						<div class="field-wrapper" id="{{field.name}}">
+							<div class="label">{{field.label_tag}}</div>
+							<div class="field">{{field}}</div>
+							<div class="errors">{{field.errors}}</div>
+						</div>
+					{% endif %}
+				{% endfor %}
+				<input class="button-style" type="submit" value="Submit" /> or <a href="{{user.get_absolute_url}}">Cancel and go back</a>
+			</form>
+		</div>
+	</div>
+{% endblock content-left-inner %}
+
+

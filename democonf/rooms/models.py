@@ -20,7 +20,7 @@ class Room(models.Model):
 	
 	@models.permalink
 	def get_absolute_url(self):
-		return ('conference_room', [self.id])
+		return ('rooms_conference_room', [self.id])
 	
 	def __unicode__(self):
 		return self.name

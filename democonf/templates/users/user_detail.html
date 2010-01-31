@@ -1,0 +1,22 @@
+{% extends 'users/base.html' %}
+{% load gravatar_tags %}
+
+{% block page-title-inner %}
+	<h1>{{profile.user}}</h1>
+{% endblock page-title-inner %}
+
+{% block content-left-inner %}
+	<div style="float: right; margin: 10px 10px 0 0;">{% gravatar_img_for_user profile.user %}</div>
+
+	<div class="sec bio clearfix">
+		{{profile.bio|linebreaks}}
+	</div>
+	
+	<div class="user-detail-footer clearfix">
+		<a id="back-button" class="button-style" href='{% url users_user_list %}'>Go back</a>
+		{% ifequal user profile.user %}
+			<a id="edit-button" class="button-style" href="{% url users_edit_user user %}">Edit Profile</a>
+		{% endifequal %}
+	</div>
+	
+{% endblock content-left-inner %}

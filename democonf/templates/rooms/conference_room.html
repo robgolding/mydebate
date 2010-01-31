@@ -1,4 +1,4 @@
-{% extends 'conference/base.html' %}
+{% extends 'rooms/base.html' %}
 
 {% load media_tags %}
 
@@ -169,8 +169,6 @@
 	<h1>{{room.name}}</h1>
 {% endblock page-title-inner %}
 
-{% block page-id %}rooms{% endblock page-id %}
-
 {% block content-left-inner %}
 	
 	<div id="room-wrapper">
@@ -182,7 +180,7 @@
 	
 	<div id="room-footer" class="clearfix">
 		<div id="room_form">
-			<form id="message-input-form" method="POST" action="{% url conference_room room.id %}">
+			<form id="message-input-form" method="POST" action="{% url rooms_conference_room room.id %}">
 				<input type="text" id="input" name="message1" size="40" />
 				<input type="submit" id="submit" value="Submit" />
 			</form>
@@ -196,7 +194,7 @@
 			</div>
 	
 			<ul id="room_links">
-				<li><a id="leave-conference-button" href="{% url conference_room_leave room.id %}">Leave Conference</a></li>
+				<li><a id="leave-conference-button" href="{% url rooms_leave_room room.id %}">Leave Conference</a></li>
 				<li><a id="vote-button" href="#">Vote Test</a></li>
 			</li>
 	

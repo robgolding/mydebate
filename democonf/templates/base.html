@@ -58,8 +58,8 @@
 						{% block menu %}
 						<ul id="nav">{% spaceless %}
 							<li class="home"><a href="{% url index %}">Home</a></li>
-							<li class="rooms"><a href="{% url conference_room_list %}">Rooms</a></li>
-							<li class="users"><a href="#">Users</a></li>
+							<li class="rooms"><a href="{% url rooms_room_list %}">Rooms</a></li>
+							<li class="users"><a href="{% url users_user_list %}">Users</a></li>
 							<li class="search"><a href="#">Search</a></li>
 							{% if user.is_authenticated %}
 							{% if user.is_staff %}
@@ -123,7 +123,7 @@
 					{% endblock box2 %}
 					
 					<div class="clearfix">
-						<a class="button-style" href="#">New Conference</a>
+						<a class="button-style" href="{% url rooms_create_room %}">New Conference</a>
 					</div>
 					
 					<br />

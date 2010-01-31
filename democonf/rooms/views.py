@@ -7,6 +7,7 @@ from django.core.urlresolvers import reverse
 from django.views.generic.list_detail import object_list
 
 from models import Room, Message
+from forms import RoomForm
 
 def get_messages(request, room, unread=False):
 	if unread:
@@ -19,7 +20,7 @@ def get_members(request, room):
 	return room.current_members.all()
 
 @login_required
-def room(request, room_id):
+def conference_room(request, room_id):
 	room = get_object_or_404(Room, pk=room_id)
 	room.current_members.add(request.user)
 	
@@ -39,10 +40,10 @@ def room(request, room_id):
 				message_list.append({'pk': message.pk, 'author': message.author.username, 'content': message.content})
 			object_lists['messages'] = message_list
 			
-			return render_to_response("conference/serializer.html", {'object_lists': object_lists}, mimetype="application/json", context_instance=RequestContext(request))
+			return render_to_response("rooms/serializer.html", {'object_lists': object_lists}, mimetype="application/json", context_instance=RequestContext(request))
 		else:
 			data = {'room': room}
-			return render_to_response("conference/room.html", data, context_instance=RequestContext(request))
+			return render_to_response("rooms/conference_room.html", data, context_instance=RequestContext(request))
 	
 	unread = request.GET.get('unread', None) == ''
 	
@@ -64,13 +65,26 @@ def room(request, room_id):
 		
 		objects['num_members'] = len(member_list)
 		
-		return render_to_response("conference/serializer.html", {'object_lists': object_lists, 'objects': objects}, mimetype="application/json", context_instance=RequestContext(request))
+		return render_to_response("rooms/serializer.html", {'object_lists': object_lists, 'objects': objects}, mimetype="application/json", context_instance=RequestContext(request))
 	
 	data = {'room': room}
-	return render_to_response("conference/room.html", data, context_instance=RequestContext(request))
+	return render_to_response("rooms/conference_room.html", data, context_instance=RequestContext(request))
 
 @login_required
 def leave(request, room_id):
 	room = get_object_or_404(Room, pk=room_id)
 	room.current_members.remove(request.user)
-	return HttpResponseRedirect(reverse('conference_room_list'))
+	return HttpResponseRedirect(reverse('rooms_room_list'))
+
+@login_required
+def create_room(request, extra_context={}):
+	if request.method == 'POST':
+		form = RoomForm(request.POST)
+		if form.is_valid():
+			room = form.save(user=request.user)
+			return HttpResponseRedirect(room.get_absolute_url())
+	else:
+		form = RoomForm()
+	data = { 'form': form }
+	data.update(extra_context)
+	return render_to_response('rooms/room_form.html', data, context_instance=RequestContext(request))

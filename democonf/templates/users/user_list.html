@@ -1,0 +1,28 @@
+{% extends 'users/base.html' %}
+{% load gravatar_tags %}
+
+{% block title %}
+	Users | {{block.super}}
+{% endblock title %}
+
+{% block page-title-inner %}
+	<h1>Users</h1>
+{% endblock page-title-inner %}
+
+
+{% block content-left-inner %}
+	<div class="issue-list {% if is_paginated %}paginated{% endif %}">
+		{% for object in object_list %}
+			<div class="issue-summary {% if forloop.last %} last{% endif %}" id="issue-summary-{{object.id}}">
+				<div class="issue-summary-inner clearfix">
+					<div class="left">
+						<a href="{% url users_user_detail object %}" title="">{% gravatar_img_for_user object 40 %}</a>
+					</div>
+					<div class="right">
+						<h3><a href="{% url users_user_detail object %}" title="">{{object}}</a></h3>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+{% endblock content-left-inner %}

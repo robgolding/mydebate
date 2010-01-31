@@ -1,4 +1,4 @@
-{% extends 'conference/base.html' %}
+{% extends 'rooms/base.html' %}
 
 {% block js-inner %}
 	
@@ -53,19 +53,17 @@
 	<h1>Conference Rooms</h1>
 {% endblock page-title-inner %}
 
-{% block page-id %}rooms{% endblock page-id %}
-
 {% block content-left-inner %}
 	
 	{% if not object_list %}
 		<div class="last sec">
-			No issues match your filter.
+			There are no conference rooms available at present.
 		</div>
 	{% else %}
 
 		<div class="issue-list {% if is_paginated %}paginated{% endif %}">
 		{% for object in object_list %}
-			{% include 'conference/room_summary.html' %}
+			{% include 'rooms/room_summary.html' %}
 		{% endfor %}
 		</div>
 
