@@ -3,8 +3,12 @@ from django.core.urlresolvers import reverse
 
 from django.contrib.auth.models import User
 
+Poll = models.get_model("polling", "poll")
+
+from polling.models import Poll
+
 class Room(models.Model):
-	name = models.CharField(max_length=255)
+	poll = models.ForeignKey(Poll, unique=True)
 	current_members = models.ManyToManyField(User, related_name="member_of", editable=False)
 	opened_by = models.ForeignKey(User, related_name="opened_rooms")
 	opened_at = models.DateTimeField(auto_now_add=True)
@@ -23,7 +27,7 @@ class Room(models.Model):
 		return ('rooms_conference_room', [self.id])
 	
 	def __unicode__(self):
-		return self.name
+		return self.poll.question
 	
 class Message(models.Model):
 	room = models.ForeignKey(Room, related_name="messages")

@@ -96,6 +96,7 @@ INSTALLED_APPS = (
     'democonf.accounts',
     'democonf.rooms',
     'democonf.users',
+    'democonf.polling',
     'democonf.svn_revision',
 )
 
