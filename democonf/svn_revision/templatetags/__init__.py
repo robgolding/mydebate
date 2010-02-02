@@ -12,7 +12,7 @@ def get_revision():
 			outS = outS[:-1]
 		modified = True if outS[-1] == 'M' else False
 
-		if settings.get('WORKING_COPY', False):
+		if getattr(settings, 'WORKING_COPY', False):
 			if modified:
 				return "(Modified working copy)"
 			else:
