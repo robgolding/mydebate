@@ -1,3 +1,5 @@
+from django.conf import settings
+
 def get_revision():
 	import subprocess
 	import re, os
@@ -10,18 +12,13 @@ def get_revision():
 			outS = outS[:-1]
 		modified = True if outS[-1] == 'M' else False
 
-		try:
-			import local_settings
-		except:
-			if not modified:
-				return outS
-			else:
-				raise Exception, "Modified version of an automatic checkout"
-		else:
+		if settings.get('WORKING_COPY', False):
 			if modified:
 				return "(Modified working copy)"
 			else:
 				return "(Unmodified working copy)"
+		else:
+			return outS
 	except:
 		return 'Versioning Unavailable'
 
