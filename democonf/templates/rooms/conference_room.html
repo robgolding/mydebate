@@ -31,8 +31,13 @@
 			$.each(data.members, function(i, item){
 				$("#members").append("<p><b>"+item['username']+"</b></p>");
 			});
+			$("#members").append("<p><br /></p><p><b>Mode: </b>"+data['current_mode']+"</p>");
 			
-			$("#num_members").html("Members: "+data.num_members);
+			if (data['current_mode'] == "voting") {
+				//$("#vote_div").dialog('open');
+			}
+			
+			$("#num_members").html("Time left: "+data['time_left']+"s");
 			
 			if (unread)
 			{

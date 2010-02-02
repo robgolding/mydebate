@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.contrib import auth
+from django.contrib.auth.views import login as auth_login
 
 def login(request, *args, **kwargs):
 	if request.is_ajax():
@@ -17,4 +17,4 @@ def login(request, *args, **kwargs):
 				data = '{"result": false, "error": "Username/password incorrect."}'
 			return HttpResponse(data, mimetype="application/json")
 	else:
-		return auth.views.login(request, *args, **kwargs)
+		return auth_login(request, *args, **kwargs)

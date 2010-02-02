@@ -1,3 +1,4 @@
+import datetime
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
@@ -23,6 +24,10 @@ def get_members(request, room):
 def conference_room(request, room_id):
 	room = get_object_or_404(Room, pk=room_id)
 	room.current_members.add(request.user)
+	
+	if room.next_vote_at <= datetime.datetime.now():
+		room.mode = 'voting'
+		room.save()
 	
 	is_ajax = request.is_ajax() or request.GET.get('json', None) == ''
 	
@@ -64,6 +69,8 @@ def conference_room(request, room_id):
 		object_lists['members'] = member_list
 		
 		objects['num_members'] = len(member_list)
+		objects['time_left'] = (room.next_vote_at - datetime.datetime.now()).seconds
+		objects['current_mode'] = room.mode
 		
 		return render_to_response("rooms/serializer.html", {'object_lists': object_lists, 'objects': objects}, mimetype="application/json", context_instance=RequestContext(request))
 	
