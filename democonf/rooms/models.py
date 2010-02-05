@@ -56,4 +56,4 @@ class Message(models.Model):
 		self.read_by.add(user)
 	
 	def __unicode__(self):
-		return "[%s] %s" % (self.room.name, self.content)
+		return self.content

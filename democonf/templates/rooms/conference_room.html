@@ -7,7 +7,26 @@
 {% block js-inner %}
 
 {{block.super}}
-
+	
+	tmp_html = '';
+	connection = true;
+	
+	function connectionLost() {
+		$('#left').block({ 
+			message: '<h1>Connection lost...</h1>', 
+			css: { padding: '0 10px' } 
+        });
+	}
+	
+	function connectionRestored() {
+		$('#left').unblock();
+		$("#input").focus();
+	}
+	
+	$.ajaxSetup({
+		error: function(){ if (connection) { connection = false; connectionLost(); } },
+	});
+	
 	function refreshData(unread, callback) {
 		if (typeof unread == 'undefined') unread = false;
 		if (typeof callback == 'undefined') callback = function(){ return false; };
@@ -20,6 +39,11 @@
 		}
 		
 		$.getJSON(url, function(data, textStatus){
+			
+			if (!connection) {
+				connection = true;
+				connectionRestored();
+			}
 			
 			if (!unread) $("#messages").html("");
 			
