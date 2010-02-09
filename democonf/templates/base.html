@@ -18,19 +18,51 @@
 		<link rel="stylesheet" type="text/css" media="screen, projection" href="{% media css/jquery.autocomplete.css %}" />
 		{% endblock css %}
 		
+		{% block js-imports %}
 		<script src="{% media js/jquery-1.3.2.js %}"></script>
 		<script src="{% media js/jquery-ui-1.7.2.custom.min.js %}"></script>
 		<script src="{% media js/jquery.blockUI.js %}"></script>
 		
+		<script src="{% media js/master.js %}"></script>
+		{% endblock js-imports %}
+		
+		<script src="{% media js/ready.js %}"></script>
+		
 		{% block js %}
-		<script>
-			{% block js-inner %}{% endblock js-inner %}
+		<script language="javascript">
+			{% block js-inner %}
+				function close_message(id) {
+					selector = "#site-message-"+id;
+					$(selector).hide();
+					return false;
+				}
+				
+				$(document).ready(function() {
+					$("#site-messages-table tr td.message-close a").click(function() {
+						$(this).parent().parent().hide();
+						return false;
+					});
+				});
+			{% endblock js-inner %}
 		</script>
 		{% endblock js %}
 		
 	</head>
 	<body id="{% block page-id %}home{% endblock page-id %}">
-		{% block site-messages %}{% endblock site-messages %}
+		<div id="site-messages-container">
+			<table id="site-messages-table">
+				<tbody>
+					{% for message in messages %}
+					<tr id="site-message-{{forloop.counter}}" class="site-message">
+						<td class="message">{{message}}</td>
+						<td class="message-close">
+							<a href="" title="Dismiss this message">×</a>
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
 		
 		<div id="site-container">
 			{% block site-container %}

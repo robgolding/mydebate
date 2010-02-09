@@ -19,7 +19,7 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     url(r'^admin/(.*)', admin.site.root, name="admin"),
     
-    url(r'^$', 'django.views.generic.simple.direct_to_template', {'template': 'index.html'}, name="index"),
+    url(r'^$', 'core.views.index', {'template_name': 'index.html'}, name="index"),
     
     (r'^rooms/', include('democonf.rooms.urls')),
     
