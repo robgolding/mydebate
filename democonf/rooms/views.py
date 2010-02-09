@@ -8,7 +8,8 @@ from django.core.urlresolvers import reverse
 from django.views.generic.list_detail import object_list
 
 from models import Room, Message
-from forms import RoomForm
+from polling.models import Poll, Choice
+from forms import PollForm, ChoiceFormSet, RoomForm
 
 def get_messages(request, room, unread=False):
 	if unread:
@@ -69,8 +70,8 @@ def conference_room(request, room_id):
 		object_lists['members'] = member_list
 		
 		objects['num_members'] = len(member_list)
-		objects['time_left'] = (room.next_vote_at - datetime.datetime.now()).seconds
-		objects['current_mode'] = room.mode
+		objects['time_left'] = room.get_time_to_next_vote()
+		objects['current_mode'] = room.get_mode()
 		
 		return render_to_response("rooms/serializer.html", {'object_lists': object_lists, 'objects': objects}, mimetype="application/json", context_instance=RequestContext(request))
 	
@@ -85,13 +86,23 @@ def leave(request, room_id):
 
 @login_required
 def create_room(request, extra_context={}):
-	if request.method == 'POST':
-		form = RoomForm(request.POST)
-		if form.is_valid():
-			room = form.save(user=request.user)
-			return HttpResponseRedirect(room.get_absolute_url())
+	if request.method == "POST":
+		poll_form = PollForm(request.POST, request.FILES)
+		choice_formset = ChoiceFormSet(request.POST, request.FILES)
+		room_form = RoomForm(request.POST, request.FILES)
+		if poll_form.is_valid() and choice_formset.is_valid() and room_form.is_valid():
+			p = Poll(question=poll_form.cleaned_data['question'])
+			p.save()
+			for form in choice_formset.forms:
+				c = Choice(poll=p, choice=form.cleaned_data['choice'])
+				c.save()
+			r = Room(poll=p, opened_by=request.user, period_length=room_form.cleaned_data['period_length'])
+			r.save()
+			return HttpResponseRedirect(r.get_absolute_url())
 	else:
-		form = RoomForm()
-	data = { 'form': form }
+		poll_form = PollForm()
+		choice_formset = ChoiceFormSet()
+		room_form = RoomForm()
+	data = {'poll_form': poll_form, 'choice_formset': choice_formset, 'room_form': room_form}
 	data.update(extra_context)
 	return render_to_response('rooms/room_form.html', data, context_instance=RequestContext(request))

@@ -1,24 +1,16 @@
 from django import forms
+from django.forms.formsets import formset_factory
 
-from models import Room
+class PollForm(forms.Form):
+	
+	question = forms.CharField(max_length=200)
 
-from polling.models import Poll
+class ChoiceForm(forms.Form):
+	
+	choice = forms.CharField(max_length=200)
 
-class RoomForm(forms.ModelForm):
+ChoiceFormSet = formset_factory(ChoiceForm, extra=2)
+
+class RoomForm(forms.Form):
 	
-	question = forms.CharField()
-	
-	def save(self, user=None, commit=True):
-		poll = Poll(question=self.cleaned_data['question'])
-		poll.save()
-		room = super(RoomForm, self).save(commit=False)
-		room.poll = poll
-		if user is not None:
-			room.opened_by = user
-		if commit:
-			room.save()
-		return room
-	
-	class Meta:
-		model = Room
-		exclude = ['opened_by', 'poll']
+	period_length = forms.IntegerField()

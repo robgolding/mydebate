@@ -41,7 +41,32 @@
 		
 		<div class="form issue-form">
 			<form method="POST">
-				{% for field in form %}
+				{% for field in poll_form %}
+					{% if field.is_hidden %}
+						{{field}} {{field.errors}}
+					{% else %}
+						<div class="field-wrapper" id="{{field.name}}">
+							<div class="label">{{field.label_tag}}</div>
+							<div class="field">{{field}}</div>
+							<div class="errors">{{field.errors}}</div>
+						</div>
+					{% endif %}
+				{% endfor %}
+				{{choice_formset.management_form}}
+				{% for form in choice_formset.forms %}
+					{% for field in form %}
+						{% if field.is_hidden %}
+							{{field}} {{field.errors}}
+						{% else %}
+							<div class="field-wrapper" id="{{field.name}}">
+								<div class="label">{{field.label_tag}}</div>
+								<div class="field">{{field}}</div>
+								<div class="errors">{{field.errors}}</div>
+							</div>
+						{% endif %}
+					{% endfor %}
+				{% endfor %}
+				{% for field in room_form %}
 					{% if field.is_hidden %}
 						{{field}} {{field.errors}}
 					{% else %}
