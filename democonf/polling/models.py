@@ -1,6 +1,8 @@
 from django.db import models
 from django.db.models import Sum
 
+from django.contrib.auth.models import User
+
 class Poll(models.Model):
 	question = models.CharField(max_length=200)
 	
@@ -9,8 +11,8 @@ class Poll(models.Model):
 	
 	def reset(self):
 		for choice in self.choices.all():
-			choice.votes = 0
-			choice.save()
+			for vote in choice.votes.all():
+				vote.delete()
 	
 	def __unicode__(self):
 		return self.question
@@ -18,7 +20,17 @@ class Poll(models.Model):
 class Choice(models.Model):
     poll = models.ForeignKey(Poll, related_name="choices")
     choice = models.CharField(max_length=200)
-    votes = models.IntegerField(default=0)
+    
+    def get_vote_count(self):
+    	return self.votes.count()
     
     def __unicode__(self):
     	return self.choice
+
+class Vote(models.Model):
+	user = models.ForeignKey(User, related_name="votes")
+	choice = models.ForeignKey(Choice, related_name="votes")
+	placed_at = models.DateTimeField(auto_now_add=True)
+	
+	def __unicode__(self):
+		return '[Vote] %s' % self.choice

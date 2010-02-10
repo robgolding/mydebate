@@ -26,10 +26,6 @@ def conference_room(request, room_id):
 	room = get_object_or_404(Room, pk=room_id)
 	room.current_members.add(request.user)
 	
-	if room.next_vote_at <= datetime.datetime.now():
-		room.mode = 'voting'
-		room.save()
-	
 	is_ajax = request.is_ajax() or request.GET.get('json', None) == ''
 	
 	if request.method == "POST":
@@ -75,7 +71,7 @@ def conference_room(request, room_id):
 		
 		return render_to_response("rooms/serializer.html", {'object_lists': object_lists, 'objects': objects}, mimetype="application/json", context_instance=RequestContext(request))
 	
-	data = {'room': room}
+	data = {'room': room, 'poll': room.poll}
 	return render_to_response("rooms/conference_room.html", data, context_instance=RequestContext(request))
 
 @login_required

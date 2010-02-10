@@ -98,6 +98,32 @@ function send_message(field) {
 	return false;
 }
 
+function submit_vote() {
+	var poll_id = $("input[name='poll_id']").val();
+	
+	var choice = $("input[name='choice']");
+	
+	if (!choice.val()) {
+		alert("You need to select a choice.");
+		return false;
+	}
+	
+	alert(choice.val());
+	
+	var data = "choice=" + choice.val();
+	
+	$.post("/polling/vote/"+poll_id+"/",
+		{ choice: choice.val() },
+		function(data) {
+			alert(data);
+			$("#vote_div").dialog("close");
+		},
+		"json"
+	);
+	
+	return false;
+}
+
 function resizeFrame() 
 {
 	var h = $(document).height();
@@ -125,15 +151,15 @@ function add_dialogs()
 	$("#vote_div").dialog({
 		bgiframe: true,
 		autoOpen: false,
-		width: $(window).width()*0.9,
-		height: $(window).height()*0.9,
+		//width: $(window).width()*0.9,
+		//height: $(window).height()*0.9,
 		closeOnEscape: false,
 		draggable: false,
 		modal: true,
 		resizable: false,
 		open: function(event, ui) { $(".ui-dialog-titlebar-close").hide(); $('body').css('overflow','hidden');},
 		buttons: {
-			"Back to conference": function() { $("#vote_div").dialog('close'); }
+			"Vote": function() { $("#vote-form").submit(); }
 		}
 	});
 }
@@ -142,6 +168,10 @@ function add_events()
 {
 	$("#message-input-form").submit(function() {
 		return send_message("message1");
+	});
+	
+	$("#vote-form").submit(function() {
+		return submit_vote();
 	});
 	
 	$("#leave-conference-button").click(function(){

@@ -27,6 +27,8 @@ urlpatterns = patterns('',
     
     (r'^users/', include('democonf.users.urls')),
     
+    (r'^polling/', include('democonf.polling.urls')),
+    
 )
 
 if hasattr(settings, 'WORKING_COPY') and settings.WORKING_COPY:

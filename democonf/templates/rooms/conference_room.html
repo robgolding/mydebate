@@ -52,7 +52,19 @@
 			</li>
 	
 			<div id="vote_div">
-				This is where we'll vote!
+				<h1>{{poll.question}}</h1>
+
+				{% if error_message %}<p><strong>{{error_message}}</strong></p>{% endif %}
+
+				<form action="{% url polling_vote poll.id %}" method="post" id="vote-form">
+					<input type="hidden" name="poll_id" value="{{poll.id}}" />
+					{% for choice in poll.choices.all %}
+						<input type="radio" name="choice" id="choice-{{forloop.counter}}" value="{{choice.id}}" />
+						<label for="choice-{{forloop.counter}}">{{choice.choice}}</label><br />
+					{% endfor %}
+					<!--<input type="submit" value="Vote" />-->
+				</form>
+
 			</div>
 		</div>
 	</div>
