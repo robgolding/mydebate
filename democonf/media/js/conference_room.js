@@ -1,4 +1,6 @@
 connection = true;
+voted = false;
+timeleft = 0;
 
 function connectionLost() {
 	$('#left').block({ 
@@ -44,13 +46,27 @@ function refreshData(unread, callback) {
 		$.each(data.members, function(i, item){
 			$("#members").append("<p><b>"+item['username']+"</b></p>");
 		});
-		$("#members").append("<p><br /></p><p><b>Mode: </b>"+data['current_mode']+"</p>");
 		
 		if (data['current_mode'] == "voting") {
-			//$("#vote_div").dialog('open');
+			if (!voted)
+			{
+				mode = "voting";
+				$("#vote_div").dialog('open');
+			}
+			else
+			{
+				mode = "waiting";
+			}
+		}
+		else if (data['current_mode'] == "conferencing")
+		{
+			mode = "conferencing";
+			voted = false;
 		}
 		
-		$("#num_members").html("Time left: "+data['time_left']+"s");
+		$("#members").append("<p><br /></p><p><b>Mode: </b>"+mode+"</p>");
+		
+		timeleft = parseInt(data['time_left']);
 		
 		if (unread)
 		{
@@ -101,24 +117,20 @@ function send_message(field) {
 function submit_vote() {
 	var poll_id = $("input[name='poll_id']").val();
 	
-	var choice = $("input[name='choice']");
+	var choice = $(":input[name='choice']:checked");
 	
 	if (!choice.val()) {
 		alert("You need to select a choice.");
 		return false;
 	}
 	
-	alert(choice.val());
-	
-	var data = "choice=" + choice.val();
-	
 	$.post("/polling/vote/"+poll_id+"/",
 		{ choice: choice.val() },
 		function(data) {
-			alert(data);
 			$("#vote_div").dialog("close");
+			voted = true;
 		},
-		"json"
+		"text"
 	);
 	
 	return false;
@@ -130,6 +142,16 @@ function resizeFrame()
 	var w = $(document).width();
 	//$("#vote_div").css('height', h);
 	//$("#vote_div").css('width',w*0.9);
+}
+
+function add_intervals()
+{
+	setInterval(function() {
+		t = display_time(timeleft)
+		$("#num_members").html("Time left: "+t);
+		timeleft--;
+		if (timeleft < 0) { timeleft = 0; }
+	}, 1000);
 }
 
 function add_dialogs()
@@ -199,7 +221,7 @@ ready = function()
 	jQuery.event.add(window, "load", resizeFrame);
 	jQuery.event.add(window, "resize", resizeFrame);
 	
+	add_intervals();
 	add_dialogs();
-	
-	add_events();	
+	add_events();
 }
