@@ -3,6 +3,7 @@ from uuid import uuid4
 
 from django.db import models
 from django.core.urlresolvers import reverse
+from django.template.defaultfilters import slugify
 
 from django.contrib.auth.models import User
 
@@ -18,10 +19,11 @@ ROOM_MODE_CHOICES = (
 class Room(models.Model):
 	poll = models.ForeignKey(Poll, unique=True)
 	current_members = models.ManyToManyField(User, related_name="member_of", editable=False)
-	opened_by = models.ForeignKey(User, related_name="opened_rooms")
-	opened_at = models.DateTimeField(auto_now_add=True)
+	opened_by = models.ForeignKey(User, related_name="opened_rooms", db_index=True)
+	opened_at = models.DateTimeField(auto_now_add=True, db_index=True)
 	period_length = models.IntegerField(default=600)
 	next_vote_at = models.DateTimeField(editable=False)
+	slug = models.CharField(max_length=200, editable=False, unique=True, db_index=True)
 	
 	def get_and_mark(self, user):
 		messages = self.messages.exclude(read_by=user)
@@ -52,6 +54,8 @@ class Room(models.Model):
 			return (self.next_vote_at - now).seconds
 	
 	def save(self, *args, **kwargs):
+		if self.poll is not None:
+			self.slug = slugify(self.poll.question)
 		if not self.id:
 			now = datetime.datetime.now()
 			next_vote = now + datetime.timedelta(seconds=self.period_length)
@@ -60,7 +64,7 @@ class Room(models.Model):
 	
 	@models.permalink
 	def get_absolute_url(self):
-		return ('rooms_conference_room', [self.id])
+		return ('rooms_conference_room', [self.slug])
 	
 	def __unicode__(self):
 		return self.poll.question

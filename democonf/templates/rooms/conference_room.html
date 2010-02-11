@@ -15,11 +15,11 @@
 {% endblock css %}
 
 {% block title %}
-	{{room.name}} | {{block.super}}
+	{{room.poll.question}} | {{block.super}}
 {% endblock title %}
 
 {% block page-title-inner %}
-	<h1>{{room.name}}</h1>
+	<h1>{{room.poll.question}}</h1>
 {% endblock page-title-inner %}
 
 {% block content-left-inner %}
@@ -28,18 +28,17 @@
 		<div id="messages-wrapper">
 			<div id="messages"></div>
 		</div>
-		<div id="members"></div>
 	</div>
 	
 	<div id="room-footer" class="clearfix">
 		<div id="room_form">
-			<form id="message-input-form" method="POST" action="{% url rooms_conference_room room.id %}">
+			<form id="message-input-form" method="POST" action="{% url rooms_conference_room room.slug %}">
 				<input type="text" id="input" name="message1" size="40" />
 				<input type="submit" id="submit" value="Submit" />
 			</form>
 			<div id="loading"></div>
 		</div>
-		<div id="num_members"></div>
+		
 		
 		<div id="room-links">
 			<div id="leave-conference" title="Leave conference">
@@ -47,7 +46,7 @@
 			</div>
 	
 			<ul id="room_links">
-				<li><a id="leave-conference-button" href="{% url rooms_leave_room room.id %}">Leave Conference</a></li>
+				<li><a id="leave-conference-button" href="{% url rooms_leave_room room.slug %}">Leave Conference</a></li>
 				<li><a id="vote-button" href="#">Vote Test</a></li>
 			</li>
 	
@@ -70,3 +69,15 @@
 	</div>
 	
 {% endblock content-left-inner %}
+
+{% block content-right-inner %}
+					
+	<div id="members" class="box clearfix">
+		<!-- members -->
+	</div>
+	
+	<div id="num_members" class="box clearfix">
+		<!-- number of members -->
+	</div>
+
+{% endblock content-right-inner %}

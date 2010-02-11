@@ -22,8 +22,8 @@ def get_members(request, room):
 	return room.current_members.all()
 
 @login_required
-def conference_room(request, room_id):
-	room = get_object_or_404(Room, pk=room_id)
+def conference_room(request, slug):
+	room = get_object_or_404(Room, slug=slug)
 	room.current_members.add(request.user)
 	
 	is_ajax = request.is_ajax() or request.GET.get('json', None) == ''
@@ -75,8 +75,8 @@ def conference_room(request, room_id):
 	return render_to_response("rooms/conference_room.html", data, context_instance=RequestContext(request))
 
 @login_required
-def leave(request, room_id):
-	room = get_object_or_404(Room, pk=room_id)
+def leave(request, slug):
+	room = get_object_or_404(Room, slug=slug)
 	room.current_members.remove(request.user)
 	return HttpResponseRedirect(reverse('rooms_room_list'))
 

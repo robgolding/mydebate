@@ -1,11 +1,10 @@
 #site-container { height: 100% }
 
 #messages-wrapper { 
-	border: 1px solid #ccc; 
-	width: 522px; 
-	float: left; 
+	float: left;
 	overflow: auto;
 	height: 100%;
+	width: 696px;
 }
 
 #messages {
@@ -16,7 +15,7 @@
 
 #members { 
 	border: 1px solid #ccc; 
-	width: 140px; 
+	width: 180px;
 	float: right;
 	height: 100%; 
 	padding: 0 5px;
@@ -30,7 +29,7 @@
 }
 #num_members { 
 	border: 1px solid #ccc; 
-	width: 140px; 
+	width: 180px; 
 	float: right; 
 	height: 14px;
 	padding: 5px;
