@@ -212,8 +212,7 @@ function add_dialogs()
 	$("#vote_div").dialog({
 		bgiframe: true,
 		autoOpen: false,
-		//width: $(window).width()*0.9,
-		//height: $(window).height()*0.9,
+		title: "Polling",
 		closeOnEscape: false,
 		draggable: false,
 		modal: true,
