@@ -4,14 +4,23 @@
 
 {% block title-inner %}{{room.name}} | {{block.super}}{% endblock title-inner %}
 
+{% block js-pre-inner %}
+	var room_slug = "{{room.slug}}";
+	var api_urls = new Array();
+	api_urls['get_data'] = "{% url api_rooms_get_data %}";
+	api_urls['send_message'] = "{% url api_rooms_send_message %}";
+	api_urls['cast_vote'] = "{% url api_polling_cast_vote %}";
+	api_urls['poll_info'] = "{% url api_polling_get_info %}";
+{% endblock js-pre-inner %}
+
 {% block js-imports %}
 	{{block.super}}
 	<script src="{% media js/conference_room.js %}"></script>
 {% endblock js-imports %}
 
 {% block css %}
-{{block.super}}
-<link rel="stylesheet" type="text/css" media="screen, projection" href="{% media css/conference_room.css %}" />
+	{{block.super}}
+	<link rel="stylesheet" type="text/css" media="screen, projection" href="{% media css/conference_room.css %}" />
 {% endblock css %}
 
 {% block title %}
@@ -55,13 +64,12 @@
 
 				{% if error_message %}<p><strong>{{error_message}}</strong></p>{% endif %}
 
-				<form action="{% url polling_vote poll.id %}" method="post" id="vote-form">
+				<form id="vote-form">
 					<input type="hidden" name="poll_id" value="{{poll.id}}" />
 					{% for choice in poll.choices.all %}
 						<input type="radio" name="choice" id="choice-{{forloop.counter}}" value="{{choice.id}}" />
 						<label for="choice-{{forloop.counter}}">{{choice.choice}}</label><br />
 					{% endfor %}
-					<!--<input type="submit" value="Vote" />-->
 				</form>
 
 			</div>

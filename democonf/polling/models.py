@@ -7,7 +7,16 @@ class Poll(models.Model):
 	question = models.CharField(max_length=200)
 	
 	def get_num_votes(self):
-		return self.choices.all().aggregate(Sum('votes'))['votes__sum']
+		return Vote.objects.filter(choice__poll=self).count()
+	
+	def get_votes(self):
+		return Vote.objects.filter(choice__poll=self)
+	
+	def has_voted(self, user):
+		for vote in self.get_votes():
+			if vote.user == user:
+				return True
+		return False
 	
 	def reset(self):
 		for choice in self.choices.all():

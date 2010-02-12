@@ -18,6 +18,14 @@
 		<link rel="stylesheet" type="text/css" media="screen, projection" href="{% media css/jquery.autocomplete.css %}" />
 		{% endblock css %}
 		
+		{% block js-pre %}
+		<script language="javascript">
+			{% block js-pre-inner %}
+				
+			{% endblock js-pre-inner %}
+		</script>
+		{% endblock js-pre %}
+		
 		{% block js-imports %}
 		<script src="{% media js/jquery-1.3.2.js %}"></script>
 		<script src="{% media js/jquery-ui-1.7.2.custom.min.js %}"></script>
@@ -25,8 +33,6 @@
 		
 		<script src="{% media js/master.js %}"></script>
 		{% endblock js-imports %}
-		
-		<script src="{% media js/ready.js %}"></script>
 		
 		{% block js %}
 		<script language="javascript">
@@ -46,6 +52,8 @@
 			{% endblock js-inner %}
 		</script>
 		{% endblock js %}
+		
+		<script src="{% media js/ready.js %}"></script>
 		
 	</head>
 	<body id="{% block page-id %}home{% endblock page-id %}">

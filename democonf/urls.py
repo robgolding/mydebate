@@ -21,6 +21,8 @@ urlpatterns = patterns('',
     
     url(r'^$', 'core.views.index', {'template_name': 'index.html'}, name="index"),
     
+    (r'^api/', include('democonf.api.urls')),
+    
     (r'^rooms/', include('democonf.rooms.urls')),
     
     (r'^accounts/', include('democonf.accounts.urls')),
