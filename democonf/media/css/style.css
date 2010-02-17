@@ -213,6 +213,8 @@ div.sec { padding: 10px 10px 20px; margin: 0 10px; border-bottom: 1px solid #CCC
 div.sec.last { border: none; }
 div.bio { padding-bottom: 30px; }
 
+a.cancel { color: red; }
+
 /* Site Messages */
 
 #site-messages-table

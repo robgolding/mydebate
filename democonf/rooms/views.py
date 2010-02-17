@@ -56,7 +56,8 @@ def create_room(request, extra_context={}):
 			for form in choice_formset.forms:
 				c = Choice(poll=p, choice=form.cleaned_data['choice'])
 				c.save()
-			r = Room(poll=p, opened_by=request.user, period_length=room_form.cleaned_data['period_length'])
+			r = Room(poll=p, opened_by=request.user, period_length=room_form.cleaned_data['period_length'],
+				join_threshold=room_form.cleaned_data['join_threshold'])
 			r.save()
 			return HttpResponseRedirect(r.get_absolute_url())
 	else:

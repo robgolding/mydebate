@@ -10,12 +10,60 @@
 	| {{block.super}}
 {% endblock title %}
 
+{% block css %}
+	{{block.super}}
+	<style type="text/css">
+		#join-threshold-slider { clear: left; }
+		#join-threshold-slider .ui-slider-handle { border-color: #aaa }
+		#join-threshold-slider .ui-slider-range { background: #ccc }
+		#join-threshold-value { padding-left: 3px; border:0; color:#000; font-weight:bold; margin-bottom: 15px; }
+		#id_question { font-size: 1.8em; width: 90%; padding: 2px; }
+		#choices input { font-size: 1.3em; padding: 2px; }
+		.advanced { padding: 20px 20px; margin: 20px 0; border-top: 1px solid #CCC; border-bottom: 1px solid #CCC; background-color: #FEFEFE; }
+		#choices ol { list-style-type: lower-alpha; }
+		div.field { font-size: 1.2em; }
+		input.read_only { border: 0; font-weight: bold; }
+
+		.floating_field { float: left; clear: none !important; vertical-align: middle; position: relative; bottom: 3px; padding-left: 3px; }
+	</style>
+{% endblock css %}
+
 {% block js-inner %}
 	{{block.super}}
 	
-	$(document).ready(function(){
-		$("#id_tags").autocomplete("#", {max:6,multiple:true,multipleSeparator:" "});
-	});
+	oldready = ready;
+	
+	ready = function()
+	{
+		oldready();
+		
+		$("#join-threshold-slider").slider({
+			range: "min",
+			min: 1,
+			values: 8,
+			slide: function(event, ui) {
+				$("#id_join_threshold").val(ui.value);
+			}
+		});
+		
+		$("#join-threshold-slider").slider('option', 'max', $("#id_period_length").val()-1);
+		$("#join-threshold-slider").slider('option', 'value', parseInt($("#id_period_length").val()*0.8));
+		$("#id_join_threshold").val($("#join-threshold-slider").slider('option', 'value'));
+		
+		$("#id_join_threshold").addClass("read_only");
+		$("#id_join_threshold").attr("readonly", "true");
+		$("#join_threshold .label").css("float", "left");
+		$("#join_threshold .field").addClass("floating_field");
+		
+		$("#id_period_length").change(function() {
+			max = $("#id_period_length").val()-1;
+			val = $("#join-threshold-slider").slider('option', 'value');
+			$("#join-threshold-slider").slider('option', 'max', max);
+			if (val > max) { val = max };
+			$("#join-threshold-slider").slider('option', 'value', val);
+			$("#id_join_threshold").val($("#join-threshold-slider").slider('option', 'value'));
+		});
+	}
 	
 {% endblock js-inner %}
 
@@ -53,8 +101,28 @@
 					{% endif %}
 				{% endfor %}
 				{{choice_formset.management_form}}
-				{% for form in choice_formset.forms %}
-					{% for field in form %}
+				Choices
+				<div id="choices">
+					<ol>
+					{% for form in choice_formset.forms %}
+						{% for field in form %}
+							{% if field.is_hidden %}
+								{{field}} {{field.errors}}
+							{% else %}
+								<li>
+									<div class="field-wrapper" id="{{field.name}}">
+										<div class="field">{{field}}</div>
+										<div class="errors">{{field.errors}}</div>
+									</div>
+								</li>
+							{% endif %}
+						{% endfor %}
+						
+					{% endfor %}
+					</ol>
+				</div>
+				<div class="advanced">
+					{% for field in room_form %}
 						{% if field.is_hidden %}
 							{{field}} {{field.errors}}
 						{% else %}
@@ -65,24 +133,14 @@
 							</div>
 						{% endif %}
 					{% endfor %}
-				{% endfor %}
-				{% for field in room_form %}
-					{% if field.is_hidden %}
-						{{field}} {{field.errors}}
-					{% else %}
-						<div class="field-wrapper" id="{{field.name}}">
-							<div class="label">{{field.label_tag}}</div>
-							<div class="field">{{field}}</div>
-							<div class="errors">{{field.errors}}</div>
-						</div>
-					{% endif %}
-				{% endfor %}
+					<div id="join-threshold-slider"></div>
+				</div>
 				{% spaceless %}
 					<input class="button-style" type="submit" value="Submit" /> or 
 					{% if object %}
-						<a href="{% url rooms_conference_room object.id %}">
+						<a class="cancel" href="{% url rooms_conference_room object.id %}">
 					{% else %}
-						<a href="{% url rooms_room_list %}">
+						<a class="cancel" href="{% url rooms_room_list %}">
 					{% endif %}
 					Cancel and go back</a>
 				{% endspaceless %}

@@ -21,8 +21,9 @@ class Room(models.Model):
 	current_members = models.ManyToManyField(User, related_name="member_of", editable=False)
 	opened_by = models.ForeignKey(User, related_name="opened_rooms", db_index=True)
 	opened_at = models.DateTimeField(auto_now_add=True, db_index=True)
-	period_length = models.IntegerField(default=600)
+	period_length = models.IntegerField()
 	next_vote_at = models.DateTimeField(editable=False)
+	join_threshold = models.IntegerField()
 	slug = models.CharField(max_length=200, editable=False, unique=True, db_index=True)
 	
 	def get_and_mark(self, user):
@@ -41,7 +42,7 @@ class Room(models.Model):
 		else:
 			if self.poll.get_num_votes() >= self.current_members.count():
 				self.poll.reset()
-				self.next_vote_at = now + datetime.timedelta(seconds=self.period_length)
+				self.next_vote_at = now + datetime.timedelta(seconds=self.period_length*60)
 				self.save()
 				return "conferencing"
 			return "voting"
@@ -58,7 +59,7 @@ class Room(models.Model):
 			self.slug = slugify(self.poll.question)
 		if not self.id:
 			now = datetime.datetime.now()
-			next_vote = now + datetime.timedelta(seconds=self.period_length)
+			next_vote = now + datetime.timedelta(seconds=self.period_length*60)
 			self.next_vote_at = next_vote
 		super(Room, self).save(*args, **kwargs)
 	
