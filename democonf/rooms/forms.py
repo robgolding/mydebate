@@ -13,6 +13,9 @@ PERIOD_LENGTH_CHOICES = (
 	(120, 120),
 )
 
+INITIAL_PERIOD_LENGTH = 30
+JOIN_THRESHOLD_FACTOR = 0.8
+
 class PollForm(forms.Form):
 	
 	question = forms.CharField(max_length=200)
@@ -25,8 +28,16 @@ ChoiceFormSet = formset_factory(ChoiceForm, extra=2)
 
 class RoomForm(forms.Form):
 	
-	period_length = forms.IntegerField(label="Debate length (minutes):", widget=forms.Select(choices=PERIOD_LENGTH_CHOICES), initial=30)
-	join_threshold = forms.IntegerField(label="Join threshold (minutes):", widget=forms.TextInput(), initial=20)
+	period_length = forms.IntegerField(
+		label="Debate length (minutes):",
+		widget=forms.Select(choices=PERIOD_LENGTH_CHOICES),
+		initial=INITIAL_PERIOD_LENGTH
+	)
+	join_threshold = forms.IntegerField(
+		label="Join threshold (minutes):",
+		widget=forms.TextInput(),
+		initial=int(INITIAL_PERIOD_LENGTH*JOIN_THRESHOLD_FACTOR)
+	)
 	
 	def clean(self):
 		cleaned_data = self.cleaned_data

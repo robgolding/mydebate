@@ -25,6 +25,7 @@ class Room(models.Model):
 	next_vote_at = models.DateTimeField(editable=False)
 	join_threshold = models.IntegerField()
 	slug = models.CharField(max_length=200, editable=False, unique=True, db_index=True)
+	active = models.BooleanField(default=True)
 	
 	def get_and_mark(self, user):
 		messages = self.messages.exclude(read_by=user)
@@ -47,12 +48,19 @@ class Room(models.Model):
 				return "conferencing"
 			return "voting"
 	
+	def is_joinable(self):
+		return self.get_time_to_next_vote()/60 > self.join_threshold
+	
 	def get_time_to_next_vote(self):
 		now = datetime.datetime.now()
 		if self.next_vote_at < now:
 			return 0
 		else:
 			return (self.next_vote_at - now).seconds
+	
+	def get_time_until_joinable(self):
+		time = self.get_time_to_next_vote() - self.join_threshold
+		return time if time >= 0 else 0
 	
 	def save(self, *args, **kwargs):
 		if self.poll is not None:

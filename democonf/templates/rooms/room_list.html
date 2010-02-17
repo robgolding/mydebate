@@ -1,50 +1,5 @@
 {% extends 'rooms/base.html' %}
 
-{% block js-inner %}
-	
-	{{block.super}}
-	
-	function login() {
-		var username = $("input[name='username']");
-		var password = $("input[name='password']");
-		
-		$.post('/accounts/login/',
-			{ username: username.val(), password: password.val() },
-			function(data) {
-				alert(data.result);
-			},
-			"json"
-		);
-		
-		return false;
-	}
-	
-	$(document).ready(function() {
-		$("#login-form").submit(function() {
-			return login();
-		});
-		
-		$("#login-form").dialog({
-			bgiframe: true,
-			autoOpen: false,
-			width: 470,
-			draggable: false,
-			modal: true,
-			resizable: false,
-			buttons: {
-				"Login": function() { login(); },
-				"Cancel": function() { $("#login-form").dialog('close'); }
-			}
-		});
-		
-		$("#login-button").click(function(){
-			$("#login-form").dialog('open');
-			return false;
-		});
-	});
-	
-{% endblock js-inner %}
-
 {% block title %}
 	Conference Rooms | {{block.super}}
 {% endblock title %}

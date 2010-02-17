@@ -10,6 +10,7 @@ from django.views.generic.list_detail import object_list
 from models import Room, Message
 from polling.models import Poll, Choice
 from forms import PollForm, ChoiceFormSet, RoomForm
+from decorators import update_status
 
 def get_messages(request, room, unread=False):
 	if unread:
@@ -22,6 +23,7 @@ def get_members(request, room):
 	return room.current_members.all()
 
 @login_required
+@update_status
 def conference_room(request, slug):
 	room = get_object_or_404(Room, slug=slug)
 	room.current_members.add(request.user)
@@ -39,6 +41,7 @@ def conference_room(request, slug):
 	return render_to_response("rooms/conference_room.html", data, context_instance=RequestContext(request))
 
 @login_required
+@update_status
 def leave(request, slug):
 	room = get_object_or_404(Room, slug=slug)
 	room.current_members.remove(request.user)
@@ -54,6 +57,7 @@ def create_room(request, extra_context={}):
 			p = Poll(question=poll_form.cleaned_data['question'])
 			p.save()
 			for form in choice_formset.forms:
+				print form.cleaned_data
 				c = Choice(poll=p, choice=form.cleaned_data['choice'])
 				c.save()
 			r = Room(poll=p, opened_by=request.user, period_length=room_form.cleaned_data['period_length'],

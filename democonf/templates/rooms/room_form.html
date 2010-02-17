@@ -23,13 +23,18 @@
 		#choices ol { list-style-type: lower-alpha; }
 		div.field { font-size: 1.2em; }
 		input.read_only { border: 0; font-weight: bold; }
-
+		a#new-choice { margin-left: 20px; background-color: #ccc; padding: 5px; -moz-border-radius:5px; -webkit-border-radius:5px; }
+		a#new-choice:hover { text-decoration: none; background-color: #bbb; }
+		a#new-choice img { margin-right: 5px; position: relative; top: 3px; }
 		.floating_field { float: left; clear: none !important; vertical-align: middle; position: relative; bottom: 3px; padding-left: 3px; }
 	</style>
 {% endblock css %}
 
 {% block js-inner %}
 	{{block.super}}
+	
+	INITIAL_PERIOD_LENGTH = 30;
+	JOIN_THRESHOLD_FACTOR = 0.8;
 	
 	oldready = ready;
 	
@@ -47,8 +52,7 @@
 		});
 		
 		$("#join-threshold-slider").slider('option', 'max', $("#id_period_length").val()-1);
-		$("#join-threshold-slider").slider('option', 'value', parseInt($("#id_period_length").val()*0.8));
-		$("#id_join_threshold").val($("#join-threshold-slider").slider('option', 'value'));
+		$("#join-threshold-slider").slider('option', 'value', $("#id_join_threshold").val());
 		
 		$("#id_join_threshold").addClass("read_only");
 		$("#id_join_threshold").attr("readonly", "true");
@@ -56,12 +60,26 @@
 		$("#join_threshold .field").addClass("floating_field");
 		
 		$("#id_period_length").change(function() {
-			max = $("#id_period_length").val()-1;
-			val = $("#join-threshold-slider").slider('option', 'value');
+			period_length = $("#id_period_length").val();
+			max = period_length-1;
+			val = parseInt(period_length*JOIN_THRESHOLD_FACTOR);
+			
 			$("#join-threshold-slider").slider('option', 'max', max);
-			if (val > max) { val = max };
 			$("#join-threshold-slider").slider('option', 'value', val);
 			$("#id_join_threshold").val($("#join-threshold-slider").slider('option', 'value'));
+		});
+		
+		$("#new-choice").click(function() {
+			num_forms = parseInt($("#id_form-TOTAL_FORMS").val());
+			$("#id_form-TOTAL_FORMS").val(num_forms+1);
+			$("#choices ol").append("\
+				<div class='field-wrapper' id='choice'>\
+				<li>\
+					<div class='field'><input id='id_form-"+num_forms+"-choice' type='text' name='form-"+num_forms+"-choice' maxlength='200' /></div>\
+				</li>\
+				</div>\
+			");
+			return false;
 		});
 	}
 	
@@ -102,24 +120,24 @@
 				{% endfor %}
 				{{choice_formset.management_form}}
 				Choices
-				<div id="choices">
+				<div id="choices" class="clearfix">
 					<ol>
 					{% for form in choice_formset.forms %}
 						{% for field in form %}
 							{% if field.is_hidden %}
 								{{field}} {{field.errors}}
 							{% else %}
-								<li>
-									<div class="field-wrapper" id="{{field.name}}">
+								<div class="field-wrapper" id="{{field.name}}">
+									<li>
 										<div class="field">{{field}}</div>
-										<div class="errors">{{field.errors}}</div>
-									</div>
-								</li>
+									</li>
+								</div>
 							{% endif %}
 						{% endfor %}
 						
 					{% endfor %}
 					</ol>
+					<a id="new-choice" title="Add a new choice" href="#"><img src="{% media img/icons/16-em-plus.png %}" />add another</a>
 				</div>
 				<div class="advanced">
 					{% for field in room_form %}
