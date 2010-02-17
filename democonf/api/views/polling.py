@@ -5,47 +5,31 @@ from django.contrib.auth.decorators import login_required
 from democonf.rooms.models import Room
 from democonf.polling.models import Poll, Choice, Vote
 
+from democonf.api.views import APIView, APIAuthView
+
 import simplejson
 
-@login_required
-def get_info(request):
-	"""
-	Get information about a poll. Returns the following:
-		- number of votes
-		- whether the current user has voted or not
-	"""
-	
-	data = {'result': False}
-	
-	slug = request.GET.get('room', None)
-
-	if slug is not None:
-		room = get_object_or_404(Room, slug=slug)
-		poll = room.poll
+class GetInfo(APIAuthView):
+	def get(request, *args, **kwargs):
+		if slug is not None:
+			slug = request.GET.get('room', None)
+			room = get_object_or_404(Room, slug=slug)
+			poll = room.poll
 		
-		data['info'] = {}
-		data['info']['num_votes'] = poll.get_num_votes()
-		data['info']['voted'] = poll.has_voted(request.user)
+			self.data['info'] = {}
+			self.data['info']['num_votes'] = poll.get_num_votes()
+			self.data['info']['voted'] = poll.has_voted(request.user)
 		
-		data['result'] = True
-	else:
-		data['error'] = "Room ID (slug) required."
+			self.data['result'] = True
+		else:
+			self.data['error'] = "Room ID (slug) required."
 	
-	json = simplejson.dumps(data)
-	
-	return HttpResponse(json, mimetype="application/json")
+		return self.serialise()
 
-@login_required
-def cast_vote(request):
-	"""
-	Vote on a poll identified by a slug (which points to a Room object).
-	Returns the standard 'result' variable in JSON format as standard, with an error if the 
-	method failed.
-	"""
-	
-	data = {'result': False}
-	
-	if request.method == 'POST':
+get_info = GetInfo()
+
+class CastVote(APIAuthView):
+	def post(self, request, *args, **kwargs):
 		slug = request.POST.get('room', None)
 	
 		if slug is not None:
@@ -60,14 +44,12 @@ def cast_vote(request):
 				vote = Vote(user=request.user, choice=choice)
 				vote.save()
 				
-				data = {'result': True}
+				self.data = {'result': True}
 			else:
-				data['error'] = "Choice ID required."
+				self.data['error'] = "Choice ID required."
 		else:
-			data['error'] = "Room ID (slug) required."
-	else:
-		data['error'] = "Wrong request method."
-	
-	json = simplejson.dumps(data)
-	
-	return HttpResponse(json, mimetype="application/json")
+			self.data['error'] = "Room ID (slug) required."
+		
+		return self.serialise()
+		
+cast_vote = CastVote()
