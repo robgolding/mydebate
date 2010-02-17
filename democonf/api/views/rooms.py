@@ -37,7 +37,7 @@ class GetData(APIAuthView):
 		
 		if slug is not None:
 			room = get_object_or_404(Room, slug=slug)
-			room.current_members.add(request.user)
+			room.members.add(request.user)
 		
 			unread = request.GET.get('unread', None)
 			unread = unread is not None and unread == "true"
@@ -54,7 +54,7 @@ class GetData(APIAuthView):
 					'content': message.content
 				})
 		
-			for member in room.current_members.all():
+			for member in room.members.all():
 				self.data['members'].append({
 					'pk': member.pk,
 					'username': member.username,
@@ -85,7 +85,7 @@ class SendMessage(APIAuthView):
 		if slug is not None:
 			if message:
 				room = get_object_or_404(Room, slug=slug)
-				room.current_members.add(request.user)
+				room.members.add(request.user)
 				
 				message = Message.objects.create(room=room, author=request.user, content=message)
 				message.save()

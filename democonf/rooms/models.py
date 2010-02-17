@@ -9,6 +9,8 @@ from django.contrib.auth.models import User
 
 Poll = models.get_model("polling", "poll")
 
+import managers
+
 from polling.models import Poll
 
 ROOM_MODE_CHOICES = (
@@ -18,14 +20,21 @@ ROOM_MODE_CHOICES = (
 
 class Room(models.Model):
 	poll = models.ForeignKey(Poll, unique=True)
-	current_members = models.ManyToManyField(User, related_name="member_of", editable=False)
 	opened_by = models.ForeignKey(User, related_name="opened_rooms", db_index=True)
 	opened_at = models.DateTimeField(auto_now_add=True, db_index=True)
 	period_length = models.IntegerField()
 	next_vote_at = models.DateTimeField(editable=False)
 	join_threshold = models.IntegerField()
 	slug = models.CharField(max_length=200, editable=False, unique=True, db_index=True)
-	active = models.BooleanField(default=True)
+	
+	objects = models.Manager()
+	
+	@property
+	def members(self):
+		return managers.RoomMembersManager(self)
+	
+	def is_active(self):
+		return bool(self.members.all())
 	
 	def get_and_mark(self, user):
 		messages = self.messages.exclude(read_by=user)
@@ -41,7 +50,7 @@ class Room(models.Model):
 		if now < self.next_vote_at:
 			return "conferencing"
 		else:
-			if self.poll.get_num_votes() >= self.current_members.count():
+			if self.poll.get_num_votes() >= self.members.count():
 				self.poll.reset()
 				self.next_vote_at = now + datetime.timedelta(seconds=self.period_length*60)
 				self.save()
@@ -77,7 +86,26 @@ class Room(models.Model):
 	
 	def __unicode__(self):
 		return self.poll.question
+
+class Membership(models.Model):
+	id = models.CharField(max_length=64, primary_key=True)
+	room = models.ForeignKey(Room)
+	user = models.ForeignKey(User, unique=True)
+	updated = models.DateTimeField(auto_now_add=True, auto_now=True)
 	
+	objects = managers.MembershipManager()
+	
+	def save(self, *args, **kwargs):
+		if not self.id:
+			self.id = str(uuid4())
+		super(Membership, self).save(*args, **kwargs)
+	
+	def touch(self):
+		self.save()
+	
+	def __unicode__(self):
+		return "%s -> %s" % (self.user, self.room)
+
 class Message(models.Model):
 	id = models.CharField(max_length=64, primary_key=True)
 	room = models.ForeignKey(Room, related_name="messages")
