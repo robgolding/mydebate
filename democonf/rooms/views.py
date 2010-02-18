@@ -54,7 +54,6 @@ def create_room(request, extra_context={}):
 			p = Poll(question=poll_form.cleaned_data['question'])
 			p.save()
 			for form in choice_formset.forms:
-				print form.cleaned_data
 				c = Choice(poll=p, choice=form.cleaned_data['choice'])
 				c.save()
 			r = Room(poll=p, opened_by=request.user, period_length=room_form.cleaned_data['period_length'],
