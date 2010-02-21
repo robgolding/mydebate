@@ -12,18 +12,16 @@
 				{{object.poll.question}}
 			</a>
 		{% else %}
-			<a href="{{object.get_absolute_url}}" title="{{object.poll.question}}">{{object.poll.question}}</a>
+			{{object.poll.question}}
 		{% endif %}
 		</h3>
 		
 		Room is <strong>{% if not object.is_active %}not {% endif %}active</strong>, and
 		
-		{% if not object.is_joinable %}
-			<strong>not joinable</strong>
-		{% else %}
-			<strong>joinable</strong>
-		{% endif %}
-		(polling commences in <strong>{{object.get_time_until_joinable}}</strong>s).
+		{% spaceless %}
+		{% if not object.is_joinable %}<strong>not joinable</strong>{% else %}<strong>joinable</strong>{% endif %}
+		{% if object.is_active %}(polling commences in <strong>{{object.get_time_until_joinable}}</strong>s){% endif %}.
+		{% endspaceless %}
 		
 		{% if object.get_tags %}
 			<div class="tags">

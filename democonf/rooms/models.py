@@ -58,7 +58,7 @@ class Room(models.Model):
 			return "voting"
 	
 	def is_joinable(self):
-		return self.get_time_to_next_vote()/60 < (self.period_length - self.join_threshold)
+		return not self.is_active() or self.get_time_to_next_vote()/60 >= self.join_threshold
 	
 	def get_time_to_next_vote(self):
 		now = datetime.datetime.now()
