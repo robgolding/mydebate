@@ -33,40 +33,45 @@
 {% block js-inner %}
 	{{block.super}}
 	
-	INITIAL_PERIOD_LENGTH = 30;
-	JOIN_THRESHOLD_FACTOR = 0.8;
-	
 	oldready = ready;
 	
 	ready = function()
 	{
 		oldready();
 		
-		$("#join-threshold-slider").slider({
-			range: "min",
+		slider = $("#join-threshold-slider");
+		join_threshold = $("#id_join_threshold");
+		period_length = $("#id_period_length");
+		
+		slider.slider({
+			range: "max",
 			min: 1,
-			values: 8,
 			slide: function(event, ui) {
-				$("#id_join_threshold").val(ui.value);
+				join_threshold.val(period_length.val() - ui.value);
 			}
 		});
 		
-		$("#join-threshold-slider").slider('option', 'max', $("#id_period_length").val()-1);
-		$("#join-threshold-slider").slider('option', 'value', $("#id_join_threshold").val());
+		p = period_length.val();
+		max = p-1;
 		
-		$("#id_join_threshold").addClass("read_only");
-		$("#id_join_threshold").attr("readonly", "true");
+		slider.slider('option', 'max', max);
+		j = Math.round(p*0.35);
+		slider.slider('option', 'value', p-j);
+		join_threshold.val(j);
+		
+		join_threshold.addClass("read_only");
+		join_threshold.attr("readonly", "true");
 		$("#join_threshold .label").css("float", "left");
 		$("#join_threshold .field").addClass("floating_field");
 		
-		$("#id_period_length").change(function() {
-			period_length = $("#id_period_length").val();
-			max = period_length-1;
-			val = parseInt(period_length*JOIN_THRESHOLD_FACTOR);
+		period_length.change(function() {
+			p = period_length.val();
+			max = p-1;
 			
-			$("#join-threshold-slider").slider('option', 'max', max);
-			$("#join-threshold-slider").slider('option', 'value', val);
-			$("#id_join_threshold").val($("#join-threshold-slider").slider('option', 'value'));
+			slider.slider('option', 'max', max);
+			j = Math.round(p*0.35);
+			slider.slider('option', 'value', p-j);
+			join_threshold.val(j);
 		});
 		
 		$("#new-choice").click(function() {
@@ -147,6 +152,7 @@
 							<div class="field-wrapper" id="{{field.name}}">
 								<div class="label">{{field.label_tag}}</div>
 								<div class="field">{{field}}</div>
+								<div class="help-text">{{field.help_text}}</div>
 								<div class="errors">{{field.errors}}</div>
 							</div>
 						{% endif %}

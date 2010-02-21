@@ -20,6 +20,8 @@ div.form div.field-wrapper div.label { clear: left; }
 div.form div.field-wrapper div.field { clear: left; }
 div.form div.field-wrapper div.field select { width: 10em; font-size: 1.2em; }
 
+div.form div.field-wrapper div.help-text { clear: left; font-size: 0.9em; color: #666; text-indent: 1em; }
+
 div.form div.field-wrapper div.errors, div.form-errors { color: #cc3300; }
 div.form div.field-wrapper div.errors { float: left; margin: 0 0 10px 0; }
 div.form-errors { margin: 10px 0 0 0; }

@@ -14,7 +14,7 @@ PERIOD_LENGTH_CHOICES = (
 )
 
 INITIAL_PERIOD_LENGTH = 30
-JOIN_THRESHOLD_FACTOR = 0.8
+INITIAL_JOIN_THRESHOLD = 5
 
 class PollForm(forms.Form):
 	
@@ -36,7 +36,8 @@ class RoomForm(forms.Form):
 	join_threshold = forms.IntegerField(
 		label="Join threshold (minutes):",
 		widget=forms.TextInput(),
-		initial=int(INITIAL_PERIOD_LENGTH*JOIN_THRESHOLD_FACTOR)
+		initial=INITIAL_JOIN_THRESHOLD,
+		help_text="Prevent new members joining when there is less than this long remaining before the next poll."
 	)
 	
 	def clean(self):
