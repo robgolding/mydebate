@@ -1,0 +1,16 @@
+{% extends 'registration/base.html' %}
+{% load media_tags %}
+
+{% block title %}
+	Register | {{block.super}}
+{% endblock title %}
+
+{% block page-title-inner %}
+	<h1>Register</h1>
+{% endblock page-title-inner %}
+
+{% block content-left-inner %}
+	<div class="last sec">
+		<p>Activation failed. The activation key <strong>{{activation_key}}</strong> is invalid.</p>
+	</div>
+{% endblock %}
