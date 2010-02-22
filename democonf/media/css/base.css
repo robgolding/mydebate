@@ -1,8 +1,3 @@
-@import url("common.css");
-@import url("object_list.css");
-@import url("object_detail.css");
-@import url("header_menu.css");
+@import url("reset.css");
+@import url("style.css");
 @import url("forms.css");
-@import url("details.css");
-@import url("charts.css");
-

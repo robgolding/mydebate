@@ -25,7 +25,9 @@ urlpatterns = patterns('',
     
     (r'^rooms/', include('democonf.rooms.urls')),
     
-    (r'^accounts/', include('democonf.accounts.urls')),
+    (r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'next_page': settings.LOGOUT_REDIRECT_URL}),
+	
+	(r'^accounts/', include('registration.urls')),
     
     (r'^users/', include('democonf.users.urls')),
     

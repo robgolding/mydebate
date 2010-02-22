@@ -1,0 +1,35 @@
+{% extends 'registration/base.html' %}
+{% load media_tags %}
+
+{% block title %}
+	Register | {{block.super}}
+{% endblock title %}
+
+{% block page-title-inner %}
+	<h1>Register</h1>
+{% endblock page-title-inner %}
+
+{% block content-left-inner %}
+	<div class="last sec">
+		<p>To register, fill out the form below and then click the link in your email.</p>
+		
+		<div class="form">
+			<form method="POST" class="registration-form">
+				{% for field in form %}
+					{% if field.is_hidden %}
+						{{field}} {{field.errors}}
+					{% else %}
+						<div class="field-wrapper" id="{{field.name}}">
+							<div class="label">{{field.label_tag}}</div>
+							<div class="field">{{field}}</div>
+							<div class="errors">{{field.errors}}</div>
+						</div>
+					{% endif %}
+				{% endfor %}
+				<input class="button-style" type="submit" value="Submit" /> or 
+				<a class="cancel" href="{% url index %}">Cancel and go back</a>
+			</form>
+		</div>
+	</div>
+		
+{% endblock content-left-inner %}

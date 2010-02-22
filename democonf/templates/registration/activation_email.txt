@@ -1,0 +1,9 @@
+Follow the link below to activate your account on Democonf:
+
+http://{{site}}/accounts/activate/{{activation_key}}/
+
+You have {{expiration_days}} days to activate your account before it will be removed from the system.
+
+Regards,
+
+The Democonf Team

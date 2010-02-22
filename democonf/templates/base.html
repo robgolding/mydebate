@@ -12,8 +12,7 @@
 		<meta http-equiv="Content-Language" content="en" />
 		
 		{% block css %}
-		<link rel="stylesheet" type="text/css" media="screen, projection" href="{% media css/reset.css %}" />
-		<link rel="stylesheet" type="text/css" media="screen, projection" href="{% media css/style.css %}" />
+		<link rel="stylesheet" type="text/css" media="screen, projection" href="{% media css/base.css %}" />
 		<link rel="stylesheet" type="text/css" media="screen, projection" href="{% media css/ui-lightness/jquery-ui-1.7.2.custom.css %}" />
 		<link rel="stylesheet" type="text/css" media="screen, projection" href="{% media css/jquery.autocomplete.css %}" />
 		{% endblock css %}
@@ -80,9 +79,9 @@
 					<div id="auth-banner">
 						<form action="/search/" method="GET">
 							{% if user.is_authenticated %}
-								Welcome, <a href="{{user.get_absolute_url}}"><strong>{{user}}</strong></a>. | <a href="{% url accounts_logout %}">Logout</a>
+								Welcome, <a href="{{user.get_absolute_url}}"><strong>{{user}}</strong></a>. | <a href="{% url auth_logout %}">Logout</a>
 							{% else %}
-								You are not logged in. | <a href="{% url accounts_login %}">Login</a>
+								<a href="{% url auth_login %}">Login</a> | <a href="{% url registration_register %}">Register</a>
 							{% endif %}
 							&nbsp;&nbsp;
 							<input type="text" name="q" size="15" />

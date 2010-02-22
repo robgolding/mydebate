@@ -93,12 +93,15 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 AUTH_PROFILE_MODULE = 'users.Profile'
 
+ACCOUNT_ACTIVATION_DAYS = 3
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.admin',
+    'registration',
     'democonf.core',
     'democonf.accounts',
     'democonf.rooms',
@@ -106,6 +109,8 @@ INSTALLED_APPS = (
     'democonf.polling',
     'democonf.svn_revision',
 )
+
+DEFAULT_FROM_EMAIL = 'democonf@robgolding.com'
 
 try:
 	from local_settings import *

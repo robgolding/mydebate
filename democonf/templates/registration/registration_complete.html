@@ -1,0 +1,16 @@
+{% extends 'registration/base.html' %}
+{% load media_tags %}
+
+{% block title %}
+	Register | {{block.super}}
+{% endblock title %}
+
+{% block page-title-inner %}
+	<h1>Register</h1>
+{% endblock page-title-inner %}
+
+{% block content-left-inner %}
+	<div class="last sec">
+		<p>Thank you for registering. An email has been sent to the address you provided. Please click the link in that message to complete the process and activate your account.</p>
+	</div>
+{% endblock %}
