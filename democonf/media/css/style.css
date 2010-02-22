@@ -48,7 +48,7 @@ div#header-body { width:936px; padding: 0 5%; margin: 0 auto; }
 div#menu { margin: 0 auto; text-align:left; clear: right; }
 div#header h1 { display: none; }
 
-div#header div.logo-div{ width:30%; height: 65px; text-align:right; padding: 20px 0 0 0; color: #fff; }
+div#header div.logo-div{ width:30%; height: 65px; text-align:right; padding: 10px 0 0 0; color: #fff; }
 
 div#auth-banner { float: right; background: #eee; padding: 5px 20px; margin-right: 20px; -moz-border-radius-bottomleft:6px; -moz-border-radius-bottomright:6px; -webkit-border-bottom-left-radius:6px; -webkit-border-bottom-right-radius:6px; }
 
