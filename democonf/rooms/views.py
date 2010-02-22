@@ -8,7 +8,7 @@ from django.core.urlresolvers import reverse
 from django.views.generic.list_detail import object_list
 
 from models import Room, Message
-from polling.models import Poll, Choice
+from polling.models import Poll, Choice, Question
 from forms import PollForm, ChoiceFormSet, RoomForm
 
 def get_messages(request, room, unread=False):
@@ -35,7 +35,7 @@ def conference_room(request, slug):
 			data = {'room': room}
 			return render_to_response("rooms/conference_room.html", data, context_instance=RequestContext(request))
 	
-	data = {'room': room, 'poll': room.poll}
+	data = {'room': room, 'poll': room.question.poll}
 	return render_to_response("rooms/conference_room.html", data, context_instance=RequestContext(request))
 
 @login_required
@@ -51,12 +51,14 @@ def create_room(request, extra_context={}):
 		choice_formset = ChoiceFormSet(request.POST, request.FILES)
 		room_form = RoomForm(request.POST, request.FILES)
 		if poll_form.is_valid() and choice_formset.is_valid() and room_form.is_valid():
-			p = Poll(question=poll_form.cleaned_data['question'])
+			q = Question(text=poll_form.cleaned_data['question'])
+			q.save()
+			p = Poll(question=q)
 			p.save()
 			for form in choice_formset.forms:
-				c = Choice(poll=p, choice=form.cleaned_data['choice'])
+				c = Choice(question=q, text=form.cleaned_data['choice'])
 				c.save()
-			r = Room(poll=p, opened_by=request.user, period_length=room_form.cleaned_data['period_length'],
+			r = Room(question=q, opened_by=request.user, period_length=room_form.cleaned_data['period_length'],
 				join_threshold=room_form.cleaned_data['join_threshold'])
 			r.save()
 			return HttpResponseRedirect(r.get_absolute_url())

@@ -68,7 +68,13 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'democonf.urls'
 
+LOGIN_URL = '/accounts/login/'
+
+LOGOUT_URL = '/accounts/logout/'
+
 LOGIN_REDIRECT_URL = '/democonf/'
+
+LOGOUT_REDIRECT_URL = '/democonf/'
 
 TEMPLATE_DIRS = (
 	# Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".

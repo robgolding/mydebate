@@ -24,7 +24,7 @@
 {% endblock css %}
 
 {% block title %}
-	{{room.poll.question}} | {{block.super}}
+	{{room.question}} | {{block.super}}
 {% endblock title %}
 
 {% block page-title-inner %}
@@ -68,7 +68,7 @@
 					<input type="hidden" name="poll_id" value="{{poll.id}}" />
 					{% for choice in poll.choices.all %}
 						<input type="radio" name="choice" id="choice-{{forloop.counter}}" value="{{choice.id}}" />
-						<label for="choice-{{forloop.counter}}">{{choice.choice}}</label><br />
+						<label for="choice-{{forloop.counter}}">{{choice}}</label><br />
 					{% endfor %}
 				</form>
 

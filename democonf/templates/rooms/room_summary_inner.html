@@ -8,11 +8,11 @@
 		
 		<h3>
 		{% if object.is_joinable %}
-			<a href="{{object.get_absolute_url}}" title="{{object.poll.question}}">
-				{{object.poll.question}}
+			<a href="{{object.get_absolute_url}}" title="{{object}}">
+				{{object}}
 			</a>
 		{% else %}
-			{{object.poll.question}}
+			{{object}}
 		{% endif %}
 		</h3>
 		

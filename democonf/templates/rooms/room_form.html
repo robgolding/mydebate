@@ -108,6 +108,13 @@
 			");
 			return false;
 		});
+		
+		
+		/*
+		$("div.field-wrapper#join_threshold").html("\
+			<div style='font-size: 0.9em'>Prevent new members joining when there is less than <input type='text' id='id_join_threshold' name='join_threshold' class='read_only' value='"+join_threshold.val()+"' readonly /> minutes remaining before the next poll.</div> \
+		");
+		*/
 	}
 	
 {% endblock js-inner %}

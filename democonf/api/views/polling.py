@@ -14,7 +14,7 @@ class GetInfo(APIAuthView):
 		if slug is not None:
 			slug = request.GET.get('room', None)
 			room = get_object_or_404(Room, slug=slug)
-			poll = room.poll
+			poll = room.question.poll
 		
 			self.data['info'] = {}
 			self.data['info']['num_votes'] = poll.get_num_votes()
@@ -34,14 +34,14 @@ class CastVote(APIAuthView):
 	
 		if slug is not None:
 			room = get_object_or_404(Room, slug=slug)
-			poll = room.poll
+			poll = room.question.poll
 			
 			choice_id = request.POST.get('choice', None)
 			
 			if choice_id is not None:
 				choice = get_object_or_404(Choice, pk=choice_id)
 				
-				vote = Vote(user=request.user, choice=choice)
+				vote = Vote(user=request.user, choice=choice, poll=poll)
 				vote.save()
 				
 				self.data = {'result': True}

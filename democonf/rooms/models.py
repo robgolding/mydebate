@@ -7,11 +7,9 @@ from django.template.defaultfilters import slugify
 
 from django.contrib.auth.models import User
 
-Poll = models.get_model("polling", "poll")
-
 import managers
 
-from polling.models import Poll
+from polling.models import Poll, Question
 
 ROOM_MODE_CHOICES = (
 	('conferencing', 'Conferencing'),
@@ -19,7 +17,7 @@ ROOM_MODE_CHOICES = (
 )
 
 class Room(models.Model):
-	poll = models.ForeignKey(Poll, unique=True)
+	question = models.ForeignKey(Question, unique=True)
 	opened_by = models.ForeignKey(User, related_name="opened_rooms", db_index=True)
 	opened_at = models.DateTimeField(auto_now_add=True, db_index=True)
 	period_length = models.IntegerField()
@@ -50,8 +48,8 @@ class Room(models.Model):
 		if now < self.next_vote_at:
 			return "conferencing"
 		else:
-			if self.poll.get_num_votes() >= self.members.count():
-				self.poll.reset()
+			if self.question.poll.get_num_votes() >= self.members.count():
+				self.question.reset()
 				self.next_vote_at = now + datetime.timedelta(seconds=self.period_length*60)
 				self.save()
 				return "conferencing"
@@ -72,8 +70,8 @@ class Room(models.Model):
 		return time if time >= 0 else 0
 	
 	def save(self, *args, **kwargs):
-		if self.poll is not None:
-			self.slug = slugify(self.poll.question)
+		if self.question is not None:
+			self.slug = slugify(self.question.text)
 		if not self.id:
 			now = datetime.datetime.now()
 			next_vote = now + datetime.timedelta(seconds=self.period_length*60)
@@ -85,7 +83,7 @@ class Room(models.Model):
 		return ('rooms_conference_room', [self.slug])
 	
 	def __unicode__(self):
-		return self.poll.question
+		return self.question.text
 
 class Membership(models.Model):
 	id = models.CharField(max_length=64, primary_key=True)
