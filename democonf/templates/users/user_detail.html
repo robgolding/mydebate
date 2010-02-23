@@ -2,7 +2,7 @@
 {% load gravatar_tags %}
 
 {% block page-title-inner %}
-	<h1>{{profile.user}}</h1>
+	<h1>{{profile.user.get_full_name|default:profile.user}}</h1>
 {% endblock page-title-inner %}
 
 {% block content-left-inner %}

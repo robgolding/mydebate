@@ -7,18 +7,13 @@ def get_revision():
 	try:
 		p = subprocess.Popen('svnversion %s' % os.path.join(os.path.abspath(os.path.dirname(__file__)), "../../"), shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
 		outS = p.stdout.read().strip()
-		if outS[-1] == 'S':
-			switched = True
-			outS = outS[:-1]
-		modified = True if outS[-1] == 'M' else False
-
-		if getattr(settings, 'WORKING_COPY', False):
-			if modified:
-				return "(Modified working copy)"
-			else:
-				return "(Unmodified working copy)"
+		parts = outS.split(":")
+		if len(parts) > 1:
+			rev = parts[1]
 		else:
-			return outS
+			rev = outS
+		modified = True if outS[-1] == 'M' else False
+		return rev
 	except:
 		return 'Versioning Unavailable'
 
