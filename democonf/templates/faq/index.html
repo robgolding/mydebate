@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block page-title-inner %}
+<h1>Frequently Asked Questions</h1>
+{% endblock page-title-inner %}
+
+{% block content-left-inner %}
+
+	<div class="last sec">
+		<h2>What kind of questions can I ask here?</h2>
+		
+            <p> 
+                <span class="revision-comment">Programming questions, of course!</span> As long
+                as your question is:</p> 
+            <ul> 
+                <li>detailed and specific</li> 
+                <li>written clearly and simply</li> 
+                <li>of interest to at least one other programmer somewhere</li> 
+            </ul> 
+            <p> 
+                ... it is welcome here. No question is too trivial or too "newbie". Oh yes, and
+                it should be about <b>programming</b>. You know, with a computer.</p> 
+            <p> 
+                Please look around to see if your question has already been asked (and maybe even
+                answered!) <i>before</i> you ask. If you end up asking a question that has been
+                asked before, that is OK and deliberately allowed. Other users will hopefully edit
+                in links to related or similar questions to help future visitors find their way.
+            </p> 
+            <p> 
+                It's also perfectly fine to ask and answer your own question, but pretend you're
+                on <a href="http://en.wikipedia.org/wiki/Jeopardy!">Jeopardy</a>: phrase it in the
+                form of a question.
+            </p>
+	</div>
+	
+	{% if user.is_authenticated %}
+		<div>
+			
+		</div>
+	{% else %}
+		
+	{% endif %}
+	
+
+{% endblock content-left-inner %}

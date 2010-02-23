@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 	<head>
 
-		<title>{% block title %}DemoConf Project{% endblock title %}</title>
+		<title>{% block title %}{{site.name}}{% endblock title %}</title>
 
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta http-equiv="Content-Language" content="en" />
@@ -98,7 +98,7 @@
 						{% block menu %}
 						<ul id="nav">{% spaceless %}
 							<li class="home"><a href="{% url index %}">Home</a></li>
-							<li class="rooms"><a href="{% url rooms_room_list %}">Rooms</a></li>
+							<li class="debates"><a href="{% url rooms_room_list %}">Debates</a></li>
 							<li class="users"><a href="{% url users_user_list %}">Users</a></li>
 							<li class="search"><a href="#">Search</a></li>
 							{% if user.is_authenticated %}
@@ -107,7 +107,7 @@
 							</li>
 							{% endif %}
 							{% endif %}
-							<li class="help"><a href="#">Help</a></li>
+							<li class="faq"><a href="{% url faq_index %}">FAQ</a></li>
 						{% endspaceless %}</ul>
 						{% endblock %}
 					</div>
@@ -163,7 +163,7 @@
 					{% endblock box2 %}
 					
 					<div class="clearfix">
-						<a class="button-style" href="{% url rooms_create_room %}">New Conference</a>
+						<a class="button-style" href="{% url rooms_create_room %}">Start a Debate!</a>
 					</div>
 					
 					<br />

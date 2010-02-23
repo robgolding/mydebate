@@ -33,6 +33,8 @@ urlpatterns = patterns('',
     
     (r'^polling/', include('democonf.polling.urls')),
     
+    (r'^faq/', include('democonf.faq.urls')),
+    
 )
 
 if hasattr(settings, 'WORKING_COPY') and settings.WORKING_COPY:

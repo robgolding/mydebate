@@ -61,16 +61,16 @@ ul#nav li.activelink a,ul#nav li.activelink a:hover { background: #FFF; color: #
 
 body#home ul#nav li.home a,
 body#home ul#nav li.home a:hover,
-body#rooms ul#nav li.rooms a,
-body#rooms ul#nav li.rooms a:hover,
+body#debates ul#nav li.debates a,
+body#debates ul#nav li.debates a:hover,
 body#users ul#nav li.users a,
 body#users ul#nav li.users a:hover,
 body#search ul#nav li.search a,
 body#search ul#nav li.search a:hover,
 body#admin ul#nav li.admin a,
 body#admin ul#nav li.admin a:hover,
-body#help ul#nav li.help a,
-body#help ul#nav li.help a:hover {
+body#faq ul#nav li.faq a,
+body#faq ul#nav li.faq a:hover {
 	background: #FFF; color: #003
 }
 

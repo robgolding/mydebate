@@ -1,18 +1,18 @@
 {% extends 'rooms/base.html' %}
 
 {% block title %}
-	Conference Rooms | {{block.super}}
+	Debates | {{block.super}}
 {% endblock title %}
 
 {% block page-title-inner %}
-	<h1>Conference Rooms</h1>
+	<h1>Debates</h1>
 {% endblock page-title-inner %}
 
 {% block content-left-inner %}
 	
 	{% if not object_list %}
 		<div class="last sec">
-			There are no conference rooms available at present.
+			There are currently no debates taking place. If there's something you want to shout about, then <a href="{% url rooms_create_room %}">start one</a>!
 		</div>
 	{% else %}
 

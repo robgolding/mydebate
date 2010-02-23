@@ -3,9 +3,9 @@
 
 {% block title %}
 	{% if object %}
-		Edit Conference Room
+		Edit a Debate
 	{% else %}
-		New Conference Room
+		Start a Debate
 	{% endif %}
 	| {{block.super}}
 {% endblock title %}
@@ -122,9 +122,9 @@
 
 	<h1>
 		{% if object %}
-			Edit Conference Room
+			Edit a Debate
 		{% else %}
-			New Conference Room
+			Start a Debate
 		{% endif %}
 	</h1>
 
@@ -133,9 +133,10 @@
 {% block content-left-inner %}
 	<div class="last sec">
 		{% if object %}
-			<h6>Updating the room:</h6> <p><strong>{{object.name}}</strong></p>
+			<h6>Updating the debate:</h6> <p><strong>{{object.name}}</strong></p>
 		{% else %}
-			<p>Create a new <strong>conference room</strong>.</p>
+			<p>To start a new debate, you must enter a <strong>question</strong>, that will be voted upon every time the period ends.</p>
+			<p>You choose the possible choices that members can vote for, and set the length of each period.</p>
 		{% endif %}
 		
 		<div class="form issue-form">
