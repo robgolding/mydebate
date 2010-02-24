@@ -21,7 +21,10 @@
 			{% include 'rooms/room_summary.html' %}
 		{% endfor %}
 		</div>
-
+		
+		<div class="last sec">
+			<p>If nothing tickles your fancy, then <a href="{% url rooms_create_room %}">start a new debate</a>!</p>
+		</div>
 	{% endif %}
 	
 {% endblock content-left-inner %}

@@ -29,6 +29,8 @@
 		<script src="{% media js/jquery-1.3.2.js %}"></script>
 		<script src="{% media js/jquery-ui-1.7.2.custom.min.js %}"></script>
 		<script src="{% media js/jquery.blockUI.js %}"></script>
+		<script src="{% media js/jquery.flot.js %}"></script>
+		<script src="{% media js/jquery.flot.pie.js %}"></script>
 		
 		<script src="{% media js/master.js %}"></script>
 		{% endblock js-imports %}
@@ -152,27 +154,6 @@
 				<div id="right">
 					{% block content-right-inner %}
 					
-
-					{% block box2 %}
-						<div class="box clearfix">
-							{% block box2-inner %}
-							<h2>Recent:</h2>
-							Maybe a collection of things that have just happened, something like that.
-							{% endblock box2-inner %}
-						</div>
-					{% endblock box2 %}
-					
-					<div class="clearfix">
-						<a class="button-style" href="{% url rooms_create_room %}">Start a Debate!</a>
-					</div>
-					
-					<br />
-					
-					<div class="box box-small">
-						<div style="font-size: 0.8em;">
-							{% block short-url %}Short URL Here{% endblock %}
-						</div>
-					</div>
 					{% endblock content-right-inner %}
 				</div>
 				{% endblock content-right %}

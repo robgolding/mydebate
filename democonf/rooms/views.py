@@ -24,6 +24,10 @@ def get_members(request, room):
 @login_required
 def conference_room(request, slug):
 	room = get_object_or_404(Room, slug=slug)
+	
+	if not room.is_active():
+		room.reset()
+	
 	room.members.add(request.user)
 	
 	if request.method == "POST":

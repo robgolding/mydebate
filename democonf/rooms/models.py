@@ -69,13 +69,18 @@ class Room(models.Model):
 		time = self.get_time_to_next_vote() - self.join_threshold
 		return time if time >= 0 else 0
 	
+	def reset(self):
+		self.question.reset()
+		now = datetime.datetime.now()
+		self.next_vote_at = now + datetime.timedelta(seconds=self.period_length*60)
+		self.save()
+	
 	def save(self, *args, **kwargs):
 		if self.question is not None:
 			self.slug = slugify(self.question.text)
 		if not self.id:
 			now = datetime.datetime.now()
-			next_vote = now + datetime.timedelta(seconds=self.period_length*60)
-			self.next_vote_at = next_vote
+			self.next_vote_at = now + datetime.timedelta(seconds=self.period_length*60)
 		super(Room, self).save(*args, **kwargs)
 	
 	@models.permalink

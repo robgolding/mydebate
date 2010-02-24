@@ -132,6 +132,40 @@ function send_message(url, slug) {
 	return false;
 }
 
+function update_graph() {
+	$.getJSON(api_urls['poll_info'], {room: room_slug}, function(data, textStatus) {
+		
+		graphData = data['results'];
+		
+		$.plot($("#placeholder"), graphData,
+		{
+			series: {
+				pie: { 
+					show: true, 
+					pieStrokeLineWidth: 1, 
+					pieStrokeColor: '#FFF', 
+					//pieChartRadius: 100, 			// by default it calculated by 
+					//centerOffsetTop:30,
+					//centerOffsetLeft:30, 			// if 'auto' and legend position is "nw" then centerOffsetLeft is equal a width of legend.
+					showLabel: true,				//use ".pieLabel div" to format looks of labels
+					labelOffsetFactor: 5/6, 		// part of radius (default 5/6)
+					//labelOffset: 0        		// offset in pixels if > 0 then labelOffsetFactor is ignored
+					label: {
+						show: false
+					},
+					background: { opacity: 0.55 }
+				}
+			},
+			legend: {
+				show: true, 
+				position: "ne", 
+				backgroundOpacity: 0,
+				labelFormatter: function(label, series) { return label + "("+Math.round(series.percent)+'%)'; }
+			}
+		});
+	});
+}
+
 function cast_vote() {
 	var poll_id = $("input[name='poll_id']").val();
 	
@@ -145,12 +179,20 @@ function cast_vote() {
 	$.post(api_urls['cast_vote'],
 		{ room: room_slug, choice: choice.val() },
 		function(data) {
-			$("#vote_div").dialog("close");
+			
+			$("#results_div").dialog('open');
 			voted = true;
+			
+			update_graph();
+			
+			setInterval(update_graph, 2000);
+			
+			/*
 			$('#left').block({ 
 				message: '<h1>Waiting for poll to complete...</h1>', 
 				css: { padding: '0 10px' } 
 			});
+			*/
 		},
 		"text"
 	);
@@ -219,7 +261,27 @@ function add_dialogs()
 		resizable: false,
 		open: function(event, ui) { $(".ui-dialog-titlebar-close").hide(); $('body').css('overflow','hidden');},
 		buttons: {
-			"Vote": function() { $("#vote-form").submit(); }
+			"Vote": function() {
+				$("#vote-form").submit();
+			}
+		}
+	});
+	
+	$("#results_div").dialog({
+		bgiframe: true,
+		autoOpen: false,
+		title: "Poll Results",
+		closeOnEscape: false,
+		draggable: false,
+		modal: true,
+		resizable: false,
+		width: 500,
+		height: 500,
+		open: function(event, ui) { $(".ui-dialog-titlebar-close").hide(); $('body').css('overflow','hidden');},
+		buttons: {
+			"Close": function() {
+				$("#results_div").dialog('close');
+			}
 		}
 	});
 }

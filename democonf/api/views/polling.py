@@ -10,16 +10,22 @@ from democonf.api.views import APIView, APIAuthView
 import simplejson
 
 class GetInfo(APIAuthView):
-	def get(request, *args, **kwargs):
+	def get(self, request, *args, **kwargs):
+		slug = request.GET.get('room', None)
 		if slug is not None:
-			slug = request.GET.get('room', None)
 			room = get_object_or_404(Room, slug=slug)
 			poll = room.question.poll
 		
 			self.data['info'] = {}
 			self.data['info']['num_votes'] = poll.get_num_votes()
 			self.data['info']['voted'] = poll.has_voted(request.user)
-		
+			
+			self.data['results'] = []
+			for choice in poll.choices.all():
+				self.data['results'].append({'label': choice.text, 'data': choice.votes.count()})
+			
+			self.data['results']
+			
 			self.data['result'] = True
 		else:
 			self.data['error'] = "Room ID (slug) required."
@@ -36,17 +42,21 @@ class CastVote(APIAuthView):
 			room = get_object_or_404(Room, slug=slug)
 			poll = room.question.poll
 			
-			choice_id = request.POST.get('choice', None)
+			if not poll.has_voted(request.user):
 			
-			if choice_id is not None:
-				choice = get_object_or_404(Choice, pk=choice_id)
+				choice_id = request.POST.get('choice', None)
+			
+				if choice_id is not None:
+					choice = get_object_or_404(Choice, pk=choice_id)
 				
-				vote = Vote(user=request.user, choice=choice, poll=poll)
-				vote.save()
+					vote = Vote(user=request.user, choice=choice, poll=poll)
+					vote.save()
 				
-				self.data = {'result': True}
+					self.data = {'result': True}
+				else:
+					self.data['error'] = "Choice ID required."
 			else:
-				self.data['error'] = "Choice ID required."
+				self.data['error'] = "Vote already cast."
 		else:
 			self.data['error'] = "Room ID (slug) required."
 		
