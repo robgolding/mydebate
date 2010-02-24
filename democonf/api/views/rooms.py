@@ -60,11 +60,14 @@ class GetData(APIAuthView):
 					'username': member.username,
 					'fullname': member.get_full_name()
 				})
-		
+			
+			mode = room.get_mode()
+			
 			self.data['num_members'] = len(self.data['members'])
 			self.data['time_left'] = room.get_time_to_next_vote()
-			self.data['current_mode'] = room.get_mode()
-		
+			self.data['is_creator'] = room.opened_by == request.user
+			self.data['current_mode'] = mode
+			
 			self.data['result'] = True
 		
 		else:
@@ -73,6 +76,40 @@ class GetData(APIAuthView):
 		return self.serialise()
 
 get_data = GetData()
+
+class Touch(APIAuthView):
+	def get(self, request, *args, **kwargs):
+		"""`ping' the room, to signify that the user is still here."""
+		
+		slug = request.GET.get('room', None)
+		
+		if slug is not None:
+			room = get_object_or_404(Room, slug=slug)
+			room.members.add(request.user)
+			self.data['result'] = True
+		else:
+			self.data['error'] = 'Room ID (slug) required.'
+	
+		return self.serialise()
+
+touch = Touch()
+
+class Reset(APIAuthView):
+	def get(self, request, *args, **kwargs):
+		"""`Reset the room (i.e. make a new poll and start a new period)."""
+		
+		slug = request.GET.get('room', None)
+		
+		if slug is not None:
+			room = get_object_or_404(Room, slug=slug)
+			room.reset()
+			self.data['result'] = True
+		else:
+			self.data['error'] = 'Room ID (slug) required.'
+	
+		return self.serialise()
+
+reset = Reset()
 
 class SendMessage(APIAuthView):
 	def post(self, request, *args, **kwargs):

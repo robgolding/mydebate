@@ -6,6 +6,10 @@ roomspatterns = patterns('api.views.rooms',
 	
 	url(r'^get_data/$', 'get_data', name="api_rooms_get_data"),
 	
+	url(r'^touch/$', 'touch', name="api_rooms_touch"),
+	
+	url(r'^reset/$', 'reset', name="api_rooms_reset"),
+	
 	url(r'^send_message/$', 'send_message', name="api_rooms_send_message"),
 	
 )

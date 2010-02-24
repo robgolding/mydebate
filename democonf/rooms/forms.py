@@ -2,6 +2,7 @@ from django import forms
 from django.forms.formsets import formset_factory
 
 PERIOD_LENGTH_CHOICES = (
+	(2, 2),
 	(5, 5),
 	(10, 10),
 	(15, 15),

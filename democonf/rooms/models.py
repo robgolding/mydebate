@@ -48,11 +48,6 @@ class Room(models.Model):
 		if now < self.next_vote_at:
 			return "conferencing"
 		else:
-			if self.question.poll.get_num_votes() >= self.members.count():
-				self.question.reset()
-				self.next_vote_at = now + datetime.timedelta(seconds=self.period_length*60)
-				self.save()
-				return "conferencing"
 			return "voting"
 	
 	def is_joinable(self):

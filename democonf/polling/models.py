@@ -35,6 +35,10 @@ class Poll(models.Model):
 	def get_votes(self):
 		return Vote.objects.filter(poll=self)
 	
+	def get_votes_for(self, choice):
+		Vote = models.get_model("polling", "vote")
+		return Vote.objects.filter(poll=self, choice=choice)
+	
 	def has_voted(self, user):
 		for vote in self.get_votes():
 			if vote.user == user:

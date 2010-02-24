@@ -14,6 +14,8 @@ class GetInfo(APIAuthView):
 		slug = request.GET.get('room', None)
 		if slug is not None:
 			room = get_object_or_404(Room, slug=slug)
+			room.members.add(request.user)
+			
 			poll = room.question.poll
 		
 			self.data['info'] = {}
@@ -22,9 +24,9 @@ class GetInfo(APIAuthView):
 			
 			self.data['results'] = []
 			for choice in poll.choices.all():
-				self.data['results'].append({'label': choice.text, 'data': choice.votes.count()})
+				self.data['results'].append({'label': choice.text, 'data': poll.get_votes_for(choice).count()})
 			
-			self.data['results']
+			self.data['completed'] = poll.get_num_votes() >= room.members.count()
 			
 			self.data['result'] = True
 		else:
@@ -42,21 +44,24 @@ class CastVote(APIAuthView):
 			room = get_object_or_404(Room, slug=slug)
 			poll = room.question.poll
 			
-			if not poll.has_voted(request.user):
+			if room.get_mode() == 'voting':
+				if not poll.has_voted(request.user):
 			
-				choice_id = request.POST.get('choice', None)
+					choice_id = request.POST.get('choice', None)
 			
-				if choice_id is not None:
-					choice = get_object_or_404(Choice, pk=choice_id)
+					if choice_id is not None:
+						choice = get_object_or_404(Choice, pk=choice_id)
 				
-					vote = Vote(user=request.user, choice=choice, poll=poll)
-					vote.save()
+						vote = Vote(user=request.user, choice=choice, poll=poll)
+						vote.save()
 				
-					self.data = {'result': True}
+						self.data = {'result': True}
+					else:
+						self.data['error'] = "Choice ID required."
 				else:
-					self.data['error'] = "Choice ID required."
+					self.data['error'] = "Vote already cast."
 			else:
-				self.data['error'] = "Vote already cast."
+				self.data['error'] = "Room not in voting mode."
 		else:
 			self.data['error'] = "Room ID (slug) required."
 		

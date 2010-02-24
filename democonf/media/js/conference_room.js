@@ -1,16 +1,22 @@
 connection = true;
 voted = false;
 timeleft = 0;
+is_creator = false;
 //has_cast_vote = 'undefined';
+var room_data_timer_id;
+var touch_timer_id;
+var vote_data_timer_id;
 
-function connectionLost() {
+function connectionLost()
+{
 	$('#left').block({ 
 		message: '<h1>Connection lost...</h1>', 
 		css: { padding: '0 10px' } 
     });
 }
 
-function connectionRestored() {
+function connectionRestored()
+{
 	$('#left').unblock();
 	$("#input").focus();
 }
@@ -19,7 +25,23 @@ $.ajaxSetup({
 	error: function(){ if (connection) { connection = false; connectionLost(); } },
 });
 
-function has_voted() {
+function touch()
+{
+	$.getJSON(api_urls['touch'], {room: room_slug}, function(data) { return false; });
+}
+
+function end_conference()
+{
+	return false;
+}
+
+function reset()
+{
+	$.getJSON(api_urls['reset'], {room: room_slug}, function(data) { return false; });
+}
+
+function has_voted()
+{
 	has_cast_vote = false;
 	$.ajax({
 		url: api_urls['poll_info'],
@@ -38,20 +60,32 @@ function has_voted() {
 	return has_cast_vote;
 }
 
-function refreshData(url, slug, unread, callback) {
+function begin_vote()
+{
+	mode = "voting";
+	clearInterval(room_data_timer_id);
+	touch_timer_id = setInterval(touch, 5000);
+	$("#vote_div").dialog('open');
+}
+
+function refreshData(unread)
+{
 	if (typeof unread == 'undefined') unread = false;
-	if (typeof callback == 'undefined') callback = function(){ return false; };
 	
 	if (!unread) {
 		$('#loading').show();
 	}
 	
-	$.getJSON(url, {room: slug, unread: unread}, function(data, textStatus){
+	$.getJSON(api_urls['get_data'], {room: room_slug, unread: unread}, function(data, textStatus){
 		
 		if (!connection) {
 			connection = true;
 			connectionRestored();
 		}
+		
+		timeleft = parseInt(data['time_left']);
+		
+		is_creator = data['is_creator'];
 		
 		if (!unread) $("#messages").html("");
 		
@@ -65,14 +99,15 @@ function refreshData(url, slug, unread, callback) {
 		});
 		
 		if (data['current_mode'] == "voting") {
-			if (!voted)
+			if (!has_voted())
 			{
-				mode = "voting";
-				$("#vote_div").dialog('open');
+				begin_vote();
 			}
 			else
 			{
 				mode = "waiting";
+				clearInterval(room_data_timer_id);
+				show_poll_results();
 			}
 		}
 		else if (data['current_mode'] == "conferencing")
@@ -83,8 +118,6 @@ function refreshData(url, slug, unread, callback) {
 		}
 		
 		$("#members").append("<p><br /></p><p><b>Mode: </b>"+mode+"</p>");
-		
-		timeleft = parseInt(data['time_left']);
 		
 		if (unread)
 		{
@@ -97,11 +130,11 @@ function refreshData(url, slug, unread, callback) {
 			$('#loading').hide();
 			
 		}
-		callback();
 	});
 }
 
-function send_message(url, slug) {
+function send_message(url, slug)
+{
 	var message = $("input[name='message1']");
 	if (!message.val()) {
 		$("#input").focus();
@@ -132,7 +165,8 @@ function send_message(url, slug) {
 	return false;
 }
 
-function update_graph() {
+function update_graph()
+{
 	$.getJSON(api_urls['poll_info'], {room: room_slug}, function(data, textStatus) {
 		
 		graphData = data['results'];
@@ -163,16 +197,43 @@ function update_graph() {
 				labelFormatter: function(label, series) { return label + "("+Math.round(series.percent)+'%)'; }
 			}
 		});
+		
+		if (data['completed'])
+		{
+			$("#results_div .status").html("Vote finished.");
+		}
+		else
+		{
+			$("#results_div .status").html("Waiting for vote to finish...");
+		}
 	});
 }
 
-function cast_vote() {
+function show_poll_results()
+{
+	$("#results_div").dialog('open');
+	if (is_creator)
+	{
+		$("#results_div").dialog('option', 'buttons',
+			{
+				'End conference': function() { end_conference(); },
+				'Go to another period':  function() { reset(); $("#results_div").dialog('close'); clearInterval(poll_data_timer_id); room_data_timer_id = setInterval("refreshData(true)", 2000); }
+			}
+		);
+	}
+	voted = true;
+	update_graph();
+	poll_data_timer_id = setInterval(update_graph, 2000);
+}
+
+function cast_vote()
+{
 	var poll_id = $("input[name='poll_id']").val();
 	
 	var choice = $(":input[name='choice']:checked");
 	
 	if (!choice.val()) {
-		alert("You need to select a choice.");
+		jquery_alert("Error", "You need to select a choice.");
 		return false;
 	}
 	
@@ -180,21 +241,25 @@ function cast_vote() {
 		{ room: room_slug, choice: choice.val() },
 		function(data) {
 			
-			$("#results_div").dialog('open');
-			voted = true;
+			if (!data['result'])
+			{
+				jquery_alert("Error", data['error']);
+			}
+			else
+			{
+				clearInterval(touch_timer_id);
+				
+				show_poll_results();
 			
-			update_graph();
-			
-			setInterval(update_graph, 2000);
-			
-			/*
-			$('#left').block({ 
-				message: '<h1>Waiting for poll to complete...</h1>', 
-				css: { padding: '0 10px' } 
-			});
-			*/
+				/*
+				$('#left').block({ 
+					message: '<h1>Waiting for poll to complete...</h1>', 
+					css: { padding: '0 10px' } 
+				});
+				*/
+			}
 		},
-		"text"
+		"json"
 	);
 	
 	return false;
@@ -263,6 +328,7 @@ function add_dialogs()
 		buttons: {
 			"Vote": function() {
 				$("#vote-form").submit();
+				$("#vote_div").dialog('close');
 			}
 		}
 	});
@@ -275,11 +341,13 @@ function add_dialogs()
 		draggable: false,
 		modal: true,
 		resizable: false,
-		width: 500,
+		width: 600,
 		height: 500,
 		open: function(event, ui) { $(".ui-dialog-titlebar-close").hide(); $('body').css('overflow','hidden');},
 		buttons: {
 			"Close": function() {
+				clearInterval(poll_data_timer_id);
+				room_data_timer_id = setInterval("refreshData(true)", 2000);
 				$("#results_div").dialog('close');
 			}
 		}
@@ -321,8 +389,8 @@ ready = function()
 
 	$('#loading').hide();
 	$("#input").focus();
-	refreshData(api_urls['get_data'], room_slug, false);
-	setInterval("refreshData(api_urls['get_data'], room_slug, true)", 2000);
+	refreshData(false);
+	room_data_timer_id = setInterval("refreshData(true)", 2000);
 
 	jQuery.event.add(window, "load", resizeFrame);
 	jQuery.event.add(window, "resize", resizeFrame);
