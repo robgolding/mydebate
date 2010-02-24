@@ -22,6 +22,14 @@ class RoomMembersManager(models.Manager):
 			except Membership.DoesNotExist:
 				Membership(room=self.room, user=user).save()
 	
+	def remove(self, user):
+		Membership = self.model
+		try:
+			m = Membership.objects.get(room=self.room, user=user)
+			m.delete()
+		except Membership.DoesNotExist:
+			pass
+	
 	def get_query_set(self):
 		return User.objects.filter(membership__room=self.room)
 

@@ -41,7 +41,7 @@ def conference_room(request, slug):
 @login_required
 def leave(request, slug):
 	room = get_object_or_404(Room, slug=slug)
-	room.current_members.remove(request.user)
+	room.members.remove(request.user)
 	return HttpResponseRedirect(reverse('rooms_room_list'))
 
 @login_required
