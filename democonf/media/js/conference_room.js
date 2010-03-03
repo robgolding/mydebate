@@ -22,7 +22,7 @@ function connectionRestored()
 }
 
 $.ajaxSetup({
-	error: function(){ if (connection) { connection = false; connectionLost(); } },
+	error: function(){ if (connection) { connection = false; connectionLost(); } }
 });
 
 function touch()
