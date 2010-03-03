@@ -75,25 +75,23 @@
 		oldready();
 		
 		slider = $("#join-threshold-slider");
-		join_threshold = $("#id_join_threshold");
-		period_length = $("#id_period_length");
 		
 		slider.slider({
 			range: "max",
 			min: 1,
 			slide: function(event, ui) {
-				join_threshold.val(period_length.val() - ui.value);
+				$("#id_join_threshold").val($("#id_period_length").val() - ui.value);
 			}
 		});
 		
 		reset_slider();
 		
-		join_threshold.addClass("read_only");
-		join_threshold.attr("readonly", "true");
+		$("#id_join_threshold").addClass("read_only");
+		$("#id_join_threshold").attr("readonly", "true");
 		$("#join_threshold .label").css("float", "left");
 		$("#join_threshold .field").addClass("floating_field");
 		
-		period_length.change(reset_slider);
+		$("#id_period_length").change(reset_slider);
 		
 		$("#new-choice").click(function() {
 			num_forms = parseInt($("#id_form-TOTAL_FORMS").val());
