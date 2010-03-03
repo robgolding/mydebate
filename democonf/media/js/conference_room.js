@@ -233,7 +233,7 @@ function cast_vote()
 	var choice = $(":input[name='choice']:checked");
 	
 	if (!choice.val()) {
-		jquery_alert("Error", "You need to select a choice.");
+		jquery_alert("Error", "You need to select a choice.", function() {$("#vote_div").dialog('open');});
 		return false;
 	}
 	

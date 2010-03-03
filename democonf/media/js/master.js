@@ -4,9 +4,11 @@ function close_message(id) {
 	return false;
 }
 
-function jquery_alert(title, content) {
+function jquery_alert(title, content, callback) {
 	$("#alert").html("<p><span class='ui-icon ui-icon-circle-check' style='float:left; margin:0 7px 50px 0;'></span>"+content+"</p>");
 	$("#alert").dialog('option', 'title', title);
+	if (typeof callback != 'undefined')
+		$("#alert").dialog('option', 'buttons', {"OK": function() { callback(); $("#alert").dialog('close'); } });
 	$("#alert").dialog('open');
 }
 
