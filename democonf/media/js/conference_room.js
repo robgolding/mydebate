@@ -168,7 +168,12 @@ function send_message(url, slug)
 function update_graph()
 {
 	$.getJSON(api_urls['poll_info'], {room: room_slug}, function(data, textStatus) {
-		
+		if (data['info']['num_votes'] < 1)
+		{
+			clearInterval(poll_data_timer_id);
+			jquery_alert("Alert", "Conference creator has reset/ended the conference.", function() { room_data_timer_id = setInterval("refreshData(true)", 2000); });
+			$("#results_div").dialog('close');
+		}
 		graphData = data['results'];
 		
 		$.plot($("#placeholder"), graphData,
@@ -194,17 +199,34 @@ function update_graph()
 				show: true, 
 				position: "ne", 
 				backgroundOpacity: 0,
-				labelFormatter: function(label, series) { return label + "("+Math.round(series.percent)+'%)'; }
+				labelFormatter: function(label, series) { return label + " ("+Math.round(series.percent)+'%)'; }
 			}
 		});
 		
 		if (data['completed'])
 		{
-			$("#results_div .status").html("Vote finished.");
+			if (is_creator)
+			{
+				$("#results_div").dialog('option', 'buttons',
+					{
+						'End conference': function() { end_conference(); },
+						'Go to another period':  function() { reset(); $("#results_div").dialog('close'); clearInterval(poll_data_timer_id); room_data_timer_id = setInterval("refreshData(true)", 2000); }
+					}
+				);
+			}
+			else
+			{
+				$("#results_div").dialog('option', 'buttons',
+					{
+						'Leave conference': function() { $("#leave-conference").dialog('open'); },
+						'Close':  function() { reset(); $("#results_div").dialog('close'); clearInterval(poll_data_timer_id); room_data_timer_id = setInterval("refreshData(true)", 2000); }
+					}
+				);
+			}
 		}
 		else
 		{
-			$("#results_div .status").html("Waiting for vote to finish...");
+			$("#results_div").dialog('option', 'buttons', { "Waiting for poll to finish...": function() { return false; } });
 		}
 	});
 }
@@ -212,15 +234,7 @@ function update_graph()
 function show_poll_results()
 {
 	$("#results_div").dialog('open');
-	if (is_creator)
-	{
-		$("#results_div").dialog('option', 'buttons',
-			{
-				'End conference': function() { end_conference(); },
-				'Go to another period':  function() { reset(); $("#results_div").dialog('close'); clearInterval(poll_data_timer_id); room_data_timer_id = setInterval("refreshData(true)", 2000); }
-			}
-		);
-	}
+	
 	voted = true;
 	update_graph();
 	poll_data_timer_id = setInterval(update_graph, 2000);
@@ -345,13 +359,10 @@ function add_dialogs()
 		height: 500,
 		open: function(event, ui) { $(".ui-dialog-titlebar-close").hide(); $('body').css('overflow','hidden');},
 		buttons: {
-			"Close": function() {
-				clearInterval(poll_data_timer_id);
-				room_data_timer_id = setInterval("refreshData(true)", 2000);
-				$("#results_div").dialog('close');
+				"Waiting for poll to finish...": function() { return false; }
 			}
 		}
-	});
+	);
 }
 
 function add_events()

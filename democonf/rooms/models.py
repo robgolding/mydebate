@@ -24,8 +24,11 @@ class Room(models.Model):
 	next_vote_at = models.DateTimeField(editable=False)
 	join_threshold = models.IntegerField()
 	slug = models.CharField(max_length=200, editable=False, unique=True, db_index=True)
+	is_deleted = models.BooleanField(default=False, editable=False)
 	
-	objects = models.Manager()
+	objects = managers.RoomManager()
+	all = models.Manager()
+	deleted = managers.DeletedRoomManger()
 	
 	@property
 	def members(self):
@@ -76,6 +79,12 @@ class Room(models.Model):
 		if not self.id:
 			now = datetime.datetime.now()
 			self.next_vote_at = now + datetime.timedelta(seconds=self.period_length*60)
+		super(Room, self).save(*args, **kwargs)
+	
+	def delete(self, delete_from_db=False, *args, **kwargs):
+		if delete_from_db:
+			return super(Room, self).delete(*args, **kwargs)
+		self.is_deleted = True
 		super(Room, self).save(*args, **kwargs)
 	
 	@models.permalink

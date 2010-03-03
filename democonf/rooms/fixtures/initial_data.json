@@ -1,0 +1,50 @@
+[
+  {
+    "pk": 1, 
+    "model": "rooms.room", 
+    "fields": {
+      "period_length": 30, 
+      "question": 1, 
+      "next_vote_at": "2010-02-23 20:33:08", 
+      "opened_by": 1, 
+      "slug": "does-god-exist", 
+      "join_threshold": 10
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "rooms.room", 
+    "fields": {
+      "period_length": 30, 
+      "question": 2, 
+      "opened_by": 1, 
+      "next_vote_at": "2010-02-24 20:54:44", 
+      "slug": "is-linux-ready-for-the-desktop", 
+      "join_threshold": 10
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "rooms.room", 
+    "fields": {
+      "period_length": 10, 
+      "question": 3, 
+      "next_vote_at": "2010-03-01 16:21:23", 
+      "opened_by": 1, 
+      "slug": "what-is-your-favourite-programming-language", 
+      "join_threshold": 3
+    }
+  }, 
+  {
+    "pk": 4, 
+    "model": "rooms.room", 
+    "fields": {
+      "period_length": 2, 
+      "question": 4, 
+      "next_vote_at": "2010-03-03 19:32:17", 
+      "opened_by": 1, 
+      "slug": "vote-test", 
+      "join_threshold": 1
+    }
+  }
+]

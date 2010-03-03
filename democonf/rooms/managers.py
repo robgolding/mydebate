@@ -5,11 +5,22 @@ from django.contrib.auth.models import User
 
 import settings
 
+class RoomManager(models.Manager):
+	def get_query_set(self):
+		return super(RoomManager, self).get_query_set().filter(is_deleted=False)
+
+class DeletedRoomManger(models.Manager):
+	def get_query_set(self):
+		return super(DeletedRoomManger, self).get_query_set().filter(is_deleted=True)
+
 class RoomMembersManager(models.Manager):
 	
 	def __init__(self, room):
 		self.room = room
 		self.model = models.get_model("rooms", "Membership")
+	
+	def get_query_set(self):
+		return User.objects.filter(membership__room=self.room)
 	
 	def add(self, user):
 		Membership = self.model
@@ -29,9 +40,6 @@ class RoomMembersManager(models.Manager):
 			m.delete()
 		except Membership.DoesNotExist:
 			pass
-	
-	def get_query_set(self):
-		return User.objects.filter(membership__room=self.room)
 
 class MembershipManager(models.Manager):
 	
