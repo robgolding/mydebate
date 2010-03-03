@@ -17,6 +17,7 @@
 
 {% block js-imports %}
 	{{block.super}}
+	<!--[if IE]><script language="javascript" type="text/javascript" src="{% media js/excanvas.js %}"></script><![endif]-->
 	<script src="{% media js/conference_room.js %}"></script>
 {% endblock js-imports %}
 
