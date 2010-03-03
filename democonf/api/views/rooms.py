@@ -41,7 +41,9 @@ class GetData(APIAuthView):
 		
 			unread = request.GET.get('unread', None)
 			unread = unread is not None and unread == "true"
-		
+			
+			mode = room.get_mode()
+			
 			messages = get_messages(request, room, unread)
 		
 			self.data['messages'] = []
@@ -60,8 +62,6 @@ class GetData(APIAuthView):
 					'username': member.username,
 					'fullname': member.get_full_name()
 				})
-			
-			mode = room.get_mode()
 			
 			self.data['num_members'] = len(self.data['members'])
 			self.data['time_left'] = room.get_time_to_next_vote()

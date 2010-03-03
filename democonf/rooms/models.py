@@ -1,14 +1,11 @@
 import datetime
 from uuid import uuid4
-
 from django.db import models
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
-
 from django.contrib.auth.models import User
 
-import managers
-
+import managers, utils
 from polling.models import Poll, Question
 
 ROOM_MODE_CHOICES = (
@@ -25,6 +22,7 @@ class Room(models.Model):
 	join_threshold = models.IntegerField()
 	slug = models.CharField(max_length=200, editable=False, unique=True, db_index=True)
 	is_deleted = models.BooleanField(default=False, editable=False)
+	mode = models.CharField(max_length=20, default="conferencing", editable=False)
 	
 	objects = managers.RoomManager()
 	all = models.Manager()
@@ -46,11 +44,30 @@ class Room(models.Model):
 	def get_unread(self, user):
 		return self.messages.exclude(read_by=user)
 	
+	def send_system_message(self, message):
+		m = Message(room=self, author=utils._get_system_user(), content=message)
+		m.save()
+		return m
+	
+	def _set_conferencing_mode(self):
+		if self.mode != "conferencing":
+			self.mode = "conferencing"
+			self.save()
+			self.send_system_message("**** Vote ended ****")
+	
+	def _set_voting_mode(self):
+		if self.mode != "voting":
+			self.mode = "voting"
+			self.save()
+			self.send_system_message("**** Vote started ****")
+	
 	def get_mode(self):
 		now = datetime.datetime.now()
 		if now < self.next_vote_at:
+			self._set_conferencing_mode()
 			return "conferencing"
 		else:
+			self._set_voting_mode()
 			return "voting"
 	
 	def is_joinable(self):
