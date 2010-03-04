@@ -228,7 +228,7 @@ function update_graph()
 				$("#results_div").dialog('option', 'buttons',
 					{
 						'Leave conference': function() { $("#leave-conference").dialog('open'); },
-						'Close':  function() { reset(); $("#results_div").dialog('close'); clearInterval(poll_data_timer_id); room_data_timer_id = setInterval("refreshData(true)", 2000); }
+						'Close':  function() { $("#results_div").dialog('close'); clearInterval(poll_data_timer_id); room_data_timer_id = setInterval("refreshData(true)", 2000); }
 					}
 				);
 			}

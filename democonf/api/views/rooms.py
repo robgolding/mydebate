@@ -102,8 +102,12 @@ class Reset(APIAuthView):
 		
 		if slug is not None:
 			room = get_object_or_404(Room, slug=slug)
-			room.reset()
-			self.data['result'] = True
+			
+			if request.user == room.opened_by:
+				room.reset()
+				self.data['result'] = True
+			else:
+				self.data['error'] = 'Only the creator can reset the room.'
 		else:
 			self.data['error'] = 'Room ID (slug) required.'
 	
