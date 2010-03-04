@@ -3,48 +3,45 @@
     "pk": 1, 
     "model": "rooms.room", 
     "fields": {
-      "period_length": 30, 
+      "is_deleted": false, 
+      "period_length": 5, 
       "question": 1, 
-      "next_vote_at": "2010-02-23 20:33:08", 
+      "next_vote_at": "2010-03-04 14:02:52", 
       "opened_by": 1, 
+      "opened_at": "2010-03-04 13:57:52", 
+      "mode": "conferencing", 
       "slug": "does-god-exist", 
-      "join_threshold": 10
+      "join_threshold": 2
     }
   }, 
   {
     "pk": 2, 
     "model": "rooms.room", 
     "fields": {
-      "period_length": 30, 
+      "is_deleted": false, 
+      "period_length": 2, 
       "question": 2, 
+      "next_vote_at": "2010-03-04 14:01:03", 
       "opened_by": 1, 
-      "next_vote_at": "2010-02-24 20:54:44", 
+      "opened_at": "2010-03-04 13:59:03", 
+      "mode": "conferencing", 
       "slug": "is-linux-ready-for-the-desktop", 
-      "join_threshold": 10
+      "join_threshold": 1
     }
   }, 
   {
     "pk": 3, 
     "model": "rooms.room", 
     "fields": {
-      "period_length": 10, 
+      "is_deleted": false, 
+      "period_length": 60, 
       "question": 3, 
-      "next_vote_at": "2010-03-01 16:21:23", 
+      "next_vote_at": "2010-03-04 14:59:27", 
       "opened_by": 1, 
-      "slug": "what-is-your-favourite-programming-language", 
-      "join_threshold": 3
-    }
-  }, 
-  {
-    "pk": 4, 
-    "model": "rooms.room", 
-    "fields": {
-      "period_length": 2, 
-      "question": 4, 
-      "next_vote_at": "2010-03-03 19:32:17", 
-      "opened_by": 1, 
-      "slug": "vote-test", 
-      "join_threshold": 1
+      "opened_at": "2010-03-04 13:59:27", 
+      "mode": "conferencing", 
+      "slug": "is-mydebate-a-working-system", 
+      "join_threshold": 20
     }
   }
 ]

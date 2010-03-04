@@ -1,0 +1,167 @@
+[
+  {
+    "pk": 1, 
+    "model": "polling.question", 
+    "fields": {
+      "text": "Does God Exist?"
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "polling.question", 
+    "fields": {
+      "text": "Is Linux ready for the desktop?"
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "polling.question", 
+    "fields": {
+      "text": "Is myDebate a Working System?"
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "polling.poll", 
+    "fields": {
+      "created_at": "2010-03-04 13:57:52", 
+      "question": 1
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "polling.poll", 
+    "fields": {
+      "created_at": "2010-03-04 13:57:52", 
+      "question": 1
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "polling.poll", 
+    "fields": {
+      "created_at": "2010-03-04 13:59:03", 
+      "question": 2
+    }
+  }, 
+  {
+    "pk": 4, 
+    "model": "polling.poll", 
+    "fields": {
+      "created_at": "2010-03-04 13:59:03", 
+      "question": 2
+    }
+  }, 
+  {
+    "pk": 5, 
+    "model": "polling.poll", 
+    "fields": {
+      "created_at": "2010-03-04 13:59:27", 
+      "question": 3
+    }
+  }, 
+  {
+    "pk": 6, 
+    "model": "polling.poll", 
+    "fields": {
+      "created_at": "2010-03-04 13:59:27", 
+      "question": 3
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "polling.choice", 
+    "fields": {
+      "text": "Yes", 
+      "question": 1
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "polling.choice", 
+    "fields": {
+      "text": "No", 
+      "question": 1
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "polling.choice", 
+    "fields": {
+      "text": "Maybe", 
+      "question": 1
+    }
+  }, 
+  {
+    "pk": 4, 
+    "model": "polling.choice", 
+    "fields": {
+      "text": "Absolutely!", 
+      "question": 2
+    }
+  }, 
+  {
+    "pk": 5, 
+    "model": "polling.choice", 
+    "fields": {
+      "text": "Pretty much", 
+      "question": 2
+    }
+  }, 
+  {
+    "pk": 6, 
+    "model": "polling.choice", 
+    "fields": {
+      "text": "Just about", 
+      "question": 2
+    }
+  }, 
+  {
+    "pk": 7, 
+    "model": "polling.choice", 
+    "fields": {
+      "text": "Not really", 
+      "question": 2
+    }
+  }, 
+  {
+    "pk": 8, 
+    "model": "polling.choice", 
+    "fields": {
+      "text": "Not at all!", 
+      "question": 2
+    }
+  }, 
+  {
+    "pk": 9, 
+    "model": "polling.choice", 
+    "fields": {
+      "text": "Yes", 
+      "question": 3
+    }
+  }, 
+  {
+    "pk": 10, 
+    "model": "polling.choice", 
+    "fields": {
+      "text": "No", 
+      "question": 3
+    }
+  }, 
+  {
+    "pk": 11, 
+    "model": "polling.choice", 
+    "fields": {
+      "text": "Kind of", 
+      "question": 3
+    }
+  }, 
+  {
+    "pk": 12, 
+    "model": "polling.choice", 
+    "fields": {
+      "text": "Not at all!", 
+      "question": 3
+    }
+  }
+]
