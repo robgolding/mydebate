@@ -15,9 +15,9 @@ def get_messages(request, room, unread=False):
 	"""Get either all messages, or all *unread* messages for a room. Uses request object to find current user"""
 	
 	if unread:
-		messages = room.get_and_mark(request.user)
+		messages = room.get_unread_and_mark(request.user)
 	else:
-		messages = room.messages.all()
+		messages = room.get_all_and_mark(request.user)
 	return messages
 	
 ######################

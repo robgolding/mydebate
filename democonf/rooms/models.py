@@ -35,7 +35,16 @@ class Room(models.Model):
 	def is_active(self):
 		return bool(self.members.all())
 	
-	def get_and_mark(self, user):
+	def get_all_messages(self):
+		return self.messages.all()
+	
+	def get_all_and_mark(self, user):
+		messages = self.get_all_messages()
+		for message in messages:
+			message.mark_for(user)
+		return messages
+	
+	def get_unread_and_mark(self, user):
 		messages = self.messages.exclude(read_by=user)
 		for message in messages:
 			message.mark_for(user)

@@ -88,19 +88,6 @@ function refreshData(unread, callback)
 		
 		is_creator = data['is_creator'];
 		
-		if (!unread) $("#messages").html("");
-		
-		$.each(data.messages, function(i, item){
-			$("#messages").append("<p><b>"+item['author']+":</b> "+item['content']+"</p>");
-		});
-		
-		var members_html = "";
-		$.each(data.members, function(i, item){
-			members_html = members_html + "<p><b>"+item['username']+"</b></p>";
-		});
-		
-		$("#members").html(members_html);
-		
 		if (data['current_mode'] == "voting") {
 			if (!has_voted())
 			{
@@ -120,7 +107,24 @@ function refreshData(unread, callback)
 			voted = false;
 		}
 		
-		$("#members").append("<p><br /></p><p><b>Mode: </b>"+mode+"</p>");
+		var messages_html = "";
+		$.each(data.messages, function(i, item){
+			messages_html = messages_html + "<p><b>"+item['author']+":</b> "+item['content']+"</p>";
+		});
+		
+		if (!unread)
+			$("#messages").html(messages_html);
+		else
+			$("#messages").append(messages_html);
+		
+		var members_html = "";
+		$.each(data.members, function(i, item){
+			members_html = members_html + "<p><b>"+item['username']+"</b></p>";
+		});
+		
+		members_html = members_html +  "<p><br /></p><p><b>Mode: </b>"+mode+"</p>";
+		
+		$("#members").html(members_html);
 		
 		if (unread)
 		{
