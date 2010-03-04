@@ -68,9 +68,10 @@ function begin_vote()
 	$("#vote_div").dialog('open');
 }
 
-function refreshData(unread)
+function refreshData(unread, callback)
 {
 	if (typeof unread == 'undefined') unread = false;
+	if (typeof callback == 'undefined') callback = function () { return false; };
 	
 	if (!unread) {
 		$('#loading').show();
@@ -93,10 +94,12 @@ function refreshData(unread)
 			$("#messages").append("<p><b>"+item['author']+":</b> "+item['content']+"</p>");
 		});
 		
-		$("#members").html("");
+		var members_html = "";
 		$.each(data.members, function(i, item){
-			$("#members").append("<p><b>"+item['username']+"</b></p>");
+			members_html = members_html + "<p><b>"+item['username']+"</b></p>";
 		});
+		
+		$("#members").html(members_html);
 		
 		if (data['current_mode'] == "voting") {
 			if (!has_voted())
@@ -130,6 +133,8 @@ function refreshData(unread)
 			$('#loading').hide();
 			
 		}
+		
+		callback();
 	});
 }
 
@@ -311,6 +316,7 @@ function display_time()
 	
 function add_intervals()
 {
+	room_data_timer_id = setInterval("refreshData(true)", 2000);
 	setInterval(display_time, 1000);
 }
 
@@ -400,13 +406,11 @@ ready = function()
 
 	$('#loading').hide();
 	$("#input").focus();
-	refreshData(false);
-	room_data_timer_id = setInterval("refreshData(true)", 2000);
+	refreshData(false, add_intervals);
 
 	jQuery.event.add(window, "load", resizeFrame);
 	jQuery.event.add(window, "resize", resizeFrame);
 
-	add_intervals();
 	add_dialogs();
 	add_events();
 }
