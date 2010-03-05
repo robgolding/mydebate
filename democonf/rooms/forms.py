@@ -1,6 +1,8 @@
 from django import forms
 from django.forms.formsets import formset_factory
 
+"""Forms for the 'rooms' app."""
+
 PERIOD_LENGTH_CHOICES = (
 	(2, 2),
 	(5, 5),
@@ -18,22 +20,27 @@ INITIAL_PERIOD_LENGTH = 30
 INITIAL_JOIN_THRESHOLD = 5
 
 class PollForm(forms.Form):
-	
+	"""To create a poll, all we need is the question."""
 	question = forms.CharField(max_length=200)
 
 class ChoiceForm(forms.Form):
-	
+	"""For a choice, we just need to know it's name."""
 	choice = forms.CharField(max_length=200)
 
+# Make a FormSet from the ChoiceForm, and make the default number 2.
+# Allows users to add as many choices as they like to a question.
 ChoiceFormSet = formset_factory(ChoiceForm, extra=2)
 
 class RoomForm(forms.Form):
-	
+	"""More advanced tweaks for a room. User can specify the period length and the join threshold.
+	Defaults are set at the top of the page.
+	"""
 	period_length = forms.IntegerField(
 		label="Debate length (minutes):",
 		widget=forms.Select(choices=PERIOD_LENGTH_CHOICES),
 		initial=INITIAL_PERIOD_LENGTH
 	)
+	
 	join_threshold = forms.IntegerField(
 		label="Join threshold (minutes):",
 		widget=forms.TextInput(),
@@ -42,6 +49,10 @@ class RoomForm(forms.Form):
 	)
 	
 	def clean(self):
+		"""Validation method for the fields in this form:
+			The join threshold must be strictly less than the length of a period,
+			and also at least 1.
+		"""
 		cleaned_data = self.cleaned_data
 		period_length = cleaned_data.get('period_length')
 		join_threshold = cleaned_data.get('join_threshold')
