@@ -8,6 +8,14 @@ from django.contrib.auth.models import User
 import managers, utils
 from polling.models import Poll, Question
 
+"""Models for the 'rooms' app:
+	
+	- Room
+	- Message
+	- Membership
+
+"""
+
 ROOM_MODE_CHOICES = (
 	('conferencing', 'Conferencing'),
 	('voting', 'Voting'),
@@ -203,7 +211,7 @@ class Membership(models.Model):
 	
 	def __unicode__(self):
 		"""Represent the membership as a unicode string. E.g.:
-			Rob Golding -> Does God Exist?
+			rob -> Does God Exist?
 		"""
 		return "%s -> %s" % (self.user, self.room)
 
