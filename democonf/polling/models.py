@@ -9,10 +9,18 @@ class Question(models.Model):
 	
 	@property
 	def poll(self):
-		if not self.polls.order_by('-created_at'):
+		polls = self.polls.order_by('-created_at')
+		if not polls:
 			return None
 		else:
-			return self.polls.order_by('-created_at')[0]
+			return polls[0]
+	
+	def get_last_poll(self):
+		polls = self.polls.order_by('-created_at')
+		if len(polls) < 2:
+			return None
+		else:
+			return polls[1]
 	
 	def reset(self):
 		p = Poll(question=self).save()
@@ -39,6 +47,23 @@ class Poll(models.Model):
 		Vote = models.get_model("polling", "vote")
 		return Vote.objects.filter(poll=self, choice=choice)
 	
+	def get_majority(self):
+		max = (None, 0)
+		choices = self.choices.all()
+		for choice in choices:
+			votes = self.get_votes_for(choice).count()
+			if votes > max[1]:
+				max = (choice, votes)
+		
+		if max[0] is None:
+			return None
+		
+		for choice in choices:
+			if choice != max[0] and self.get_votes_for(choice).count() == max[1]:
+				return None
+		
+		return max
+	
 	def has_voted(self, user):
 		for vote in self.get_votes():
 			if vote.user == user:
@@ -52,8 +77,8 @@ class Choice(models.Model):
     question = models.ForeignKey(Question, related_name="choices")
     text = models.CharField(max_length=200)
     
-    def get_vote_count(self):
-    	return self.votes.count()
+    def get_vote_count(self, poll):
+    	return self.votes.filter(poll=poll).count()
     
     def __unicode__(self):
     	return self.text

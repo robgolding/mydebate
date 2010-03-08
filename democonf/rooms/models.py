@@ -66,7 +66,7 @@ class Room(models.Model):
 	
 	def get_unread_and_mark(self, user):
 		"""Get only unread messages, and mark them read."""
-		messages = self.get_unread()
+		messages = self.get_unread(user)
 		for message in messages:
 			message.mark_for(user)
 		return messages
@@ -84,7 +84,20 @@ class Room(models.Model):
 		if self.mode != "conferencing":
 			self.mode = "conferencing"
 			self.save()
-			self.send_system_message("**** Vote ended ****")
+			last_poll = self.question.get_last_poll()
+			if last_poll:
+				majority = last_poll.get_majority()
+				if majority:
+					choice = majority[0]
+					votes = majority[1]
+					str = "**** Vote ended (majority '%(choice)s' with %(pc)d%%) ****"
+					pc = int(votes / last_poll.get_num_votes() * 100)
+					message = str % {'choice': choice, 'pc': pc}
+					self.send_system_message(message)
+				else:
+					self.send_system_message("**** Vote ended (no majority) ****")
+			else:
+				self.send_system_message("**** Vote ended (majority unknown) ****")
 	
 	def _set_voting_mode(self):
 		"""Set the room to voting mode. Again, compares this with the room's previous
