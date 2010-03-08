@@ -164,6 +164,13 @@ function send_message(url, slug)
 	
 	$.post(url, data,
 		function(data) {
+			
+			if (!data['success'])
+			{
+				jquery_alert("Error", data['error'])
+				return false;
+			}
+			
 			$.each(data.messages, function(i, item){
 				$("#messages").append("<p><b>"+item['author']+":</b> "+item['content']+"</p>");
 			});
@@ -183,6 +190,12 @@ function send_message(url, slug)
 function update_graph()
 {
 	$.getJSON(api_urls['poll_info'], {room: room_slug}, function(data, textStatus) {
+		if (!data['success'])
+		{
+			jquery_alert("Error", data['error'])
+			return false;
+		}
+		
 		if (data['info']['num_votes'] < 1)
 		{
 			clearInterval(poll_data_timer_id);
