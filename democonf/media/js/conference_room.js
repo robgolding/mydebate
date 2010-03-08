@@ -84,6 +84,12 @@ function refreshData(unread, callback)
 			connectionRestored();
 		}
 		
+		if (!data['success'])
+		{
+			jquery_alert("Error", data['error'])
+			return false;
+		}
+		
 		timeleft = parseInt(data['time_left']);
 		
 		is_creator = data['is_creator'];

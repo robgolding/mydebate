@@ -82,8 +82,8 @@ class GetData(APIAuthView):
 			self.data['is_creator'] = room.opened_by == request.user
 			self.data['current_mode'] = mode
 			
-			# everything worked, so result is True
-			self.data['result'] = True
+			# everything worked, so success is True
+			self.data['success'] = True
 		
 		else:
 			# we weren't passed the slug
@@ -103,7 +103,7 @@ class Touch(APIAuthView):
 		if slug is not None:
 			room = get_object_or_404(Room, slug=slug)
 			room.members.add(request.user)
-			self.data['result'] = True
+			self.data['success'] = True
 		else:
 			self.data['error'] = 'Room ID (slug) required.'
 	
@@ -122,7 +122,7 @@ class Reset(APIAuthView):
 			# a reset request can only be made by the creator of a room
 			if request.user == room.opened_by:
 				room.reset()
-				self.data['result'] = True
+				self.data['success'] = True
 			else:
 				self.data['error'] = 'Only the creator can reset the room.'
 		else:
@@ -163,7 +163,7 @@ class SendMessage(APIAuthView):
 					})
 				
 				# everything worked
-				self.data['result'] = True
+				self.data['success'] = True
 			else:
 				# user tried to send an empty message
 				self.data['error'] = 'Message content required.'

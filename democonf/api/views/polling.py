@@ -56,7 +56,7 @@ class GetInfo(APIAuthView):
 			self.data['completed'] = poll.get_num_votes() >= room.members.count()
 			
 			# no exceptions so far!
-			self.data['result'] = True
+			self.data['success'] = True
 		else:
 			# we need the slug to identify the room & poll
 			self.data['error'] = "Room ID (slug) required."
@@ -97,7 +97,7 @@ class CastVote(APIAuthView):
 						vote.save()
 						
 						# all went well, no exceptions
-						self.data = {'result': True}
+						self.data['result'] = True
 					else:
 						# the choice ID was not found
 						self.data['error'] = "Choice ID required."

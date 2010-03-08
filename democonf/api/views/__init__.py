@@ -13,7 +13,10 @@ class APIView(object):
 		elif request.method == "POST":
 			func = self.post
 		
-		json = func(request, *args, **kwargs)
+		try:
+			json = func(request, *args, **kwargs)
+		except Exception as e:
+			json = simplejson.dumps({'success': False, 'error': str(e)})
 		
 		return HttpResponse(json, mimetype="application/json")
 	
