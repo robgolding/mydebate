@@ -30,6 +30,11 @@ function touch()
 	$.getJSON(api_urls['touch'], {room: room_slug}, function(data) { return false; });
 }
 
+function leave_conference()
+{
+	window.location = window.location.pathname+"leave/";
+}
+
 function end_conference()
 {
 	return false;
@@ -68,16 +73,50 @@ function begin_vote()
 	$("#vote_div").dialog('open');
 }
 
+function scrollToBottom(animate)
+{
+	animate = typeof(animate) != 'undefined' ? animate : true;
+	
+	if (animate)
+		$("#messages-wrapper").animate({ scrollTop: $("#messages").attr("scrollHeight") }, 500);
+	else
+		$("#messages-wrapper").attr({ scrollTop: $("#messages").attr("scrollHeight") });
+}
+
+function update_messages(messages, append)
+{
+	append = typeof(append) != 'undefined' ? append : false;
+	
+	var messages_html = "";
+	$.each(messages, function(i, item){
+		messages_html = messages_html + "<p><b>"+item['author']+":</b> "+item['content']+"</p>";
+	});
+	
+	if (!append)
+		$("#messages").html(messages_html);
+	else
+		$("#messages").append(messages_html);
+	
+	if (messages.length > 0)
+		scrollToBottom();
+}
+
+function update_members(members)
+{
+	var members_html = "";
+	$.each(members, function(i, item){
+		members_html = members_html + "<p><b>"+item['username']+"</b></p>";
+	});
+	
+	$("#members").html(members_html);
+}
+
 function refreshData(unread, callback)
 {
-	if (typeof unread == 'undefined') unread = false;
-	if (typeof callback == 'undefined') callback = function () { return false; };
+	unread = typeof(unread) != 'undefined' ? unread : false;
+	callback = typeof(callback) != 'undefined' ? callback : function () { return false; };
 	
-	if (!unread) {
-		$('#loading').show();
-	}
-	
-	$.getJSON(api_urls['get_data'], {room: room_slug, unread: unread}, function(data, textStatus){
+	$.getJSON(api_urls['get_data'], {room: room_slug, unread: unread}, function(data, textStatus) {
 		
 		if (!connection) {
 			connection = true;
@@ -109,40 +148,11 @@ function refreshData(unread, callback)
 		else if (data['current_mode'] == "conferencing")
 		{
 			mode = "conferencing";
-			$('#left').unblock();
 			voted = false;
 		}
 		
-		var messages_html = "";
-		$.each(data.messages, function(i, item){
-			messages_html = messages_html + "<p><b>"+item['author']+":</b> "+item['content']+"</p>";
-		});
-		
-		if (!unread)
-			$("#messages").html(messages_html);
-		else
-			$("#messages").append(messages_html);
-		
-		var members_html = "";
-		$.each(data.members, function(i, item){
-			members_html = members_html + "<p><b>"+item['username']+"</b></p>";
-		});
-		
-		members_html = members_html +  "<p><br /></p><p><b>Mode: </b>"+mode+"</p>";
-		
-		$("#members").html(members_html);
-		
-		if (unread)
-		{
-			if (data['messages'].length > 0)
-			{
-				$("#messages-wrapper").animate({ scrollTop: $("#messages").attr("scrollHeight") }, 500);
-			}
-		} else {
-			$("#messages-wrapper").attr({ scrollTop: $("#messages").attr("scrollHeight") });
-			$('#loading').hide();
-			
-		}
+		update_messages(data['messages'], unread);
+		update_members(data['members']);
 		
 		callback();
 	});
@@ -171,15 +181,12 @@ function send_message(url, slug)
 				return false;
 			}
 			
-			$.each(data.messages, function(i, item){
-				$("#messages").append("<p><b>"+item['author']+":</b> "+item['content']+"</p>");
-			});
-			$("#messages-wrapper").animate({ scrollTop: $("#messages").attr("scrollHeight") }, 500);
+			update_messages(data['messages'], true);
+			
 			$("input[name='message1']").val("");
 			$("#input").removeAttr("disabled");
 			$("#submit").removeAttr("disabled");
 			$("#input").focus();
-			$('#loading').hide();
 		},
 		"json"
 	);
@@ -192,13 +199,15 @@ function update_graph()
 	$.getJSON(api_urls['poll_info'], {room: room_slug}, function(data, textStatus) {
 		if (!data['success'])
 		{
-			jquery_alert("Error", data['error'])
-			return false;
+			jquery_alert("Conference ended", "The debate has ended. Click OK to return to thelist of debates.", function() {
+				leave_conference();
+				return false;
+			});
 		}
 		
 		if (data['info']['num_votes'] < 1)
 		{
-			clearInterval(poll_data_timer_id);
+			clearInterval(vote_data_timer_id);
 			jquery_alert("Alert", "Conference creator has reset/ended the conference.", function() { room_data_timer_id = setInterval("refreshData(true)", 2000); });
 			$("#results_div").dialog('close');
 		}
@@ -238,7 +247,7 @@ function update_graph()
 				$("#results_div").dialog('option', 'buttons',
 					{
 						'End conference': function() { end_conference(); },
-						'Go to another period':  function() { reset(); $("#results_div").dialog('close'); clearInterval(poll_data_timer_id); room_data_timer_id = setInterval("refreshData(true)", 2000); }
+						'Go to another period':  function() { reset(); $("#results_div").dialog('close'); clearInterval(vote_data_timer_id); room_data_timer_id = setInterval("refreshData(true)", 2000); }
 					}
 				);
 			}
@@ -247,7 +256,7 @@ function update_graph()
 				$("#results_div").dialog('option', 'buttons',
 					{
 						'Leave conference': function() { $("#leave-conference").dialog('open'); },
-						'Close':  function() { $("#results_div").dialog('close'); clearInterval(poll_data_timer_id); room_data_timer_id = setInterval("refreshData(true)", 2000); }
+						'Close':  function() { $("#results_div").dialog('close'); clearInterval(vote_data_timer_id); room_data_timer_id = setInterval("refreshData(true)", 2000); }
 					}
 				);
 			}
@@ -265,7 +274,7 @@ function show_poll_results()
 	
 	voted = true;
 	update_graph();
-	poll_data_timer_id = setInterval(update_graph, 2000);
+	vote_data_timer_id = setInterval(update_graph, 2000);
 }
 
 function cast_vote()
@@ -354,7 +363,7 @@ function add_dialogs()
 		modal: true,
 		resizable: false,
 		buttons: {
-			"Yes, I'm sure": function() { window.location = window.location.pathname+"leave/" },
+			"Yes, I'm sure": function() { leave_conference(); },
 			"No, take me back": function() { $("#leave-conference").dialog('close'); }
 		}
 	});
