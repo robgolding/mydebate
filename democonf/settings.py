@@ -103,6 +103,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.admin',
     'registration',
+    'haystack',
     'democonf.core',
     'democonf.accounts',
     'democonf.rooms',
@@ -112,6 +113,12 @@ INSTALLED_APPS = (
 )
 
 DEFAULT_FROM_EMAIL = 'democonf@robgolding.com'
+
+HAYSTACK_SITECONF = 'democonf.search_sites'
+
+HAYSTACK_SEARCH_ENGINE = 'whoosh'
+
+HAYSTACK_WHOOSH_PATH = os.path.join(PATH, 'search_index')
 
 try:
 	from local_settings import *

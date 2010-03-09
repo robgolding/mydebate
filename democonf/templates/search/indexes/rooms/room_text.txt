@@ -1,0 +1,5 @@
+{{ object.question.text }}
+
+{% for choice in room.question.choices.all %}
+	{{ choice.text }}
+{% endfor %}

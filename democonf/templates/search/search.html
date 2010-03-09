@@ -1,0 +1,61 @@
+{% extends 'search/base.html' %}
+
+{% block title %}
+	{% if q %}Search for '{{q}}' | {{block.super}}{% else %}Search{% endif %}
+{% endblock title %}
+
+{% block page-title-inner %}
+	{% if q %}
+		<h1>Search for <span>{{q}}</span></h1>
+	{% else %}
+		<h1>Search</h1>
+	{% endif %}
+{% endblock page-title-inner %}
+
+{% block js-inner %}
+	{{block.super}}
+	
+	$(document).ready(function() {
+		$('#id_q').focus();
+	});
+	
+{% endblock js-inner %}
+
+{% block content-left-inner %}
+	<div class="last sec">
+		<p>Enter your search terms in the field below to begin.</p>
+		<div class="form issue-form">
+			<form method="GET">
+			   {% for field in form %}
+					{% if field.is_hidden %}
+						{{field}} {{field.errors}}
+					{% else %}
+						<div class="field-wrapper" id="{{field.name}}">
+							<div class="label">{{field.label_tag}}</div>
+							<div class="field">{{field}}</div>
+							<div class="errors">{{field.errors}}</div>
+						</div>
+					{% endif %}
+				{% endfor %}
+				{% spaceless %}
+					<input class="button-style" type="submit" value="Search" />
+				{% endspaceless %}
+			</form>
+		</div>
+	</div>
+	{% if q %}
+		{% if page.object_list %}
+			<div class="issue-list {% if is_paginated %}paginated{% endif %}">
+			{% for object in page.object_list %}
+				{% with object.object as object %}
+					{% include 'rooms/room_summary.html' %}
+				{% endwith %}
+			{% endfor %}
+			</div>
+		{% else %}
+			<div class="sec">
+				<p>No results found.</p>
+			</div>
+		{% endif %}
+	{% endif %}
+{% endblock %}

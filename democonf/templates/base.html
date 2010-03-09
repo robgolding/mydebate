@@ -102,7 +102,7 @@
 							<li class="home"><a href="{% url index %}">Home</a></li>
 							<li class="debates"><a href="{% url rooms_room_list %}">Debates</a></li>
 							<li class="users"><a href="{% url users_user_list %}">Users</a></li>
-							<li class="search"><a href="#">Search</a></li>
+							<li class="search"><a href="{% url haystack_search %}">Search</a></li>
 							{% if user.is_authenticated %}
 							{% if user.is_staff %}
 							<li class="admin">	<a href="{% url admin '' %}" title="View Admin Panel">Admin</a>
