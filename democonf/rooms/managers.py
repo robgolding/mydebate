@@ -10,12 +10,17 @@ import settings
 class RoomManager(models.Manager):
 	"""Show only non-deleted rooms (allows soft-deletion)."""
 	def get_query_set(self):
-		return super(RoomManager, self).get_query_set().filter(is_deleted=False)
+		return super(RoomManager, self).get_query_set().filter(is_deleted=False, is_completed=False)
 
 class DeletedRoomManger(models.Manager):
 	"""Show only deleted rooms (extra manager to access deleted rooms)."""
 	def get_query_set(self):
 		return super(DeletedRoomManger, self).get_query_set().filter(is_deleted=True)
+
+class CompletedRoomManager(models.Manager):
+	"""Show only completed rooms."""
+	def get_query_set(self):
+		return super(CompletedRoomManager, self).get_query_set().filter(is_completed=True)
 
 class RoomMembersManager(models.Manager):
 	"""A slightly hacky approach to implementing the ManyToManyRelatedManager 'interface'.

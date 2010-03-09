@@ -132,6 +132,29 @@ class Reset(APIAuthView):
 
 reset = Reset()
 
+class End(APIAuthView):
+	def get(self, request, *args, **kwargs):
+		"""End the room (i.e. mark debate as completed, so it no longer shows up on the main list)."""
+		slug = request.GET.get('room', None)
+		
+		if slug is not None:
+			room = get_object_or_404(Room, slug=slug)
+			
+			# debate can only be ended by the creator
+			if request.user == room.opened_by:
+				room._set_conferencing_mode(use_this_poll=True)
+				room.is_completed = True
+				room.save()
+				self.data['success'] = True
+			else:
+				self.data['error'] = 'Only the creator can end the debate.'
+		else:
+			self.data['error'] = 'Room ID (slug) required.'
+	
+		return self.serialise()
+
+end = End()
+
 class SendMessage(APIAuthView):
 	def post(self, request, *args, **kwargs):
 		"""Send a message to a particular room. Returns all unread messages 

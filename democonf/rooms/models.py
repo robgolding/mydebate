@@ -38,11 +38,13 @@ class Room(models.Model):
 	slug = models.CharField(max_length=200, editable=False, unique=True, db_index=True)
 	is_deleted = models.BooleanField(default=False, editable=False)
 	mode = models.CharField(max_length=20, default="conferencing", editable=False)
+	is_completed = models.BooleanField(default=False, editable=False)
 	
 	# custom managers to show non-deleted, all, and only deleted objects respectively
 	objects = managers.RoomManager()
 	all = models.Manager()
 	deleted = managers.DeletedRoomManger()
+	completed = managers.CompletedRoomManager()
 	
 	@property
 	def members(self):
@@ -85,21 +87,21 @@ class Room(models.Model):
 		m.save()
 		return m
 	
-	def _set_conferencing_mode(self):
+	def _set_conferencing_mode(self, use_this_poll=False):
 		"""Set the room to conferencing mode. Also compares this with the room's previous
 		status, and sends a system message if it has changed.
 		"""
 		if self.mode != "conferencing":
 			self.mode = "conferencing"
 			self.save()
-			last_poll = self.question.get_last_poll()
-			if last_poll:
-				majority = last_poll.get_majority()
+			poll = self.question.poll if use_this_poll else self.question.get_last_poll()
+			if poll:
+				majority = poll.get_majority()
 				if majority:
 					choice = majority[0]
 					votes = majority[1]
 					str = "**** Vote ended (majority '%(choice)s' with %(pc)d%%) ****"
-					pc = int(votes / last_poll.get_num_votes() * 100)
+					pc = int(votes / poll.get_num_votes() * 100)
 					message = str % {'choice': choice, 'pc': pc}
 					self.send_system_message(message)
 				else:

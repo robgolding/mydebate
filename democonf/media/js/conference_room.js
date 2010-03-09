@@ -37,7 +37,12 @@ function leave_conference()
 
 function end_conference()
 {
-	return false;
+	$.getJSON(api_urls['end'], {room: room_slug}, function(data) { 
+		if (data['success'])
+			window.location = window.location.pathname+"leave/";
+		else
+			jquery_alert("Error", data['error']);
+	});
 }
 
 function reset()
@@ -199,7 +204,7 @@ function update_graph()
 	$.getJSON(api_urls['poll_info'], {room: room_slug}, function(data, textStatus) {
 		if (!data['success'])
 		{
-			jquery_alert("Conference ended", "The debate has ended. Click OK to return to thelist of debates.", function() {
+			jquery_alert("Debate ended", "The debate has ended. Click OK to return to thelist of debates.", function() {
 				leave_conference();
 				return false;
 			});

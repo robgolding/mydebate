@@ -38,7 +38,7 @@ def leave(request, slug):
 	that room and redirects to the room list.
 	Login is required, which redirects to login page if user is not authenticated (@login_required).
 	"""
-	room = get_object_or_404(Room, slug=slug)
+	room = get_object_or_404(Room.all.all(), slug=slug)
 	room.members.remove(request.user)
 	return HttpResponseRedirect(reverse('rooms_room_list'))
 

@@ -10,6 +10,8 @@ roomspatterns = patterns('api.views.rooms',
 	
 	url(r'^reset/$', 'reset', name="api_rooms_reset"),
 	
+	url(r'^end/$', 'end', name="api_rooms_end"),
+	
 	url(r'^send_message/$', 'send_message', name="api_rooms_send_message"),
 	
 )
