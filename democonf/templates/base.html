@@ -79,7 +79,7 @@
 			<div id="header">
 				<div id="header-body" class="clearfix">
 					<div id="auth-banner">
-						<form action="/search/" method="GET">
+						<form action="{% url haystack_search %}" method="GET">
 							{% if user.is_authenticated %}
 								Welcome, <a href="{{user.get_absolute_url}}"><strong>{{user.get_full_name|default:user}}</strong></a>. | <a href="{% url auth_logout %}">Logout</a>
 							{% else %}
