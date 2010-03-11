@@ -3,7 +3,7 @@ body{ font: 85%/1.3 TrebuchetMS,Arial,sans-serif; text-align: left; background: 
 a { color: #0066B3; background: inherit; text-decoration: none; }
 a:hover { text-decoration: underline; }
 
-h1 { font: bold 2.1em Arial, Arial, Sans-Serif; color: #036DA7 }
+h1 { font: bold 2.1em Arial, Arial, Sans-Serif; /*color: #036DA7;*/ color: #62B9E3; }
 h2 { font: normal 1.5em Arial, Sans-Serif; font-style: italic; padding: 0; margin: 0; margin-bottom: 1em; }
 h2.indented { text-indent: 20px; }
 h3 { font: normal 1.1em Arial, Arial, Sans-Serif; padding: 0; margin: 0; }
@@ -75,7 +75,8 @@ body#faq ul#nav li.faq a:hover {
 }
 
 
-.clearfix:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
+.clearfix:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
+
 .button-bar { padding: 7px 0 15px; }
 
 #content { font: 95%/1.3 TrebuchetMS,Arial,sans-serif; width: 936px; margin: auto; background: #fff; min-width: 750px; padding: 0 5%; }
@@ -84,7 +85,7 @@ body#faq ul#nav li.faq a:hover {
 
 #center-large { float: left; width: 100%; padding: 1em; margin-bottom: 1.2em; background: #eee; text-align: justify; }
 
-#left { font: 0.9em "Lucida Grande", Verdana, Arial, sans-serif; float: left; width: 696px; padding: 0 0.5em; margin-bottom: 1.2em; /* background: #eee; border: 1px solid #aaa; */ border-top: 1px solid #CCC; }
+#left { font: 0.9em "Lucida Grande", Verdana, Arial, sans-serif; float: left; width: 896px; padding: 0 0.5em; margin-bottom: 1.2em; /* background: #eee; border: 1px solid #aaa; */ border-top: 1px solid #CCC; }
 
 #right { float: right; width: 200px; }
 
@@ -148,7 +149,7 @@ div.user-detail-footer #edit-button { float: right; }
 
 div.issue-form {  }
 
-div#content-header { width: 696px; padding: 0 0 0 6px; }
+div#content-header { width: 896px; padding: 0 0 0 6px; }
 
 div#content-header div#page-title { float: left; margin: 20px 0 10px 0; padding-left: 5px; }
 div#content-header div#page-title.long { }
