@@ -7,7 +7,42 @@
 {% block content-left-inner %}
 
 	<div class="last sec">
-		<p>Welcome to <strong>{{site.name}}</strong>. This application is designed to be a simple, easy to use democratic conferencing tool.</p>
+		<p><h1><strong>About {{site.name}}</strong></h1></p>
+		<p> 
+			The name says it all! Come join the community by registering with us! If you have an opinion and you want to 
+			discuss it with the world, you are at the <b>right</b> place.
+		</p>
+		
+		<p>
+			<strong>In here, you can:</strong>
+			<ul>
+				<li>Start your own debate</li>
+				<li>Discuss existing topics</li>
+				<li>Vote to be heard</li>
+				<li>Compare opinions with fellow users</li>
+				<li>See what the majority think of your debate and hopefully a conclusion would be made</li>
+			</ul>
+			It is easy to use and it is free. So sign up today and get your opinions heard!
+		</p>
+		
+		<br />
+		
+		<p><h1><strong>Latest Updates</strong></h1></p>
+		<p><strong>[10.3.2010] Search is working as of today.</strong>
+		<br />
+			Users can now use the search options bar/tab to look for related discussions and debates. It is easy to use 
+			and just type the keyword of the debate that you would like to be discussing with the others in the search 	
+			box, or alternatively the search tab.
+		</p>
+		<p><strong>[09.3.2010] Voting counts are now stored</strong>
+		<br />Votes are now counted and stored so that the creator of the debate can review the statistic.
+		</p>
+		<p><strong>[08.3.2010] Voting percentage</strong>
+		<br />Votes are showed in a piechart! Giving it a clearer view of the percentage voted.
+		</p>
+		<p><strong>[07.3.2010] Debate room creator can decide to continue or close the debate</strong>
+		<br />After the voting, the creator of the room can choose to continue the debate or close the debate. 
+		</p>
 	</div>
 	
 	{% if user.is_authenticated %}
