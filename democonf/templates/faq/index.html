@@ -1,4 +1,5 @@
 {% extends 'faq/base.html' %}
+{% load media_tags %}
 
 {% block page-title-inner %}
 <h1>Frequently Asked Questions</h1>
@@ -7,30 +8,50 @@
 {% block content-left-inner %}
 
 	<div class="last sec">
-		<h2>What kind of questions can I ask here?</h2>
+		<h2>Do I need to create an account?</h2>
 		
-            <p> 
-                <span class="revision-comment">Programming questions, of course!</span> As long
-                as your question is:</p> 
-            <ul> 
-                <li>detailed and specific</li> 
-                <li>written clearly and simply</li> 
-                <li>of interest to at least one other programmer somewhere</li> 
-            </ul> 
-            <p> 
-                ... it is welcome here. No question is too trivial or too "newbie". Oh yes, and
-                it should be about <b>programming</b>. You know, with a computer.</p> 
-            <p> 
-                Please look around to see if your question has already been asked (and maybe even
-                answered!) <i>before</i> you ask. If you end up asking a question that has been
-                asked before, that is OK and deliberately allowed. Other users will hopefully edit
-                in links to related or similar questions to help future visitors find their way.
-            </p> 
-            <p> 
-                It's also perfectly fine to ask and answer your own question, but pretend you're
-                on <a href="http://en.wikipedia.org/wiki/Jeopardy!">Jeopardy</a>: phrase it in the
-                form of a question.
-            </p>
+		<p>You will need to create an account to gain access to the debates and start chatting, this can be done on the <a href="">registration page</a>.</p>
+		
+		<h2>What does the 'Join' and 'Lock' mean next to each room on the debate page?</h2>
+		
+		<p>
+			These tell you what mode the room is in and whether you can join or not.
+			Join mode means you are current able to join the room and start debating on that topic as the room is has not reached its allocated time to stop people from joining.
+			Lock mode means you are currently unable to join the room as the room has reached this allocated time, which means you will have to wait until after the next period of voting to join. The time is set by the debate creator when the room is created, this can range from 1 minute to 30 minutes before voting.
+		</p>
+		
+		<h2>What kind of debates can I start?</h2>
+		
+		<p>You can start any sort of debate as long as it is specific, of interest to other people and socially acceptable.</p>
+
+		<h2>What kind of debates can I not start?</h2>
+		
+		<p>Do not create any debates that can be interpreted as racist, sexist or offensive to nature, these rooms will be removed without notice.</p>
+		
+		<h2>What does the countdown timer mean in a debate?</h2>
+		
+		<p>
+			This timer shows how much time is left until the room goes into voting mode. Voting mode is where everyone in the room must vote which is followed by the room creator deciding whether to keep the debate open and go on until the next set of votes, or not and close the debate.
+		</p>
+		
+		<h2>What does everything on the debate page mean?</h2>
+		
+		<img src="{% media img/debate.bmp %}">
+		
+		<ol>
+			<li>The question. This is the topic of the debate which is set by the debate creator.</li>
+			<li>This is the chat window, Anything which is said by you or other users in the room will be displayed here.</li>
+			<li>The message box. Type what you wish to say here and press the send buton or the enter key to post it in the chat window.</li>
+			<li>'Leave conference' button. Click this button if you wish to leave the debate and go back to viewing the list of current debates.</li>
+			<li>User List. This displays the list of users currently in the debate.</li>
+			<li>The countdown timer. This shows how much time is left until the room goes into voting mode. Voting mode is where everyone in the room must vote which is followed by the room creator deciding whether to keep the debate open and go on until the next set of votes, or not and close the debate.</li>
+		</ol>
+		
+		<h2>Can I change my vote once it has been cast?</h2>
+		
+		<p>No, but you can change your vote in the next round of voting. Once your vote has been cast it is final and a graph showing the results will be displayed.</p>
+		
+		<p>Any other questions please contact us on <a href="mailto:help@mydebate.co.uk">help@mydebate.co.uk</p>
 	</div>
 	
 	{% if user.is_authenticated %}
