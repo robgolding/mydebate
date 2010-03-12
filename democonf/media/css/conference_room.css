@@ -30,8 +30,8 @@
 #num_members { 
 	border: 1px solid #ccc; 
 	width: 180px; 
-	float: right; 
-	height: 14px;
+	float: right;
+	height: 10px;
 	padding: 5px;
 }
 
@@ -43,7 +43,7 @@
 }
 
 #room-wrapper {
-	height: 320px;
+	height: 350px;
 	position: relative;
 }
 

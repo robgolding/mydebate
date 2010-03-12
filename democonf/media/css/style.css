@@ -85,9 +85,10 @@ body#faq ul#nav li.faq a:hover {
 
 #center-large { float: left; width: 100%; padding: 1em; margin-bottom: 1.2em; background: #eee; text-align: justify; }
 
-#left { font: 0.9em "Lucida Grande", Verdana, Arial, sans-serif; float: left; width: 896px; padding: 0 0.5em; margin-bottom: 1.2em; /* background: #eee; border: 1px solid #aaa; */ border-top: 1px solid #CCC; }
+#left { font: 0.9em "Lucida Grande", Verdana, Arial, sans-serif; float: left; width: 696px; padding: 0 0.5em; margin-bottom: 1.2em; /* background: #eee; border: 1px solid #aaa; */ border-top: 1px solid #CCC; }
+#1left { font: 0.9em "Lucida Grande", Verdana, Arial, sans-serif; float: left; width: 896px; padding: 0 0.5em; margin-bottom: 1.2em; /* background: #eee; border: 1px solid #aaa; */ border-top: 1px solid #CCC; }
 
-#right { float: right; width: 200px; }
+#right { float: right; width: 200px; background-color:#E7F1F8; color:#515151;}
 
 #right .box { padding: 1em; margin: 0 0 1em 0; background : #FFF6BF; border: 1px solid #b6b981; }
 
@@ -109,7 +110,7 @@ div.issue-summary-inner div.left { position: absolute; top: -2px; float: left; h
 div.issue-summary-inner div.left div.num { color: #333; font-family: Arial,Liberation Sans,DejaVu Sans,sans-serif; font-weight: bold; background-color: #ddd; font-size: 18px; line-height: 15px; text-align: center; padding: 10px 0 6px 0; }
 div.issue-summary-inner div.left span { color: #555; text-align: center; display: block; padding-top: 3px; text-transform: uppercase; }
 
-div.issue-summary-inner div.right { float: right; padding: 0 10px 5px 10px; width: 625px; height: 46px; }
+div.issue-summary-inner div.right { float: right; padding: 0 10px 5px 10px; width: 625px; height: 46px;}
 div.issue-summary-inner div.right p { float: left; margin: 0;}
 
 div.issue-summary-inner div.right span { float: right; font-size: 0.9em; color: #bbb; text-transform: lowercase; }
