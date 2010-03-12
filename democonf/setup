@@ -1,0 +1,7 @@
+#!/bin/bash
+
+python manage.py reset rooms polling --noinput
+
+python manage.py syncdb
+
+python manage.py rebuild_index
