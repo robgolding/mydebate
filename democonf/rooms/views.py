@@ -25,6 +25,8 @@ def conference_room(request, slug):
 	
 	if not room.is_active():
 		room.reset()
+		room.controller = request.user
+		room.save()
 	
 	room.members.add(request.user)
 	
@@ -40,6 +42,10 @@ def leave(request, slug):
 	"""
 	room = get_object_or_404(Room.all.all(), slug=slug)
 	room.members.remove(request.user)
+	if room.is_active():
+		m = room.membership_set.order_by('created')[0]
+		room.controller = m.user
+		room.save()
 	return HttpResponseRedirect(reverse('rooms_room_list'))
 
 @login_required
@@ -78,7 +84,8 @@ def create_room(request, extra_context={}):
 			# finally, create the room itself, pointing to the question object, with the creator of the
 			# currently logged in user, and the period length & join threshold as specified in the form
 			# data.
-			r = Room(question=q, opened_by=request.user, period_length=room_form.cleaned_data['period_length'],
+			r = Room(question=q, opened_by=request.user, controller=request.user,
+				period_length=room_form.cleaned_data['period_length'],
 				join_threshold=room_form.cleaned_data['join_threshold'])
 			r.save()
 			

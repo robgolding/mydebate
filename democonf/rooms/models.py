@@ -39,6 +39,7 @@ class Room(models.Model):
 	is_deleted = models.BooleanField(default=False, editable=False)
 	mode = models.CharField(max_length=20, default="conferencing", editable=False)
 	is_completed = models.BooleanField(default=False, editable=False)
+	controller = models.ForeignKey(User)
 	
 	# custom managers to show non-deleted, all, and only deleted objects respectively
 	objects = managers.RoomManager()
@@ -196,6 +197,7 @@ class Membership(models.Model):
 	id = models.CharField(max_length=64, primary_key=True)
 	room = models.ForeignKey(Room)
 	user = models.ForeignKey(User, unique=True)
+	created = models.DateTimeField(auto_now_add=True)
 	updated = models.DateTimeField(auto_now_add=True, auto_now=True)
 	
 	# custom manager to allow access to the stale memberships easily

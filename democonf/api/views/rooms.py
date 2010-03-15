@@ -80,6 +80,7 @@ class GetData(APIAuthView):
 			self.data['num_members'] = len(self.data['members'])
 			self.data['time_left'] = room.get_time_to_next_vote()
 			self.data['is_creator'] = room.opened_by == request.user
+			self.data['is_controller'] = room.controller == request.user
 			self.data['current_mode'] = mode
 			
 			# everything worked, so success is True
@@ -119,12 +120,12 @@ class Reset(APIAuthView):
 		if slug is not None:
 			room = get_object_or_404(Room, slug=slug)
 			
-			# a reset request can only be made by the creator of a room
-			if request.user == room.opened_by:
+			# a reset request can only be made by the controller of a room
+			if request.user == room.controller:
 				room.reset()
 				self.data['success'] = True
 			else:
-				self.data['error'] = 'Only the creator can reset the room.'
+				self.data['error'] = 'Only the controller can reset the room.'
 		else:
 			self.data['error'] = 'Room ID (slug) required.'
 	
@@ -140,14 +141,14 @@ class End(APIAuthView):
 		if slug is not None:
 			room = get_object_or_404(Room, slug=slug)
 			
-			# debate can only be ended by the creator
-			if request.user == room.opened_by:
+			# debate can only be ended by the controller
+			if request.user == room.controller:
 				room._set_conferencing_mode(use_this_poll=True)
 				room.is_completed = True
 				room.save()
 				self.data['success'] = True
 			else:
-				self.data['error'] = 'Only the creator can end the debate.'
+				self.data['error'] = 'Only the controller can end the debate.'
 		else:
 			self.data['error'] = 'Room ID (slug) required.'
 	

@@ -9,4 +9,9 @@ def delete_stale_memberships():
 	when a membership object should be deleted.
 	"""
 	for m in Membership.objects.stale():
+		room = m.room
 		m.delete()
+		if room.is_active():
+			m2 = room.membership_set.order_by('created')[0]
+			room.controller = m2.user
+			room.save()

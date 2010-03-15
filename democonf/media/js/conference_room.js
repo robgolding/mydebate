@@ -11,7 +11,7 @@ voted = false;
 timeleft = 0;
 
 // assume we didn't create this room
-is_creator = false;
+is_controller = false;
 
 // variables to hold the timer IDs (important later,
 // so we can cancel intervals at will)
@@ -61,7 +61,7 @@ function leave_conference()
 function end_conference()
 {
 	/* End the conference using the "end" operation on the rooms API.
-	Only the creator can call this operation. */
+	Only the controller can call this operation. */
 	$.getJSON(api_urls['end'], {room: room_slug}, function(data) { 
 		if (data['success'])
 			window.location = window.location.pathname+"leave/";
@@ -73,7 +73,7 @@ function end_conference()
 function reset()
 {
 	/* Reset the conference using the "reset" API operation.
-	Only the creator can do this. */
+	Only the controller can do this. */
 	$.getJSON(api_urls['reset'], {room: room_slug}, function(data) { return false; });
 }
 
@@ -194,7 +194,7 @@ function refreshData(unread, callback)
 		timeleft = parseInt(data['time_left']);
 		
 		// let the JS know if the room was created by this user
-		is_creator = data['is_creator'];
+		is_controller = data['is_controller'];
 		
 		if (data['current_mode'] == "voting") {
 			// if we are in voting mode...
@@ -296,8 +296,8 @@ function update_graph()
 	$.getJSON(api_urls['poll_info'], {room: room_slug}, function(data, textStatus) {
 		if (!data['success'])
 		{
-			// if the request was not successfull, then we can assume that the debate was ended by the creator
-			jquery_alert("Debate ended", "The debate has ended. Click OK to return to thelist of debates.", function() {
+			// if the request was not successfull, then we can assume that the debate was ended by the controller
+			jquery_alert("Debate ended", "The debate has ended. Click OK to return to the list of debates.", function() {
 				// so leave the conference
 				leave_conference();
 				return false;
@@ -310,7 +310,7 @@ function update_graph()
 			// another period
 			clearInterval(vote_data_timer_id);
 			// so offer a dialog with an OK button that joins the next period
-			jquery_alert("Alert", "Conference creator has chosen to go to another period.", function() { room_data_timer_id = setInterval("refreshData(true)", 2000); });
+			jquery_alert("Alert", "Conference controller has chosen to go to another period.", function() { room_data_timer_id = setInterval("refreshData(true)", 2000); });
 			$("#results_div").dialog('close');
 		}
 		
@@ -349,7 +349,7 @@ function update_graph()
 		if (data['completed'])
 		{
 			// if this user is the owner of the room
-			if (is_creator)
+			if (is_controller)
 			{
 				// then give the choice to end the debate or go to another period
 				$("#results_div").dialog('option', 'buttons',
