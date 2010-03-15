@@ -53,6 +53,34 @@ div.form_wrapper
 	margin-right: 50px;
 }
 
+div.form div.errors
+{
+	display: block;
+	color: red;
+}
+
+div.form div.errors ul
+{
+	list-style: none;
+	padding-left:0;
+}
+
+div.form div.errors ul li
+{
+	list-style: none;
+	padding-left:0;
+}
+
+div.form div.submit
+{
+	clear: left;
+}
+
+div.form div.choicesheader
+{
+	clear:left;
+}
+
 form.registration-form input[type="password"], form.registration-form input[type="text"] { font-size: 1.6em; padding: 3px; }
 
 
