@@ -69,7 +69,9 @@
 					{% endif %}
 				{% endfor %}
 				{{choice_formset.management_form}}
-				Choices
+				<div class="choicesheader">
+					Choices
+				</div>
 				<div id="choices" class="clearfix">
 					<ol>
 					{% for form in choice_formset.forms %}
