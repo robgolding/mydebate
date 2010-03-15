@@ -89,6 +89,9 @@
 					</ol>
 					<a id="new-choice" title="Add a new choice" href="#"><img src="{% media img/icons/16-em-plus.png %}" />add another</a>
 				</div>
+				<div class="errors">
+					{{choice_formset.non_form_errors}}
+				</div>
 				<div class="advanced">
 					{% for field in room_form %}
 						{% if field.is_hidden %}

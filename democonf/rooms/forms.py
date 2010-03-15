@@ -1,5 +1,6 @@
 from django import forms
 from django.forms.formsets import formset_factory
+from django.forms.formsets import BaseFormSet
 
 """Forms for the 'rooms' app."""
 
@@ -27,9 +28,26 @@ class ChoiceForm(forms.Form):
 	"""For a choice, we just need to know it's name."""
 	choice = forms.CharField(max_length=200)
 
+class BaseChoiceFormSet(BaseFormSet):
+	def clean(self):
+		if any(self.errors):
+			# Don't bother validating the formset unless each form is valid on its own
+			return
+		
+		choices = []
+		for i in range(0, self.total_form_count()):
+			form = self.forms[i]
+			choice = form.cleaned_data.get('choice', None)
+			if choice:
+				choices.append(choice)
+		
+		if len(choices) < 2:
+			raise forms.ValidationError("You must create at least two choices")
+
+
 # Make a FormSet from the ChoiceForm, and make the default number 2.
 # Allows users to add as many choices as they like to a question.
-ChoiceFormSet = formset_factory(ChoiceForm, extra=2)
+ChoiceFormSet = formset_factory(ChoiceForm, formset=BaseChoiceFormSet, extra=2)
 
 class RoomForm(forms.Form):
 	"""More advanced tweaks for a room. User can specify the period length and the join threshold.
