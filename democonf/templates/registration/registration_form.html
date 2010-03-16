@@ -26,8 +26,10 @@
 						</div>
 					{% endif %}
 				{% endfor %}
-				<input class="button-style" type="submit" value="Submit" /> or 
-				<a class="cancel" href="{% url index %}">Cancel and go back</a>
+				<div class="submit">
+					<input class="button-style" type="submit" value="Submit" /> or
+					<a class="cancel" href="{% url index %}">Cancel and go back</a>
+				</div>
 			</form>
 		</div>
 	</div>
