@@ -85,7 +85,7 @@ body#faq ul#nav li.faq a:hover {
 
 #center-large { float: left; width: 100%; padding: 1em; margin-bottom: 1.2em; background: #eee; text-align: justify; }
 
-#left { font: 0.9em "Lucida Grande", Verdana, Arial, sans-serif; float: left; width: 696px; padding: 0 0.5em; margin-bottom: 1.2em; /* background: #eee; border: 1px solid #aaa; */ border-top: 1px solid #CCC; }
+#left { font: 0.95em "Lucida Grande", Verdana, Arial, sans-serif; float: left; width: 696px; padding: 0 0.5em; margin-bottom: 1.2em; /* background: #eee; border: 1px solid #aaa; */ border-top: 1px solid #CCC; }
 #left1 { font: 0.9em "Lucida Grande", Verdana, Arial, sans-serif; float: left; width: 696px; padding: 0 0.5em; margin-bottom: 1.2em; /* background: #eee; border: 1px solid #aaa; */ border-top: 1px solid #CCC; }
 
 #right { float: right; width: 200px; background-color:#E7F1F8; color:#515151;}
