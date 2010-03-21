@@ -30,6 +30,8 @@ def conference_room(request, slug):
 	
 	data = {'room': room, 'poll': room.question.poll}
 	
+	# if we can't add the user to the room, they are already participating in another debate
+	# so use the error template
 	if room.members.add(request.user):
 		template = 'rooms/conference_room.html'
 	else:

@@ -39,16 +39,17 @@ function connectionRestored()
 
 function clearAllIntervals()
 {
+	/* clear all the intervals to stop the requests */
 	clearInterval(room_data_timer_id);
 	clearInterval(touch_timer_id);
 	clearInterval(vote_data_timer_id);
 }
 
-/*
-Call the connectionLost() function if an AJAX connection
-ever fails.
-*/
 $.ajaxSetup({
+	/*
+	Call the connectionLost() function if an AJAX connection
+	ever fails.
+	*/
 	error: function(){ if (connection) { connection = false; connectionLost(); } }
 });
 
@@ -190,7 +191,7 @@ function refreshData(unread, callback)
 		}
 		
 		// if the API operation was *not* successful, output
-		// the error + return false
+		// the error + clear all the intervals (leaves conference when OK is clicked)
 		if (!data['success'])
 		{
 			jquery_alert("Error", data['error'], leave_conference)

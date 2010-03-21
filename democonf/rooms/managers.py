@@ -46,6 +46,8 @@ class RoomMembersManager(models.Manager):
 			- If they aren't already present, create a new Membership object
 			- If they *are* already present, 'touch' the membership object (to signify that they are
 				still active)
+			- If they are already present in *another* room, return False to signify that no action
+				has been taken
 		"""
 		Membership = self.model
 		try:

@@ -41,7 +41,8 @@ class GetData(APIAuthView):
 			# if we've been given a slug, then get the room (or raise a 404 if it doesn't exist)
 			room = get_object_or_404(Room, slug=slug)
 			
-			# add the current user to the list of members in the room
+			# see if we can add the current user to the list of members in the room
+			# if not raise an error as they are already in another one
 			if room.members.add(request.user):
 			
 				# do we need just the unread messages, or all of them?
