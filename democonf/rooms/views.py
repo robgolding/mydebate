@@ -28,10 +28,14 @@ def conference_room(request, slug):
 		room.controller = request.user
 		room.save()
 	
-	room.members.add(request.user)
-	
 	data = {'room': room, 'poll': room.question.poll}
-	return render_to_response("rooms/conference_room.html", data, context_instance=RequestContext(request))
+	
+	if room.members.add(request.user):
+		template = 'rooms/conference_room.html'
+	else:
+		template = 'rooms/conference_room_error_part.html'
+	
+	return render_to_response(template, data, context_instance=RequestContext(request))
 
 @login_required
 def leave(request, slug):

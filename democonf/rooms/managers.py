@@ -54,17 +54,19 @@ class RoomMembersManager(models.Manager):
 			
 			#if it exists, then poke it
 			m.touch()
+			return True
 		except Membership.DoesNotExist:
 			# if not, then we'll remove the user from any other rooms, and create a new one for this room
 			try:
 				# try and get a membership object for the current user (in any room), and delete it
-				Membership.objects.get(user=user).delete()
+				Membership.objects.get(user=user)
+				return False
 			except Membership.DoesNotExist:
 				# if the user wasn't in any rooms after all, it doesn't matter
-				pass
-			
-			# make a new membership object and save it back
-			Membership(room=self.room, user=user).save()
+				# make a new membership object and save it back
+				Membership(room=self.room, user=user).save()
+				return True
+		return False
 	
 	def remove(self, user):
 		"""Remove a user from the current room by deleting the membership object if it exists."""

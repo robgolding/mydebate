@@ -37,6 +37,13 @@ function connectionRestored()
 	$("#input").focus();
 }
 
+function clearAllIntervals()
+{
+	clearInterval(room_data_timer_id);
+	clearInterval(touch_timer_id);
+	clearInterval(vote_data_timer_id);
+}
+
 /*
 Call the connectionLost() function if an AJAX connection
 ever fails.
@@ -186,8 +193,8 @@ function refreshData(unread, callback)
 		// the error + return false
 		if (!data['success'])
 		{
-			jquery_alert("Error", data['error'])
-			return false;
+			jquery_alert("Error", data['error'], leave_conference)
+			clearAllIntervals();
 		}
 		
 		// set the countdown timer to the correct value

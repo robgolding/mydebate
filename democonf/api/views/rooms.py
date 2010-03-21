@@ -42,50 +42,51 @@ class GetData(APIAuthView):
 			room = get_object_or_404(Room, slug=slug)
 			
 			# add the current user to the list of members in the room
-			room.members.add(request.user)
+			if room.members.add(request.user):
 			
-			# do we need just the unread messages, or all of them?
-			unread = request.GET.get('unread', None)
-			unread = unread is not None and unread == "true"
+				# do we need just the unread messages, or all of them?
+				unread = request.GET.get('unread', None)
+				unread = unread is not None and unread == "true"
 			
-			# get the room mode now, as get_mode() does some clever things like posting system messages
-			# which we want to happen early
-			mode = room.get_mode()
+				# get the room mode now, as get_mode() does some clever things like posting system messages
+				# which we want to happen early
+				mode = room.get_mode()
 			
-			# get the messages for this room, either unread or not
-			messages = get_messages(request, room, unread)
+				# get the messages for this room, either unread or not
+				messages = get_messages(request, room, unread)
 			
-			# initialise our data lists for use later
-			self.data['messages'] = []
-			self.data['members'] = []
+				# initialise our data lists for use later
+				self.data['messages'] = []
+				self.data['members'] = []
 			
-			# stick all messages into the list
-			for message in messages:
-				self.data['messages'].append({
-					'pk': message.pk,
-					'author': message.author.username,
-					'content': message.content
-				})
+				# stick all messages into the list
+				for message in messages:
+					self.data['messages'].append({
+						'pk': message.pk,
+						'author': message.author.username,
+						'content': message.content
+					})
 			
-			# do the same with members
-			for member in room.members.all():
-				self.data['members'].append({
-					'pk': member.pk,
-					'username': member.username,
-					'fullname': member.get_full_name()
-				})
+				# do the same with members
+				for member in room.members.all():
+					self.data['members'].append({
+						'pk': member.pk,
+						'username': member.username,
+						'fullname': member.get_full_name()
+					})
 			
-			# include some extra useful info (number of members, time left, 
-			# whether the user created the current room, and what mode we're in at present)
-			self.data['num_members'] = len(self.data['members'])
-			self.data['time_left'] = room.get_time_to_next_vote()
-			self.data['is_creator'] = room.opened_by == request.user
-			self.data['is_controller'] = room.controller == request.user
-			self.data['current_mode'] = mode
+				# include some extra useful info (number of members, time left, 
+				# whether the user created the current room, and what mode we're in at present)
+				self.data['num_members'] = len(self.data['members'])
+				self.data['time_left'] = room.get_time_to_next_vote()
+				self.data['is_creator'] = room.opened_by == request.user
+				self.data['is_controller'] = room.controller == request.user
+				self.data['current_mode'] = mode
 			
-			# everything worked, so success is True
-			self.data['success'] = True
-		
+				# everything worked, so success is True
+				self.data['success'] = True
+			else:
+				self.data['error'] = 'You are already participating in a debate.'
 		else:
 			# we weren't passed the slug
 			self.data['error'] = 'Room ID (slug) required.'

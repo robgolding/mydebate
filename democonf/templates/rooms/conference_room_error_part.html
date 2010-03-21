@@ -1,0 +1,31 @@
+{% extends 'rooms/base.html' %}
+
+{% load media_tags %}
+
+{% block title-inner %}Error | {{block.super}}{% endblock title-inner %}
+
+{% block css %}
+	{{block.super}}
+	<link rel="stylesheet" type="text/css" media="screen, projection" href="{% media css/conference_room.css %}" />
+{% endblock css %}
+
+{% block title %}
+	Error | {{block.super}}
+{% endblock title %}
+
+{% block page-title-inner %}
+	<h1 style="color: red;">Error</h1>
+{% endblock page-title-inner %}
+
+{% block content-left-inner %}
+	
+	<div class="last sec">
+		<p class="error">You are already participating in another debate. In order to take part in another, you must leave the first.</p>
+		<p>The debate you are currently participating in is: <strong><a href="{{ user.membership_set.get.room.get_absolute_url }}">{{ user.membership_set.get.room }}</a></strong>.
+	</div>
+
+{% endblock content-left-inner %}
+
+{% block content-right-inner %}
+
+{% endblock content-right-inner %}
