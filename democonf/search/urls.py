@@ -1,3 +1,9 @@
+## 
+## Author: Rob Golding
+## Project: myDebate
+## Group: gp09-sdb
+## 
+
 from django.conf.urls.defaults import *
 from haystack.forms import SearchForm
 from haystack.query import SearchQuerySet

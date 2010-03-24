@@ -1,3 +1,9 @@
+## 
+## Author: Rob Golding
+## Project: myDebate
+## Group: gp09-sdb
+## 
+
 from django import template
 from django.conf import settings
 

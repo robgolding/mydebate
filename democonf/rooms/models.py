@@ -1,3 +1,9 @@
+## 
+## Author: Rob Golding
+## Project: myDebate
+## Group: gp09-sdb
+## 
+
 import datetime
 from uuid import uuid4
 from django.db import models

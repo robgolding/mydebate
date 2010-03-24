@@ -1,3 +1,9 @@
+## 
+## Author: Rob Golding
+## Project: myDebate
+## Group: gp09-sdb
+## 
+
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404
 from django.contrib.auth.decorators import login_required

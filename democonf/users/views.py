@@ -1,3 +1,9 @@
+## 
+## Author: Rob Golding
+## Project: myDebate
+## Group: gp09-sdb
+## 
+
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404

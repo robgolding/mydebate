@@ -1,3 +1,9 @@
+## 
+## Author: Rob Golding
+## Project: myDebate
+## Group: gp09-sdb
+## 
+
 from django import forms
 from django.forms.formsets import formset_factory
 from django.forms.formsets import BaseFormSet

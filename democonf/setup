@@ -1,5 +1,11 @@
 #!/bin/bash
 
+## 
+## Author: Rob Golding
+## Project: myDebate
+## Group: gp09-sdb
+## 
+
 python manage.py reset rooms polling --noinput
 
 python manage.py syncdb

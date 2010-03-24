@@ -1,3 +1,12 @@
+## 
+## Author: django-gravatar
+## Project: myDebate
+## Group: gp09-sdb
+## 
+## This code was *not* written by the group. It is sourced from the open-source
+## django-gravatar application: http://code.google.com/p/django-gravatar/.
+## 
+
 from django import template
 from django.utils.html import escape
 from django.contrib.auth.models import User

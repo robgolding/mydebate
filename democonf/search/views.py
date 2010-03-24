@@ -1,3 +1,9 @@
+## 
+## Author: Rob Golding
+## Project: myDebate
+## Group: gp09-sdb
+## 
+
 from haystack.views import SearchView
 
 class DemoconfSearchView(SearchView):

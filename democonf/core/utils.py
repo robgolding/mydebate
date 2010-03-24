@@ -1,3 +1,9 @@
+## 
+## Author: Rob Golding
+## Project: myDebate
+## Group: gp09-sdb
+## 
+
 from democonf.rooms.models import Membership
 
 """Utility functions for the core democonf app."""

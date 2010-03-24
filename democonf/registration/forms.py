@@ -30,9 +30,9 @@ class RegistrationForm(forms.Form):
     
     """
     
-    first_name = forms.CharField(label=_("First name"))
+    first_name = forms.CharField(label=_("First name"), max_length=30)
     
-    last_name = forms.CharField(label=_("Last name"))
+    last_name = forms.CharField(label=_("Last name"), max_length=30)
     
     username = forms.RegexField(regex=r'^\w+$',
                                 max_length=30,

@@ -1,3 +1,9 @@
+## 
+## Author: Rob Golding
+## Project: myDebate
+## Group: gp09-sdb
+## 
+
 from django.contrib.sites.models import Site
 
 """Context processors for the core democonf app."""
