@@ -1,3 +1,8 @@
+// 
+// Author: Rob Golding
+// Project: myDebate
+// Group: gp09-sdb
+// 
 
 /* a few global variables */
 
@@ -318,7 +323,7 @@ function update_graph()
 			// another period
 			clearInterval(vote_data_timer_id);
 			// so offer a dialog with an OK button that joins the next period
-			jquery_alert("Alert", "Conference controller has chosen to go to another period.", function() { room_data_timer_id = setInterval("refreshData(true)", 2000); });
+			jquery_alert("Alert", "Debate controller has chosen to go to another period.", function() { room_data_timer_id = setInterval("refreshData(true)", 2000); });
 			$("#results_div").dialog('close');
 		}
 		
@@ -362,7 +367,7 @@ function update_graph()
 				// then give the choice to end the debate or go to another period
 				$("#results_div").dialog('option', 'buttons',
 					{
-						'End conference': function() { end_conference(); },
+						'End debate': function() { end_conference(); },
 						'Go to another period':  function() { reset(); $("#results_div").dialog('close'); clearInterval(vote_data_timer_id); room_data_timer_id = setInterval("refreshData(true)", 2000); }
 					}
 				);
@@ -372,7 +377,7 @@ function update_graph()
 				// otherwise give the choice to leave or continue
 				$("#results_div").dialog('option', 'buttons',
 					{
-						'Leave conference': function() { $("#leave-conference").dialog('open'); },
+						'Leave debate': function() { $("#leave-conference").dialog('open'); },
 						'Close':  function() { $("#results_div").dialog('close'); clearInterval(vote_data_timer_id); room_data_timer_id = setInterval("refreshData(true)", 2000); }
 					}
 				);

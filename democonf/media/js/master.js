@@ -1,3 +1,9 @@
+// 
+// Author: Rob Golding
+// Project: myDebate
+// Group: gp09-sdb
+// 
+
 function jquery_alert(title, content, callback)
 {
 	/* Output a nice alert using jQuery dialogs */

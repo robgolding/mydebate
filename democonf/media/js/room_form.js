@@ -1,3 +1,9 @@
+// 
+// Author: Rob Golding
+// Project: myDebate
+// Group: gp09-sdb
+// 
+
 join_threshold_overrides = {5: 2, 10: 3, 15: 5, 20: 7, 30: 10, 45: 15, 60: 20, 90: 30, 120: 40}
 
 function calculate_join_threshold(period_length)
