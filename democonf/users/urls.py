@@ -9,7 +9,7 @@ import views
 # Generic list_detail views
 urlpatterns = patterns('django.views.generic',
 	
-	url(r'^$', 'list_detail.object_list', {'queryset': User.objects.order_by('username'), 'template_name': 'users/user_list.html', 'extra_context': {'tab': 'users'}}, name='users_user_list'),
+	url(r'^$', 'list_detail.object_list', {'queryset': User.objects.exclude(username='system').order_by('username'), 'template_name': 'users/user_list.html', 'extra_context': {'tab': 'users'}}, name='users_user_list'),
 	
 )
 
