@@ -160,7 +160,7 @@ div.issue-form {  }
 
 div#content-header { width: 896px; padding: 0 0 0 6px; }
 
-div#content-header div#page-title { float: left; margin: 20px 0 10px 0; padding-left: 5px; }
+div#content-header div#page-title { float: left; margin: 20px 0 10px 0; padding-left: 5px; width: 695px; }
 div#content-header div#page-title.long { }
 div#content-header div#page-title h1 { font: italic 2em Arial; color: #4b4b4b; margin: 0; padding: 0; }
 div#content-header div#page-title h1 span { color: #f82721;  }

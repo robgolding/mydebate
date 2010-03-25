@@ -1,0 +1,80 @@
+/*
+** 
+** Author: Rob Golding
+** Project: myDebate
+** Group: gp09-sdb
+** 
+*/
+
+#site-container { height: 100% }
+
+#messages-wrapper { 
+	float: left;
+	overflow: auto;
+	height: 100%;
+	width: 696px;
+}
+
+#messages {
+	padding: 5px;
+}
+
+#loading { padding:0; margin: 5px 5px 0 0; width: 16px; height: 16px; position: absolute; top: 5px; right: 0; background-image: url("../img/loading.gif %}"); }
+
+#members { 
+	border: 1px solid #ccc; 
+	width: 180px;
+	float: right;
+	height: 100%; 
+	padding: 0 5px;
+	
+}
+
+#room_form { 
+	padding-left: 17px;
+	float: left;
+	width: 505px;
+}
+#num_members { 
+	border: 1px solid #ccc; 
+	width: 180px; 
+	float: right;
+	height: 10px;
+	padding: 5px;
+}
+
+
+#left {
+	height: 400px;
+	padding: 5px;
+	position: relative;
+}
+
+#room-wrapper {
+	height: 350px;
+	position: relative;
+}
+
+#room-footer {
+	position: absolute;
+	bottom: 0px;
+	width: 696px;
+}
+
+#room-links {
+	float: left;
+	clear: left;
+	width: 696px;
+}
+
+ul#room_links {
+	padding: 0;
+	margin: 0;
+	margin-left: 17px;
+	margin-top: 5px;
+	padding-bottom: 17px;
+}
+
+ul#room_links li {
+	display: inline;
+}

@@ -6,8 +6,6 @@
 
 {% load media_tags %}
 
-{% block title-inner %}{{room.name}} | {{block.super}}{% endblock title-inner %}
-
 {% block js-pre-inner %}
 	var room_slug = "{{room.slug}}";
 	var api_urls = new Array();

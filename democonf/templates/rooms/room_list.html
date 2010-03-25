@@ -5,6 +5,7 @@
 {% endblock title %}
 
 {% block page-title-inner %}
+	<a style="float: right; position: relative; top: 15px; font-size: 1.1em;" href="{% url rooms_create_room %}">Start a new debate!</a>
 	<h1>Debates</h1>
 {% endblock page-title-inner %}
 
@@ -30,14 +31,5 @@
 {% endblock content-left-inner %}
 
 {% block content-right-inner %}
-	<div class="last sec">
-		<u><h2>Recent Activities:-</h2></u>
-		<p>
-			This is where the last activities are shown.
-		</p>
-		<p>	<strong>{time}</strong>{User} joined {Room Name} </p>
-		<p>	<strong>{time}</strong>{User} joined {Room Name} </p>
-		<p>	<strong>{time}</strong>{User} joined {Room Name} </p>
-		<p>	<strong>{time}</strong>{User} joined {Room Name} </p>
-	</div>
+	
 {% endblock content-right-inner %}
