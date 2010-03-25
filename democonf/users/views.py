@@ -23,6 +23,10 @@ def user_detail(request, *args, **kwargs):
 
 def edit_user(request, *args, **kwargs):
 	user = get_object_or_404(User, username=kwargs['username'])
+	try:
+		user.get_profile()
+	except:
+		Profile(user=user).save()
 	if request.user != user:
 		return HttpResponseRedirect(reverse('users_user_detail', kwargs={'username': kwargs['username']}))
 	else:

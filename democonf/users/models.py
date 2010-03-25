@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 
 class Profile(models.Model):
 	user = models.ForeignKey(User)
-	bio = models.TextField(blank=True)
+	about_me = models.TextField(blank=True)
 	
 	@models.permalink
 	def get_absolute_url(self):
