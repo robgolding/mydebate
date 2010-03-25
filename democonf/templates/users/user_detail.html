@@ -23,4 +23,13 @@
 		{% endifequal %}
 	</div>
 	
+	{% if profile.user.opened_rooms.all %}
+	<h2>Opened Debates</h2>
+	<div class="issue-list">
+	{% for object in profile.user.opened_rooms.all %}
+		{% include 'rooms/room_summary.html' %}
+	{% endfor %}
+	</div>
+	{% endif %}
+	
 {% endblock content-left-inner %}
