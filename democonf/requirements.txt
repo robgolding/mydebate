@@ -1,0 +1,4 @@
+django=1.1.1
+django-profiles
+django-haystack
+whoosh
