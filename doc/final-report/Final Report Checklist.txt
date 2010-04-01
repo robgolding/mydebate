@@ -1,0 +1,11 @@
+1.  Executive Summary
+2.  Create an appendix at the end of the report
+3.  Add the test data tables to the appendix and place a testing summary in its place within the report
+4.  Complete the User Interface section with updated screenshots and corrected grammar
+5.  Complete the 'Reflective Comments' section and all associated sub-sections 
+(Objectives achieved/not achieved, refer to the individual report)
+6.  Add the Time Plan to the appendix 
+7.  Create a system walkthrough for the appendix if time allows
+8.  Check through every section in the report and make sure the grammar is correct in each.
+9.  Embolden and italic where necessary
+10.  Add a references section to the appendix, and move the footnote about jQuery in section 6.2.3 to it
