@@ -11,7 +11,7 @@ from haystack.views import SearchView
 from views import DemoconfSearchView
 from django.db.models import get_model
 
-sqs = SearchQuerySet()
+sqs = SearchQuerySet().filter(is_completed=False).filter(is_deleted=False)
 
 urlpatterns = patterns('haystack.views',
 	

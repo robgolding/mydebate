@@ -13,6 +13,8 @@ from models import Room
 
 class RoomIndex(RealTimeSearchIndex):
 	text = CharField(document=True, use_template=True)
+	is_completed = BooleanField()
+	is_deleted = BooleanField()
 	
 	def get_queryset(self):
 		"""Used when the entire index for model is updated."""
