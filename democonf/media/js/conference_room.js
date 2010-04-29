@@ -166,7 +166,7 @@ function update_members(members)
 	/* Update the members pane with the list of members given. */
 	var members_html = "";
 	$.each(members, function(i, item){
-		members_html = members_html + "<p><b>"+item['username']+"</b></p>";
+		members_html = members_html + "<p><b>"+item['fullname']+"</b></p>";
 	});
 	
 	// always overwrite, the list should be short

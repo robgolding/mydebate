@@ -70,7 +70,7 @@ class GetData(APIAuthView):
 				for message in messages:
 					self.data['messages'].append({
 						'pk': message.pk,
-						'author': message.author.username,
+						'author': message.author.get_full_name() or message.author.username,
 						'content': message.content
 					})
 			
@@ -190,7 +190,7 @@ class SendMessage(APIAuthView):
 				for message in messages:
 					self.data['messages'].append({
 						'pk': message.pk,
-						'author': message.author.username,
+						'author': message.author.get_full_name() or message.author.username,
 						'content': message.content
 					})
 				
