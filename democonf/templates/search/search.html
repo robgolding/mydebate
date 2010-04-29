@@ -52,7 +52,9 @@
 			<div class="issue-list {% if is_paginated %}paginated{% endif %}">
 			{% for object in page.object_list %}
 				{% with object.object as object %}
+					{% if object %}
 					{% include 'rooms/room_summary.html' %}
+					{% endif %}
 				{% endwith %}
 			{% endfor %}
 			</div>
